@@ -3,31 +3,38 @@
 
 #include <QMainWindow>
 #include <QSignalMapper>
+#include <core/projector.h>
 
 namespace Ui {
   class Clip;
 }
 
-class Clip : public QMainWindow
-{
+class Clip : public QMainWindow {
   Q_OBJECT
 
 public:
   explicit Clip(QWidget *parent = 0);
   ~Clip();
 
-  void addMdiWindow(QWidget*);
-  void addActions();
 
 public slots:
-  void on_actionNew_Crystal_triggered(bool);
-  void on_actionNew_Laue_Projection_triggered(bool);
-  void on_actionNew_Stereo_Projection_triggered(bool);
+  // Menu Slots
+  void on_newCrystal_triggered();
+  void on_newLaue_triggered();
+  void on_newStereo_triggered();
   void on_actionAbout_triggered(bool);
   void on_actionAbout_Qt_triggered(bool);
-  void slotUpdateWindowMenu();
-  void setActiveSubWindow(QWidget *window);
 
+  // Slot for update of the Window-Submenu
+  void slotUpdateWindowMenu();
+  // Used by the Windows-Submenu
+  void setActiveSubWindow(QWidget *window);
+  void addMdiWindow(QWidget*);
+
+protected:
+  Projector* connectToLastCrystal(Projector*);
+  void addProjector(Projector*);
+  void addActions();
 private:
   Ui::Clip *ui;
 
@@ -39,8 +46,6 @@ private:
   QAction *previousAct;
   QAction *separatorAct;
   QSignalMapper *windowMapper;
-
-
 };
 
 #endif // CLIP_H

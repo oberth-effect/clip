@@ -84,11 +84,9 @@ Crystal::Crystal(const Crystal& c) {
   setRotation(c.getRotationMatrix());
   setRotationAxis(c.getRotationAxis(), c.getRotationAxisType());
   enableUpdate(c.updateEnabled);
-};
+}
 
-Crystal::~Crystal() {
-  delete spaceGroup;
-};
+Crystal::~Crystal() {}
 
 
 

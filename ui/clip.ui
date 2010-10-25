@@ -33,16 +33,16 @@
      <x>0</x>
      <y>0</y>
      <width>556</width>
-     <height>18</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionNew_Crystal"/>
-    <addaction name="actionNew_Laue_Projection"/>
-    <addaction name="actionNew_Stereo_Projection"/>
+    <addaction name="newCrystal"/>
+    <addaction name="newLaue"/>
+    <addaction name="newStereo"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -67,7 +67,7 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionNew_Crystal">
+  <action name="newCrystal">
    <property name="text">
     <string>New Crystal</string>
    </property>
@@ -75,7 +75,7 @@
     <string>Ctrl+C</string>
    </property>
   </action>
-  <action name="actionNew_Laue_Projection">
+  <action name="newLaue">
    <property name="text">
     <string>New Laue projection</string>
    </property>
@@ -90,9 +90,9 @@
     <string>About &amp;Qt</string>
    </property>
   </action>
-  <action name="actionNew_Stereo_Projection">
+  <action name="newStereo">
    <property name="text">
-    <string>New Stereo projection</string>
+    <string>New Stereographic projection</string>
    </property>
   </action>
  </widget>

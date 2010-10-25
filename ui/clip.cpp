@@ -20,49 +20,32 @@ Clip::Clip(QWidget *parent) :
   addActions();
   connect(ui->menuWindows, SIGNAL(aboutToShow()), this, SLOT(slotUpdateWindowMenu()));
 
-
-
-  on_actionNew_Crystal_triggered(true);
-  on_actionNew_Laue_Projection_triggered(true);
-  on_actionNew_Stereo_Projection_triggered(true);
-
-
+  on_newCrystal_triggered();
+  on_newLaue_triggered();
+  on_newStereo_triggered();
 }
 
 Clip::~Clip(){
   delete ui;
 }
 
-void Clip::addMdiWindow(QWidget *o) {
-  ProjectionPlane* p = dynamic_cast<ProjectionPlane*>(o);
-  if (p) {
-    QList<QMdiSubWindow*> mdiWindows = ui->mdiArea->subWindowList(QMdiArea::StackingOrder);
-    while (!mdiWindows.empty()) {
-      QMdiSubWindow* window = mdiWindows.takeLast();
-      CrystalDisplay* cd = dynamic_cast<CrystalDisplay*>(window->widget());
-      if (cd) {
-        p->getProjector()->connectToCrystal(cd->getCrystal());
-        break;
-      }
-    }
-  }
-  connect(o, SIGNAL(info(QString, int)), ui->statusBar, SLOT(showMessage(QString, int)));
-  QMdiSubWindow* w = ui->mdiArea->addSubWindow(o);
-  w->setAttribute(Qt::WA_DeleteOnClose);
-  w->show();
-}
-
-void Clip::on_actionNew_Crystal_triggered(bool) {
-  addMdiWindow(new CrystalDisplay());
+void Clip::on_newCrystal_triggered() {
+  addMdiWindow(new CrystalDisplay(this));
 }
 
 
-void Clip::on_actionNew_Laue_Projection_triggered(bool) {
-  addMdiWindow(new ProjectionPlane(new LauePlaneProjector()));
+void Clip::on_newLaue_triggered() {
+  addProjector(new LauePlaneProjector(this));
 }
 
-void Clip::on_actionNew_Stereo_Projection_triggered(bool) {
-  addMdiWindow(new ProjectionPlane(new StereoProjector()));
+void Clip::on_newStereo_triggered() {
+  addProjector(new StereoProjector(this));
+}
+
+void Clip::addProjector(Projector* p) {
+  ProjectionPlane* pp = new ProjectionPlane(connectToLastCrystal(p), this);
+  connect(pp, SIGNAL(showConfig(QWidget*)), this, SLOT(addMdiWindow(QWidget*)));
+  addMdiWindow(pp);
 }
 
 void Clip::on_actionAbout_triggered(bool) {
@@ -79,6 +62,25 @@ void Clip::on_actionAbout_triggered(bool) {
 
 void Clip::on_actionAbout_Qt_triggered(bool) {
   QMessageBox::aboutQt(this, "Cologne Laue Indexation Program");
+}
+
+void Clip::addMdiWindow(QWidget* w) {
+  QMdiSubWindow* m = ui->mdiArea->addSubWindow(w);
+  m->setAttribute(Qt::WA_DeleteOnClose);
+  m->show();
+}
+
+Projector* Clip::connectToLastCrystal(Projector *p) {
+  QList<QMdiSubWindow*> mdiWindows = ui->mdiArea->subWindowList(QMdiArea::StackingOrder);
+  while (!mdiWindows.empty()) {
+    QMdiSubWindow* window = mdiWindows.takeLast();
+    CrystalDisplay* cd = dynamic_cast<CrystalDisplay*>(window->widget());
+    if (cd) {
+      p->connectToCrystal(cd->getCrystal());
+      break;
+    }
+  }
+  return p;
 }
 
 void Clip::slotUpdateWindowMenu() {
@@ -152,7 +154,7 @@ void Clip::addActions() {
 }
 
 void Clip::setActiveSubWindow(QWidget *window) {
-     if (!window)
-         return;
-     ui->mdiArea->setActiveSubWindow(qobject_cast<QMdiSubWindow *>(window));
- }
+  if (!window)
+    return;
+  ui->mdiArea->setActiveSubWindow(qobject_cast<QMdiSubWindow *>(window));
+}

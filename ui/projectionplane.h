@@ -4,7 +4,9 @@
 #include <QWidget>
 #include <QRubberBand>
 #include <core/projector.h>
-
+#include <QCustomEvent>
+#include <tools/objectstore.h>
+#include <QActionGroup>
 
 namespace Ui {
   class ProjectionPlane;
@@ -25,28 +27,31 @@ public:
   virtual void dragEnterEvent(QDragEnterEvent *);
   virtual void dropEvent(QDropEvent *);
   Projector* getProjector() { return projector; }
+signals:
+  void showConfig(QWidget*);
 protected:
   QRectF zoomSceneRect();
   enum MouseMode {
-    MouseZoom=0,
-    MousePan=1,
-    MouseRotate=2
+    MouseZoom,
+    MousePan,
+    MouseRotate
   };
   MouseMode mouseMode;
 signals:
   void info(QString, int);
   void mouseModeChanged(int);
 protected slots:
-  void slotActivateMouseMode(int);
+  void slotChangeMouseMode(int);
   void slotUpdateFPS();
   void resizeView();
   void slotLoadCrystalData();
   //FIXME: Only for debuging
   void slotRandomRotation();
-
+  void slotOpenProjectorConfig();
 private:
   Ui::ProjectionPlane *ui;
   Projector* projector;
+  QPointer<QWidget> projectorConfig;
 
   QPointF mousePressOrigin;
   QPointF lastMousePosition;
@@ -54,6 +59,8 @@ private:
 
   QList<QRectF> zoomSteps;
 
+  static QList<ProjectionPlane*> allPlanes;
+  QActionGroup* mouseModeGroup;
 };
 
 #endif // PROJECTIONPLANE_H

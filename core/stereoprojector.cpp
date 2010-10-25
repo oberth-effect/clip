@@ -2,13 +2,16 @@
 #include <cmath>
 #include <QtGui/QGraphicsEllipseItem>
 #include <iostream>
+#include <ui/stereocfg.h>
 
 using namespace std;
 
-StereoProjector::StereoProjector(QObject* parent): Projector(parent), localCoordinates() {
+StereoProjector::StereoProjector(QObject* parent):
+    Projector(parent),
+    localCoordinates() {
   setWavevectors(0.0, 1.5*M_1_PI);
   scene.setSceneRect(QRectF(-1.0, -1.0, 2.0, 2.0));
-};
+}
 
 
 QPointF StereoProjector::scattered2det(const Vec3D &v, bool* b) const {
@@ -116,8 +119,9 @@ void StereoProjector::decorateScene() {
   decorationItems.append(scene.addLine(0.0, -1.0, 0.0, 1.0, QPen(Qt::gray)));
 }
 
-QString StereoProjector::configName() {
-  return QString("StereoCfg");
+QWidget* StereoProjector::configWidget() {
+  //FIXME: Implement
+  return new StereoCfg(this);
 }
 
 QString StereoProjector::projectorName() {

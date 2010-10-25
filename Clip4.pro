@@ -9,6 +9,13 @@ QT       += core gui opengl
 TARGET = Clip
 TEMPLATE = app
 
+# win32 {
+#     debug {
+#         CONFIG += console
+#     }
+# }
+         CONFIG += console
+
 QMAKE_CXXFLAGS += -std=gnu++0x
 
 QMAKE_CXXFLAGS_DEBUG += -pg
@@ -22,7 +29,7 @@ SOURCES += main.cpp\
     core/crystal.cpp \
     core/fitobject.cpp \
     core/projector.cpp \
-    core/objectstore.cpp \
+    tools/objectstore.cpp \
     core/reflection.cpp \
     core/spacegroup.cpp \
     tools/optimalrotation.cpp \
@@ -31,7 +38,8 @@ SOURCES += main.cpp\
     ui/projectiongraphicsview.cpp \
     core/laueplaneprojector.cpp \
     core/stereoprojector.cpp \
-    tools/signalingellipse.cpp
+    tools/signalingellipse.cpp \
+    ui/stereocfg.cpp
 
 HEADERS  += ui/clip.h \
     ui/crystaldisplay.h \
@@ -41,7 +49,7 @@ HEADERS  += ui/clip.h \
     core/crystal.h \
     core/fitobject.h \
     core/projector.h \
-    core/objectstore.h \
+    tools/objectstore.h \
     core/reflection.h \
     core/spacegroup.h \
     tools/optimalrotation.h \
@@ -51,11 +59,13 @@ HEADERS  += ui/clip.h \
     core/laueplaneprojector.h \
     core/stereoprojector.h \
     tools/signalingellipse.h \
-    tools/init3D.h
+    tools/init3D.h \
+    ui/stereocfg.h
 
 FORMS    += ui/clip.ui \
     ui/crystaldisplay.ui \
-    ui/projectionplane.ui
+    ui/projectionplane.ui \
+    ui/stereocfg.ui
 
 RESOURCES += \
     icons/icons.qrc

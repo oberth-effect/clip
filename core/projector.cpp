@@ -11,10 +11,17 @@
 #include <QThreadPool>
 #include <QtConcurrentMap>
 
-
 using namespace std;
 
-Projector::Projector(QObject *parent): QObject(parent), FitObject(), decorationItems(), textMarkerItems(), markerItems(), crystal(), scene(this), imgGroup() {
+Projector::Projector(QObject *parent):
+    QObject(parent),
+    FitObject(),
+    decorationItems(),
+    textMarkerItems(),
+    markerItems(),
+    crystal(),
+    scene(this),
+    imgGroup() {
   enableSpots();
   enableProjection();
   scene.setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -33,7 +40,17 @@ Projector::Projector(QObject *parent): QObject(parent), FitObject(), decorationI
   updateImgTransformations();
 };
 
-Projector::Projector(const Projector &p): QObject(),FitObject(),det2img(p.det2img), img2det(p.img2det), decorationItems(), textMarkerItems(), markerItems(), infoItems(), crystal(), scene(this)  {
+Projector::Projector(const Projector &p):
+    QObject(),
+    FitObject(),
+    det2img(p.det2img),
+    img2det(p.img2det),
+    decorationItems(),
+    textMarkerItems(),
+    markerItems(),
+    infoItems(),
+    crystal(),
+    scene(this) {
   cout << "Projector Copy Constructor" << endl;
   enableSpots(p.spotsEnabled());
   enableProjection(p.projectionEnabled);
@@ -42,7 +59,7 @@ Projector::Projector(const Projector &p): QObject(),FitObject(),det2img(p.det2im
   setTextSize(p.getTextSize());
   setSpotSize(p.getSpotSize());
 
-  for (int n=p.markerNumber(); n--; )
+  for (int n=0; n<p.markerNumber(); n++)
     addMarker(p.getMarkerDetPos(n));
 
   connect(this, SIGNAL(projectionParamsChanged()), this, SLOT(reflectionsUpdated()));
@@ -54,7 +71,6 @@ Projector::Projector(const Projector &p): QObject(),FitObject(),det2img(p.det2im
 }
 
 Projector::~Projector() {
-  delete spotMarkers;
 }
 
 void Projector::connectToCrystal(Crystal *c) {
@@ -169,10 +185,7 @@ void Projector::ProjectionMapper::run() {
       projector->spotMarkers->coordinates[nextUnusedPoint.fetchAndAddOrdered(1)]=p;
 
       if (r.hklSqSum<=(projector->maxHklSqSum)) {
-        mutex.lock();
-        QGraphicsTextItem*  t = projector->scene.addText("");
-        projector->textMarkerItems.append(t);
-        mutex.unlock();
+        QGraphicsTextItem*  t = new QGraphicsTextItem();
         t->setHtml(formatHklText(r.h, r.k, r.l));
         t->setPos(p);
         QRectF r=t->boundingRect();
@@ -180,6 +193,9 @@ void Projector::ProjectionMapper::run() {
         double sy=projector->textSize*projector->scene.height()/r.height();
         double s=sx<sy?sy:sx;
         t->scale(s,s);
+        mutex.lock();
+        projector->textMarkerItems.append(t);
+        mutex.unlock();
       }
 
     }
@@ -191,11 +207,10 @@ void Projector::reflectionsUpdated() {
   if (crystal.isNull() or not projectionEnabled)
     return;
 
-  while (textMarkerItems.size()>0) {
-    QGraphicsItem* item=textMarkerItems.takeLast();
-    scene.removeItem(item);
+  foreach (QGraphicsItem* item, textMarkerItems) {
     delete item;
   }
+  textMarkerItems.clear();
 
   clearInfoItems();
 
@@ -203,7 +218,10 @@ void Projector::reflectionsUpdated() {
   QThreadPool::globalInstance()->start(new ProjectionMapper(this, crystal->getReflectionList()));
   QThreadPool::globalInstance()->waitForDone();
   spotMarkers->update();
-
+  foreach (QGraphicsItem* item, textMarkerItems) {
+    //It is not possiple to add the TextItem in the thread.
+    scene.addItem(item);
+  }
   emit projectedPointsUpdated();
 }
 
@@ -340,8 +358,8 @@ QPointF Projector::getMarkerDetPos(int n) const {
 
 QList<Vec3D> Projector::getMarkerNormals() const {
   QList<Vec3D> r;
-  for (int i=0; i<markerItems.size(); i++)
-    r << det2normal(img2det.map(markerItems.at(i)->pos()));
+  foreach (QGraphicsItem* item, markerItems)
+    r << det2normal(img2det.map(item->pos()));
   return r;
 }
 
@@ -358,18 +376,17 @@ void Projector::updateImgTransformations() {
   imgGroup.setTransform(img2det);
   QTransform t;
   t.scale(det2img.m11(), det2img.m22());
-  for (int i=imgGroup.childItems().size(); i--; )
-    imgGroup.childItems().at(i)->setTransform(t);
+  foreach (QGraphicsItem* item, imgGroup.childItems())
+    item->setTransform(t);
   emit imgTransformUpdated();
 }
 
 // Rotates and flips the Decorations, which are bound to the Image
 void Projector::doImgRotation(int CWRSteps, bool flip) {
   QTransform t;
-  for (int i=imgGroup.childItems().size(); i--; ) {
-    QGraphicsItem* e=imgGroup.childItems().at(i);
-    double x = e->pos().x();
-    double y = e->pos().y();
+  foreach (QGraphicsItem* item, imgGroup.childItems()) {
+    double x = item->pos().x();
+    double y = item->pos().y();
 
     if (flip) x=1.0-x;
     double t;
@@ -389,7 +406,7 @@ void Projector::doImgRotation(int CWRSteps, bool flip) {
       y=t;
       break;
     }
-    e->setPos(x,y);
+    item->setPos(x,y);
   }
 }
 
