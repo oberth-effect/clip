@@ -166,7 +166,8 @@ void LauePlaneProjector::setDetOffset(double dx, double dy) {
   dy/=dist();
   detDx=dx;
   detDy=dy;
-  updatePBPos();
+  qDebug() << "NewDetOffset" << dx << dy;
+  updatePrimaryBeamPos();
   emit projectionParamsChanged();
 }
 
@@ -264,10 +265,10 @@ void LauePlaneProjector::decorateScene() {
   decorationItems.append(handle);
   decorationItems.append(marker);
 
-  updatePBPos();
+  updatePrimaryBeamPos();
 
 
-  connect(center, SIGNAL(positionChanged()), this, SLOT(movedPBMarker()));
+  connect(center, SIGNAL(positionChanged()), this, SLOT(movedPrimaryBeamMarker()));
   connect(handle, SIGNAL(positionChanged()), this, SLOT(resizePBMarker()));
   resizePBMarker();
 }
@@ -287,12 +288,12 @@ void LauePlaneProjector::resizePBMarker() {
   marker->setRadius(l);
 }
 
-void LauePlaneProjector::movedPBMarker() {
+void LauePlaneProjector::movedPrimaryBeamMarker() {
   if ((decorationItems.size()<3) && !isProjectionEnabled())
     return;
 
   CircleItem* center=dynamic_cast<CircleItem*>(decorationItems[0]);
-  QPointF p=center->scenePos();
+  QPointF p=img2det.map(center->pos());
 
   bool b=false;
   QPointF q;
@@ -301,13 +302,13 @@ void LauePlaneProjector::movedPBMarker() {
   } else if (omega()<89.5) {
     q=scattered2det(Vec3D(-1,0,0), b);
   }
-  qDebug() << "movedPbMarker" << p << q;
+  qDebug() << "movedPbMarker" << center->pos() << det2img.map(q);
   if (b) {
     setDetOffset(xOffset()+(p.x()-q.x())*dist(), yOffset()+(p.y()-q.y())*dist());
   }
 }
 
-void LauePlaneProjector::updatePBPos() {
+void LauePlaneProjector::updatePrimaryBeamPos() {
   if ((decorationItems.size()>2) && isProjectionEnabled()) {
     bool b=false;
     QPointF q;
@@ -318,10 +319,23 @@ void LauePlaneProjector::updatePBPos() {
     }
     if (b) {
       CircleItem* center=dynamic_cast<CircleItem*>(decorationItems[0]);
-      qDebug() << "updatePbPos" << center->scenePos() << q;
+      qDebug() << "updatePbPos" << center->pos() << det2img.map(q);
       center->setPosNoSig(det2img.map(q));
     }
   }
+}
+
+void LauePlaneProjector::doImgRotation(const QTransform& t) {
+
+  QTransform Tinv = t.inverted();
+  QPointF c = Tinv.map(QPointF(0,0));
+  QPointF ex = Tinv.map(QPointF(1,0));
+  QPointF ey = Tinv.map(QPointF(0,1));
+  double dw = fasthypot((ex.x()-c.x())*detWidth, (ex.y()-c.y())*detHeight);
+  double dh = fasthypot((ey.x()-c.x())*detWidth, (ey.y()-c.y())*detHeight);
+
+  setDetSize(dist(), dw, dh);
+  Projector::doImgRotation(t);
 }
 
 QWidget* LauePlaneProjector::configWidget() {
@@ -373,20 +387,6 @@ double LauePlaneProjector::yOffset() const {
   return detDy*dist();
 }
 
-void LauePlaneProjector::doImgRotation(const QTransform& t) {
-  Projector::doImgRotation(t);
-  if (getLaueImage()) {
-    loadParmetersFromImage(getLaueImage());
-  } else {
-    QTransform Tinv = t.inverted();
-    QPointF c = Tinv.map(QPointF(0,0));
-    QPointF x = Tinv.map(QPointF(1,0));
-    double dw = fasthypot((x.x()-c.x())*detWidth, (x.y()-c.y())*detHeight);
-    x = Tinv.map(QPointF(0,1));
-    double dh = fasthypot((x.x()-c.x())*detWidth, (x.y()-c.y())*detHeight);
-    setDetSize(dist(), dw, dh);
-  }
-}
 
 void LauePlaneProjector::loadParmetersFromImage(LaueImage *img) {
   double d = dist();
