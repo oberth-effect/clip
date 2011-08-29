@@ -24,11 +24,13 @@
 
 
 #include <QtGui>
-#include <QtWebKit>
 #include <QSharedPointer>
 #include <QCache>
 #include <QPicture>
 #include <QPair>
+#include <QWebSettings>
+#include <QWebPage>
+#include <QWebFrame>
 
 typedef QCache<QPair<int, QString>, QPicture> PictureCacheClass;
 
@@ -40,7 +42,7 @@ WebkitTextObject::WebkitTextObject(QObject* parent): QObject(parent)  {
 WebkitTextObject::~WebkitTextObject()  {
 }
 
-QSizeF WebkitTextObject::intrinsicSize(QTextDocument * doc, int /*posInDocument*/,
+QSizeF WebkitTextObject::intrinsicSize(QTextDocument* /*doc*/, int /*posInDocument*/,
                                     const QTextFormat &format)
 {
   return getPicture(format)->boundingRect().size();
