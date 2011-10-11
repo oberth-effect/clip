@@ -124,12 +124,6 @@ public slots:
   void slotSetSGConstrains();
   void generateReflections();
   void saveParametersAsDefault();
-
-  //TODO: Remove
-  void enableDebug(bool b);
-  void debugSlot();
-private:
-  bool debugEnabled;
   int debugIterations;
   Mean debugMean;
   QTime debugTimer;
@@ -258,6 +252,14 @@ private:
   CellGroup cellGroup;
   OrientationGroup orientationGroup;
 
+#ifdef __DEBUG__
+public slots:
+  //TODO: Remove
+  void enableDebug(bool b);
+  void debugSlot();
+private:
+  bool debugEnabled;
+#endif
 };
 
 Q_DECLARE_METATYPE(Crystal*)
