@@ -137,7 +137,7 @@ QString Projector::FitObjectName() {
 }
 
 QString Projector::fillInfoTable(const QString &) {
-  return QString::null;
+  return QString();
 }
 
 Projector& Projector::operator=(const Projector& o) {
@@ -285,7 +285,7 @@ void Projector::doProjection() {
 }
 
 QString Projector::diffractionOrders(const Vec3D &hkl) {
-  if (crystal.isNull()) return QString::null;
+  if (crystal.isNull()) return QString();
 
   TVec3D<int> integralHKL = hkl.toType<int>();
   bool isInt = ((hkl-integralHKL.toType<double>()).norm_sq() < 1e-2);
