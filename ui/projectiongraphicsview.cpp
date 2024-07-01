@@ -22,7 +22,7 @@
 
 #include "projectiongraphicsview.h"
 #include <QMouseEvent>
-#include <QTime>
+#include <QElapsedTimer>
 #include <QGraphicsItem>
 #include <QString>
 #include <QMimeData>

@@ -21,7 +21,7 @@
  **********************************************************************/
 
 #include <QApplication>
-#include <QTime>
+#include <QElapsedTimer>
 #include <cmath>
  
 #include "ui/clip.h"

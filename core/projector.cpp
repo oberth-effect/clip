@@ -26,7 +26,7 @@
  
 #include <QTimer>
 #include <QCursor>
-#include <QTime>
+#include <QElapsedTimer>
 #include <QFile>
 #include <QTextStream>
 #include <QPainter>

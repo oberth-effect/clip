@@ -28,7 +28,7 @@
 #include <QFutureWatcher>
 #include <QDomElement>
 #include <QXmlStreamWriter>
-#include <QTime>
+#include <QElapsedTimer>
 
 #include "tools/tools.h"
 #include "tools/vec3D.h"
@@ -271,7 +271,7 @@ private:
   bool debugEnabled;
   int debugCallsInActualSecond;
   Mean debugMean;
-  QTime debugTimer;
+  QElapsedTimer debugTimer;
 #endif
 };
 
