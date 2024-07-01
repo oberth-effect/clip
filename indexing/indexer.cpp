@@ -94,7 +94,7 @@ void Indexer::run() {
   for (int i=0; i<localData.markers.size(); i++)
     localData.markers[i].setMatrices(localData.spotNormalToIndex, localData.zoneNormalToIndex, MReziprocal, MReal);
 
-  QTime nice;
+  QElapsedTimer nice;
   nice.start();
   forever {
     int i = candidatePos.fetchAndAddOrdered(1);

@@ -26,7 +26,7 @@
 #include <QtConcurrentRun>
 #include <QMetaType>
  
-#include <QTime>
+#include <QElapsedTimer>
 #include <algorithm>
 
 #include "core/crystal.h"
@@ -71,7 +71,7 @@ void NelderMead::run() {
   if (worker->valid()) {
     int loops = 0;
     int noImprovmentLoops=0;
-    QTime rateLimiter;
+    QElapsedTimer rateLimiter;
     double bestEmitedScore=worker->bestScore();
     rateLimiter.start();
     forever {
