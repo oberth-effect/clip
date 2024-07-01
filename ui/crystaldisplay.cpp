@@ -66,8 +66,8 @@ CrystalDisplay::CrystalDisplay(QWidget* _parent) :
 
   connect(crystal->getSpacegroup(), SIGNAL(constrainsChanged()), this, SLOT(slotSetSGConstrains()));
 
-  ui->orientationMatrix->verticalHeader()->setResizeMode(QHeaderView::Stretch);
-  ui->orientationMatrix->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+  ui->orientationMatrix->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+  ui->orientationMatrix->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
   // Load Orientation Matrix
   slotUpdateOrientationMatrix();

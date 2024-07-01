@@ -103,7 +103,7 @@ private slots:
   void printToDefaultPrinter();
   void printToPrinter();
   void printToPdf();
-  void printToPS();
+  // void printToPS();
   void printToPng();
   void printToSvg();
   void printPreview(QPrinter *);

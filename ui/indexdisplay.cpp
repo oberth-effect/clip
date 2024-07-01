@@ -51,7 +51,7 @@ IndexDisplay::IndexDisplay(Crystal* _c, QWidget* _parent) :
 
   ui->SolutionSelector ->verticalHeader()->setDefaultSectionSize(fontMetrics().lineSpacing());
 
-  ui->SolutionSelector->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+  ui->SolutionSelector->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
   connect(ui->SolutionSelector->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(updateSolutionDisplay(QModelIndex,QModelIndex)));
   connect(&solutions, SIGNAL(solutionNumberChanged(int)), this, SLOT(showNumberOfSolutions(int)));

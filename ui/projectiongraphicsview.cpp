@@ -25,6 +25,7 @@
 #include <QTime>
 #include <QGraphicsItem>
 #include <QString>
+#include <QMimeData>
  
 
 using namespace std;

@@ -116,7 +116,7 @@ void FitDisplay::fitObjectAdded(FitObject* o) {
 void FitDisplay::fitObjectRemoved(FitObject* o) {
   for (int i=0; i<ui->parameterView->topLevelItemCount(); i++) {
     QVariant v = ui->parameterView->topLevelItem(i)->data(0, Qt::UserRole);
-    if (o==qVariantValue<FitObject*>(v)) {
+    if (o==v.value<FitObject*>()) {
       QTreeWidgetItem* item = ui->parameterView->takeTopLevelItem(i);
       delete item;
       return;
