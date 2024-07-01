@@ -23,9 +23,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#ifndef nullptr
-#  define nullptr NULL
-#endif
+// #ifndef nullptr
+// #  define nullptr NULL
+// #endif
 
 #include <QtGlobal>
 
