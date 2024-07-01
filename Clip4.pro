@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl xml svg webkit widgets printsupport concurrent webkitwidgets
+QT += core gui opengl xml svg widgets printsupport concurrent webenginewidgets core5compat
 
 TARGET = Clip
 TEMPLATE = app
