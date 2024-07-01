@@ -78,7 +78,7 @@ QSize QImageDataProvider::size() {
 }
 
 int QImageDataProvider::bytesCount() {
-  return data.byteCount();
+  return data.sizeInBytes();
 }
 
 int QImageDataProvider::pixelCount() {
