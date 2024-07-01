@@ -47,6 +47,8 @@ QMAKE_CXXFLAGS += -std=gnu++0x
 # Eigen linear Algebra library
 INCLUDEPATH += ../eigen
 
+INCLUDEPATH += /usr/include/eigen3/
+
 QMAKE_CXXFLAGS_DEBUG += -pg -W -Wpointer-arith -Wcast-qual -Wcast-align -Wmissing-declarations -Wredundant-decls
 QMAKE_LFLAGS_DEBUG += -pg
 #QMAKE_LFLAGS_RELEASE -= -Wl,-s
