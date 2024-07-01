@@ -133,7 +133,7 @@ void SolutionModel::addSolutions(QList<Solution> newSolutions) {
 void SolutionModel::clear() {
   solutions.clear();
   emit solutionNumberChanged(solutions.size());
-  reset();
+  revert();
 }
 
 Solution SolutionModel::getSolution(unsigned int n) {

@@ -64,7 +64,7 @@ ResolutionCalculator::ResolutionCalculator(ItemStore<RulerItem>& r, LaueImage* i
   vRes = -1.0;
 
   ui->rulerView->verticalHeader()->setDefaultSectionSize(ui->rulerView->fontMetrics().lineSpacing());
-  ui->rulerView->horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
+  ui->rulerView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
   model = new RulerModel(rulers, img);
   ui->rulerView->setModel(model);

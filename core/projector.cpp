@@ -223,7 +223,7 @@ void Projector::addInfoItem(const QString& text, const QPointF& p) {
   double s=getTextSize()/std::min(r.width(), r.height());
 
   bg->setRect(t->boundingRect());
-  bg->scale(s,s);
+  bg->setScale(s);
 
   scene.addItem(bg);
   infoStore.addItem(bg);
@@ -268,7 +268,7 @@ void Projector::doProjection() {
         ConfigStore::getInstance()->ensureColor(ConfigStore::HKLIndicator, t, SLOT(setColor(QColor)));
         QRectF r=t->boundingRect();
         double s=getTextSize()/std::min(r.width(), r.height());
-        t->scale(s,s);
+        t->setScale(s);
         textMarkerItems.append(t);
         scene.addItem(t);
       }

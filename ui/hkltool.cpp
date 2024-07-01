@@ -55,9 +55,9 @@ HKLTool::HKLTool(Crystal* c, QWidget* _parent) :
   connect(shortcut, SIGNAL(activated()), this, SLOT(deleteActiveMarker()));
 
   ui->markerDisplay->verticalHeader()->setDefaultSectionSize(fontMetrics().lineSpacing());
-  ui->markerDisplay->horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
+  ui->markerDisplay->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
   for (int n=markerModel->columnCount()-3; n<markerModel->columnCount(); n++) {
-    ui->markerDisplay->horizontalHeader()->setResizeMode(n, QHeaderView::Stretch);
+    ui->markerDisplay->horizontalHeader()->setSectionResizeMode(n, QHeaderView::Stretch);
   }
   connect(ui->markerDisplay->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(highlightMarkers()));
 

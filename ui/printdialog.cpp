@@ -835,9 +835,9 @@ void PrintDialog::printToPdf() {
   renderToPaintDevice(PrinterDevice(printer, QPrinter::PdfFormat, "Export to PDF", ".pdf"));
 }
 
-void PrintDialog::printToPS() {
-  renderToPaintDevice(PrinterDevice(printer, QPrinter::PostScriptFormat, "Export to Postscript", ".ps"));
-}
+// void PrintDialog::printToPS() {
+//   renderToPaintDevice(PrinterDevice(printer, QPrinter::PostScriptFormat, "Export to Postscript", ".ps"));
+// }
 
 void PrintDialog::printToPng() {
   renderToPaintDevice(PngDevice(projector));
