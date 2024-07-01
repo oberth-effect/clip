@@ -43,6 +43,8 @@
 // but MinGW 4.6.1 still has this issue
 #if defined _WIN32 && defined __GNUC__
 #define CLIP_EIGEN_STACK_ALIGN __attribute__((force_align_arg_pointer))
+#else
+#define CLIP_EIGEN_STACK_ALIGN
 #endif
 
 #endif // CONFIG_H
