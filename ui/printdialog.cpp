@@ -25,6 +25,7 @@
 
 #include <QTextCharFormat>
 #include <QClipboard>
+#include <QMarginsF>
 #include <QMimeData>
 #include <QComboBox>
 #include <QToolButton>
@@ -97,7 +98,7 @@ PrintDialog::PrintDialog(Projector* p, QWidget* _parent) :
 
 
   printer = new QPrinter(QPrinterInfo::defaultPrinter());
-  printer->setPageMargins(10, 10, 10, 10, QPrinter::Millimeter);
+  printer->setPageMargins(QMarginsF(10, 10, 10, 10), QPageLayout::Millimeter);
   preview = new QPrintPreviewWidget(printer, ui->previewFrame);
 
   connect(projector, SIGNAL(imageClosed()), this, SLOT(handleImageStatus()));
@@ -529,7 +530,7 @@ void PrintDialog::previewSetFitting(bool on) {
 }
 
 void PrintDialog::previewUpdateZoomFactor() {
-  zoomFactor->lineEdit()->setText(QString().sprintf("%.1f%%", preview->zoomFactor()*100));
+  zoomFactor->lineEdit()->setText(QString().asprintf("%.1f%%", preview->zoomFactor()*100));
 }
 
 void PrintDialog::previewSetupPage() {
