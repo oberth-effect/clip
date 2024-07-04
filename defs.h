@@ -33,16 +33,16 @@ extern const char* QT_BUILD_VERSION;
 extern const char* QT_RUN_VERSION;
 extern const char* CXX_VERSION_STR;
 
-#define VER_FILEVERSION             4,0,0,3
-#define VER_FILEVERSION_STR         "4.0.0.3\0"
+#define VER_FILEVERSION             4,1,0,0
+#define VER_FILEVERSION_STR         "4.1.0.0\0"
 
-#define VER_PRODUCTVERSION          4,0,0,3
-#define VER_PRODUCTVERSION_STR      "4.0 RC1\0"
+#define VER_PRODUCTVERSION          4,1,0,0
+#define VER_PRODUCTVERSION_STR      "4.1 beta\0"
 
 #define VER_COMPANYNAME_STR         ""
 #define VER_FILEDESCRIPTION_STR     "Software for evaluation of Laue diffraction images"
 #define VER_INTERNALNAME_STR        "Cologne Laue Indexation Program"
-#define VER_LEGALCOPYRIGHT_STR      "Copyright © 2008-2011 Olaf J. Schumann"
+#define VER_LEGALCOPYRIGHT_STR      "Copyright (c) 2008-2011 Olaf J. Schumann"
 #define VER_LEGALTRADEMARKS1_STR    "Published under the termes of the Gnu Public License"
 #define VER_LEGALTRADEMARKS2_STR    ""
 #define VER_ORIGINALFILENAME_STR    "Clip.exe"
