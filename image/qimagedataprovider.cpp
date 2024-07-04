@@ -30,6 +30,8 @@
 #include "image/dataproviderfactory.h"
 #include "image/imagedatastore.h"
 
+#include <tiffio.h>
+
 using namespace std;
 
 
@@ -50,14 +52,46 @@ QStringList QImageDataProvider::Factory::fileFormatFilters() {
 }
 
 DataProvider* QImageDataProvider::Factory::getProvider(QString filename, ImageDataStore *store, QObject* _parent) {
-  QImage img(filename);
-  if (!img.isNull()) {
+  //QImage img(filename);
+  QImageReader reader(filename);
+  QImage img;
+  if (reader.read(&img)) {
     QMap<QString, QVariant> headerData;
     foreach (QString key, img.textKeys()) {
-      if (key!="")
+      if (key!="") {
         headerData.insert(key, QVariant(img.text(key)));
+      }
     }
+    if (reader.format() == "tiff") {
+      TIFF* tif = TIFFOpen(filename.toStdString().c_str(), "r");
+      if (tif) {
+          char* value;
+          if (TIFFGetField(tif, TIFFTAG_IMAGEDESCRIPTION, &value)) {
+            QString desc(value);
+            //printf("Desc: |%s|\n", qPrintable(desc));
+            if (desc.trimmed().startsWith("instrument:")) {
+              printf("ILL Tiff file detected, parsing description\n");
+              QStringList pairs = desc.split(',');
+              for (const QString &pair : pairs) {
+                QStringList keyValue = pair.split(':');
+                if (keyValue.size() == 2) {
+                  headerData.insert(keyValue[0].trimmed(), keyValue[1].trimmed());
+                  if (keyValue[0].trimmed() == "angle_horizontal") {
+                    bool ok;
+                    double d = keyValue[1].trimmed().toDouble(&ok);
+                    if (ok) {
+                      printf("Setting detector - sample distance to %f\n", d);
+                      store->setData(ImageDataStore::PlaneDetectorToSampleDistance, d);
+                    }
+                  }
+                }
+              }
 
+            } 
+          }
+          TIFFClose(tif);
+      }
+    } 
     store->setData(ImageDataStore::PixelSize, img.size());
 
     headerData.insert(Info_ImageSize, QString("%1x%2 pixels").arg(img.width()).arg(img.height()));

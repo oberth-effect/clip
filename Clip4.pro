@@ -44,6 +44,8 @@ CONFIG(debug, debug|release) {
 
 QMAKE_CXXFLAGS += -std=gnu++0x
 
+LIBS += -L../libtiff -ltiff
+
 # Eigen linear Algebra library
 INCLUDEPATH += ../eigen
 
