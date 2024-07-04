@@ -27,6 +27,7 @@
 #include <tr1/unordered_map>
  
 #include <cmath>
+#include <cstdint>
 
 #include "image/beziercurve.h"
 #include "image/datascalerfactory.h"
@@ -169,3 +170,4 @@ template class SimpleMonochromScaler<unsigned int>;
 
 bool SimpleMonochromScaler_Float = DataScalerFactory::registerDataScaler(DataProvider::Float32, &SimpleMonochromScaler<float>::getScaler);
 bool SimpleMonochromScaler_Int = DataScalerFactory::registerDataScaler(DataProvider::UInt32, &SimpleMonochromScaler<unsigned int>::getScaler);
+bool SimpleMonochromScaler_Int16 = DataScalerFactory::registerDataScaler(DataProvider::UInt16, &SimpleMonochromScaler<uint16_t>::getScaler);

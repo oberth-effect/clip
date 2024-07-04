@@ -35,8 +35,9 @@
 using namespace std;
 
 
-QImageDataProvider::QImageDataProvider(const QImage& img, QObject* _parent) :
+QImageDataProvider::QImageDataProvider(const QImage& img, bool mono, QObject* _parent) :
     DataProvider(_parent),
+    mono(mono),
     data(img)
 {
 }
@@ -55,6 +56,7 @@ DataProvider* QImageDataProvider::Factory::getProvider(QString filename, ImageDa
   //QImage img(filename);
   QImageReader reader(filename);
   QImage img;
+  bool ismono = false;
   if (reader.read(&img)) {
     QMap<QString, QVariant> headerData;
     foreach (QString key, img.textKeys()) {
@@ -71,6 +73,7 @@ DataProvider* QImageDataProvider::Factory::getProvider(QString filename, ImageDa
             //printf("Desc: |%s|\n", qPrintable(desc));
             if (desc.trimmed().startsWith("instrument:")) {
               printf("ILL Tiff file detected, parsing description\n");
+              ismono = true;
               QStringList pairs = desc.split(',');
               for (const QString &pair : pairs) {
                 QStringList keyValue = pair.split(':');
@@ -93,9 +96,15 @@ DataProvider* QImageDataProvider::Factory::getProvider(QString filename, ImageDa
       }
     } 
     store->setData(ImageDataStore::PixelSize, img.size());
-
     headerData.insert(Info_ImageSize, QString("%1x%2 pixels").arg(img.width()).arg(img.height()));
-    QImageDataProvider* provider = new QImageDataProvider(img.convertToFormat(QImage::Format_ARGB32_Premultiplied), _parent);
+    if (ismono) {
+      img = img.convertToFormat(QImage::Format_Grayscale16 );
+    } else {
+      img = img.convertToFormat(QImage::Format_ARGB32_Premultiplied);
+    }
+    QImageDataProvider* provider = new QImageDataProvider(img, ismono, _parent);
+    
+    
     provider->insertFileInformation(filename);
     provider->providerInformation.unite(headerData);
     return provider;
@@ -120,7 +129,10 @@ int QImageDataProvider::pixelCount() {
 }
 
 DataProvider::Format QImageDataProvider::format() {
-  return RGB8Bit;
+  if (mono)
+    return UInt16;
+  else
+    return RGB8Bit;
 }
 
 void QImageDataProvider::saveToXML(QDomElement) {
