@@ -67,5 +67,5 @@ protected:
   bool shouldStop;
 };
 
-Q_DECLARE_METATYPE(QList<double>)
+//Q_DECLARE_METATYPE(QList<double>)
 #endif // NELDERMEAD_H
