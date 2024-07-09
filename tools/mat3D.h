@@ -27,7 +27,6 @@
 #include <vector>
 #include <tools/init3D.h>
 
-using namespace std;
 
 
 template <typename T> class TVec3D;
@@ -38,7 +37,7 @@ public:
   TMat3D();
   TMat3D(const T&);
   TMat3D(const TVec3D<T>& v1, const TVec3D<T>& v2, const TVec3D<T>& v3);
-  TMat3D(vector<T> M);
+  TMat3D(std::vector<T> M);
   TMat3D(TVec3D<T> axis, T angle);
   TMat3D(T m11, T m12, T m13, T m21, T m22, T m23, T m31, T m32, T m33);
   TMat3D<T> operator*(T a) const;

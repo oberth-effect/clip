@@ -39,7 +39,6 @@
 #include "refinement/fitparameter.h"
 #include "tools/threadrunner.h"
 
-using namespace std;
 
 
 

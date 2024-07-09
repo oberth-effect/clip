@@ -30,7 +30,6 @@
 #include "config/configstore.h"
 #include "threadrunner.h"
 
-using namespace std;
 
 
 

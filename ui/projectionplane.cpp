@@ -282,7 +282,7 @@ void ProjectionPlane::mouseReleaseEvent(QMouseEvent *e) {
       if (ui->infoAction->isChecked() && projector->getCrystal()) {
         Reflection r = projector->getClosestReflection(projector->det2normal(mousePressOrigin));
         if (r.normal(0)>=0.0) {
-          double TT=180.0-360.0*M_1_PI*acos(max(-1.0, min(1.0, r.normal(0))));
+          double TT=180.0-360.0*M_1_PI*acos(std::max(-1.0, std::min(1.0, r.normal(0))));
           QString s = r.toHtml();
           s+=QString("<br>2T=%1").arg(TT, 0,'f',1);
           projector->addInfoItem(s, mousePressOrigin);

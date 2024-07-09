@@ -34,7 +34,6 @@
 #include "refinement/fitparameter.h"
 #include "refinement/fitparametergroup.h"
 
-using namespace std;
 
 NelderMead::NelderMead(Crystal* c, QObject* _parent) :
     QObject(_parent),

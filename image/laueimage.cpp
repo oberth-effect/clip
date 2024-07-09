@@ -36,7 +36,6 @@
 #include "image/beziercurve.h"
 #include "image/datascaler.h"
 
-using namespace std;
 
 LaueImage::LaueImage(QObject* _parent) :
     QObject(_parent), provider(nullptr), scaler(nullptr), dataStore()

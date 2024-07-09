@@ -34,7 +34,6 @@
 #include "tools/xmltools.h"
 #include "image/imagedatastore.h"
 
-using namespace std;
 
 const char BasDataProvider::Info_OriginalFilename[] = "OriginalFilename";
 const char BasDataProvider::Info_IPSize[] = "IP-Size";

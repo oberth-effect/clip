@@ -35,7 +35,6 @@
 #include "tools/indexparser.h"
 #include "tools/tools.h"
 
-using namespace std;
 
 
 class NoBorderDelegate: public QStyledItemDelegate {

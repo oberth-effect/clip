@@ -25,7 +25,6 @@
  
 #include <cmath>
 
-using namespace std;
 
 FitParameterTreeItem::FitParameterTreeItem(FitParameter *p, QTreeWidgetItem* _parent):
     QObject(0),

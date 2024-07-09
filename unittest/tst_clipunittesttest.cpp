@@ -28,7 +28,6 @@
 #include <iomanip>
 #include <ctime>
 
-using namespace std;
 
 #include "../tools/mat3d.h"
 #include "../tools/vec3d.h"
@@ -160,11 +159,10 @@ void ClipUnitTestTest::benchmarkMatrixSVD() {
     Mat3D M2(M);
     int loops = M2.svd(Q1, Q2);
     unsigned long long dt = rdtsctime() - t1;
-    if ((dt>tmax) || true) {
-      for (int i=0; i<3; i++) {
-        for (int j=0; j<3; j++) {
-          cout << setw(2) << M(i,j) << " ";
-        }
+      for (int i = 0; i < 3; i++) {
+          for (int j = 0; j < 3; j++) {
+              cout << setw(2) << M(i, j) << " ";
+          }
       }
       cout << "= " << setw(12) << dt << " " << M.det() << endl;
       ofstream f;
@@ -172,7 +170,6 @@ void ClipUnitTestTest::benchmarkMatrixSVD() {
       f << setw(12) << dt << " " << M.det() << " " << loops << endl;
       f.close();
       tmax = dt;
-    }
   }
 
 

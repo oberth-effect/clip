@@ -36,7 +36,6 @@
 #include "indexing/marker.h"
 
 
-using namespace std;
 
 
 

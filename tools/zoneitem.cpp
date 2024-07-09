@@ -33,7 +33,6 @@
 #include "tools/xmltools.h"
 #include "config/configstore.h"
 
-using namespace std;
 
 ZoneItem::ZoneItem(const QPointF& p1, const QPointF& p2, Projector* p, QGraphicsItem* _parent):
     PropagatingGraphicsObject(_parent),

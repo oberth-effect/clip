@@ -35,7 +35,6 @@
 
 #include "image/imagedatastore.h"
 
-using namespace std;
 
 QVector<unsigned int> readArrayFromSfrm(QFile& f, int len, int bytes);
 int padTo(int value, int pad);
