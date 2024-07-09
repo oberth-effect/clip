@@ -21,8 +21,14 @@ endif()
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-find_package(TIFF)
-find_package(Eigen3 REQUIRED)
+include(${PROJECT_SOURCE_DIR}/cmake/Eigen3.cmake)
+FetchContent_MakeAvailable(Eigen3)
+
+include(${PROJECT_SOURCE_DIR}/cmake/TIFF.cmake)
+FetchContent_MakeAvailable(TIFF)
+
+#find_package(TIFF)
+#find_package(Eigen3 REQUIRED)
 
 
 #file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
