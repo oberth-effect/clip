@@ -248,7 +248,7 @@ QList<QPolygonF> ZoneItem::generatePolygon(const Vec3D& n, const Vec3D& _v) {
       if (lastOk != ok) {
         QPointF onBorder;
         foreach (QLineF border, imgBorders) {
-          if (border.intersect(QLineF(p, lastP), &onBorder)==QLineF::BoundedIntersection) {
+          if (border.intersects(QLineF(p, lastP), &onBorder)==QLineF::BoundedIntersection) {
             zonePoly << onBorder;
             break;
           }
