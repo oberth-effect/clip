@@ -217,7 +217,7 @@ void NMWorker::doOneIteration() {
   if (simplex.first()<R && R<simplex.last()) {
     // Score is better than second-worst but not better than best
     // Insert at right position
-    simplex.insert(qLowerBound(simplex, R) - simplex.begin(), R);
+    simplex.insert(std::lower_bound(simplex.begin(), simplex.end(), R) - simplex.begin(), R);
     //simplex << R;
     //std::sort(simplex.begin(), simplex.end());
   } else if (R<simplex.first()) {
@@ -236,7 +236,7 @@ void NMWorker::doOneIteration() {
     score(C);
     if (C<simplex.last()) {
       // if good, then take
-      simplex.insert(qLowerBound(simplex, C) - simplex.begin(), C);
+      simplex.insert(std::lower_bound(simplex.begin(), simplex.end(), C) - simplex.begin(), C);
     } else {
       // Shrink Simplex around best element
       simplex << W;
