@@ -165,7 +165,7 @@ QVariant LiveMarkerModel::data(const QModelIndex &index, int role) const {
 
 Qt::ItemFlags LiveMarkerModel::flags(const QModelIndex &index) const {
   if (index.row()==markers.size())
-    return 0;
+      return {};
   return QAbstractTableModel::flags(index);
 }
 
