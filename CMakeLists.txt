@@ -147,8 +147,8 @@ target_link_libraries(Clip PUBLIC
         Qt5::WebKitWidgets
         Qt5::Widgets
         Qt5::Xml
-        TIFF
         Eigen3::Eigen
+        TIFF::tiff
 )
 
 ## Resources:
