@@ -39,6 +39,7 @@ FetchContent_MakeAvailable(TIFF)
 #
 #add_executable(Clip ${SOURCES} ${HEADERS} ${UI} ${RESOURCES})
 
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 add_executable(Clip WIN32
         config.h
