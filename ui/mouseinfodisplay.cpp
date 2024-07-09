@@ -41,7 +41,7 @@ class NoBorderDelegate: public QStyledItemDelegate {
 public:
   NoBorderDelegate(QTableWidget* _parent = nullptr): QStyledItemDelegate(_parent) {
     // create grid pen
-    int gridHint = _parent->style()->styleHint(QStyle::SH_Table_GridLineColor, new QStyleOptionViewItemV4());
+    int gridHint = _parent->style()->styleHint(QStyle::SH_Table_GridLineColor, new QStyleOptionViewItem());
     QColor gridColor = static_cast<QRgb>(gridHint);
     _gridPen = QPen(gridColor, 0, _parent->gridStyle());
   }
