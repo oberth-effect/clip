@@ -248,7 +248,7 @@ void LiveMarkerModel::sort(int column, Qt::SortOrder order) {
     values << SortFunctor(v.at(i), i);
   }
 
-  qStableSort(values);
+  std::stable_sort(values.begin(), values.end());
 
   QVector<int> ids(values.size());
   QList<AbstractMarkerItem*> tmpMarkers;
