@@ -57,7 +57,7 @@ DataProvider* QImageDataProvider::Factory::getProvider(QString filename, ImageDa
   QImage img;
   bool ismono = false;
   if (reader.read(&img)) {
-    QMap<QString, QVariant> headerData;
+    QMultiMap<QString, QVariant> headerData;
     foreach (QString key, img.textKeys()) {
       if (key!="") {
         headerData.insert(key, QVariant(img.text(key)));
