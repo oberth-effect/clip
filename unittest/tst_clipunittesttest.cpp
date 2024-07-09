@@ -95,7 +95,7 @@ void ClipUnitTestTest::testMatrixSVDRandomCombine() {
 
     for (int i=0; i<3; i++) {
       for (int j=0; j<3; j++) {
-        M1(i,j) = 2.0*(1.0*qrand()/RAND_MAX-0.5);
+        M1(i,j) = 2.0*(1.0*QRandomGenerator::global()->generate()/RAND_MAX-0.5);
       }
     }
 
@@ -116,12 +116,12 @@ void ClipUnitTestTest::benchmarkMatrixMultiply() {
   Mat3D M1;
   Mat3D M2;
 
-  qsrand(time(0));
+  QRandomGenerator rand(time(0));
 
   for (int i=0; i<3; i++) {
     for (int j=0; j<3; j++) {
-      M1(i,j) = 2.0*(1.0*qrand()/RAND_MAX-0.5);
-      M2(i,j) = 2.0*(1.0*qrand()/RAND_MAX-0.5);
+      M1(i,j) = 2.0*(1.0*rand.generate()/RAND_MAX-0.5);
+      M2(i,j) = 2.0*(1.0*rand.generate()/RAND_MAX-0.5);
     }
   }
 
@@ -153,7 +153,7 @@ void ClipUnitTestTest::benchmarkMatrixSVD() {
 
     for (int i=0; i<3; i++) {
       for (int j=0; j<3; j++) {
-        M(i,j) = qrand()%19 - 9;
+        M(i,j) = QRandomGenerator::global()->generate()%19 - 9;
       }
     }
     Mat3D M2(M);
@@ -180,7 +180,7 @@ void ClipUnitTestTest::benchmarkMatrixSVD() {
 #include <Winbase.h>
 
 int main () {
-  qsrand(time(0));
+  QRandomGenerator rand(time(0));
   int N = 0;
   double m1 = 0.0;
   double m2 = 0.0;
@@ -196,8 +196,8 @@ int main () {
 
     for (int i=0; i<3; i++) {
       for (int j=0; j<3; j++) {
-        //M(i,j) = 1.0-2.0*qrand()/RAND_MAX;
-        M(i,j) = qrand()%19 - 9;
+        //M(i,j) = 1.0-2.0*QRandomGenerator::global()->generate()/RAND_MAX;
+        M(i,j) = rand.generate()%19 - 9;
       }
     }
     Mat3D Ma = M;

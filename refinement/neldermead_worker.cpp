@@ -23,6 +23,7 @@
 #include "neldermead_worker.h"
 
 #include <cstdlib>
+#include <QRandomGenerator>
 
 #include "core/crystal.h"
 #include "core/projector.h"
@@ -182,7 +183,7 @@ void NMWorker::initSimplex() {
   // Add N more Vertices, with exactely one parameter changed
   for (int n=0; n<N; n++) {
     Vertex t(v);
-    double factor = 5000.0*qrand()/RAND_MAX - 2500.0;
+    double factor = 5000.0*QRandomGenerator::global()->generate()/RAND_MAX - 2500.0;
     t.coordinates[n] += factor*parameters.at(n)->epsilon();
     simplex << t;
   }
