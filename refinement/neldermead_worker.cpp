@@ -192,7 +192,7 @@ void NMWorker::initSimplex() {
     score(simplex[i]);
 
   // And sort the Simplex...
-  qSort(simplex);
+  std::sort(simplex.begin(), simplex.end());
 }
 
 void NMWorker::doOneIteration() {
@@ -219,7 +219,7 @@ void NMWorker::doOneIteration() {
     // Insert at right position
     simplex.insert(qLowerBound(simplex, R) - simplex.begin(), R);
     //simplex << R;
-    //qSort(simplex);
+    //std::sort(simplex.begin(), simplex.end());
   } else if (R<simplex.first()) {
     // Score is better than best, try to extend further
     Vertex E = CoG + (CoG - W)*gamma;
@@ -244,7 +244,7 @@ void NMWorker::doOneIteration() {
         simplex[i] = simplex.first() + (simplex[i] - simplex.first())*beta;
         score(simplex[i]);
       }
-      qSort(simplex);
+      std::sort(simplex.begin(), simplex.end());
     }
   }
   calcDeviation();

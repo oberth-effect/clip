@@ -52,6 +52,7 @@ public:
     ImageFactoryClass() {}
     virtual QStringList fileFormatFilters()=0;
     virtual DataProvider* getProvider(QString, ImageDataStore*, QObject* = nullptr)=0;
+    virtual ~ImageFactoryClass() = default;
   };
 
   static DataProvider* loadImage(const QString&);
