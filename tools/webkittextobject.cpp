@@ -111,7 +111,7 @@ void WebkitTextObject::insertObject(QTextEdit* edit, const QString& html) {
   webkitCharFormat.setObjectType(WebkitTextFormat);
   webkitCharFormat.setProperty(HtmlString, html);
 
-  webkitCharFormat.setProperty(PictureCache, qVariantFromValue(QSharedPointer<PictureCacheClass>(new PictureCacheClass(10))));
+  webkitCharFormat.setProperty(PictureCache, QVariant::fromValue(QSharedPointer<PictureCacheClass>(new PictureCacheClass(10))));
 
   cursor.insertText(QString(QChar::ObjectReplacementCharacter), webkitCharFormat);
   edit->setTextCursor(cursor);
