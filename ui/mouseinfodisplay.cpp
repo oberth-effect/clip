@@ -81,12 +81,12 @@ MouseInfoDisplay::MouseInfoDisplay(QWidget* _parent) :
 
   ui->angleTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
   ui->angleTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-  ui->angleTable->horizontalHeader()->setMinimumSectionSize(fontMetrics().width("Negative")+8);
+  ui->angleTable->horizontalHeader()->setMinimumSectionSize(fontMetrics().horizontalAdvance("Negative")+8);
   ui->angleTable->horizontalHeader()->setStyleSheet(headerStyleSheet);
 
   ui->scatterTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
   ui->scatterTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-  ui->scatterTable->horizontalHeader()->setMinimumSectionSize(fontMetrics().width("  123.456  "));
+  ui->scatterTable->horizontalHeader()->setMinimumSectionSize(fontMetrics().horizontalAdvance("  123.456  "));
   ui->scatterTable->horizontalHeader()->setStyleSheet(headerStyleSheet);
 
   ui->cursorTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
