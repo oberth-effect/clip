@@ -97,7 +97,7 @@ void ClipUnitTestTest::testMatrixSVDRandomCombine() {
       for (int j=0; j<3; j++) {
         M1(i,j) = 2.0*(1.0*QRandomGenerator::global()->generate()/RAND_MAX-0.5);
       }
-    }
+    }`
 
     Mat3D M2(M1);
     Mat3D Q1;
@@ -161,13 +161,13 @@ void ClipUnitTestTest::benchmarkMatrixSVD() {
     unsigned long long dt = rdtsctime() - t1;
       for (int i = 0; i < 3; i++) {
           for (int j = 0; j < 3; j++) {
-              cout << setw(2) << M(i, j) << " ";
+              std::cout << std::setw(2) << M(i, j) << " ";
           }
       }
-      cout << "= " << setw(12) << dt << " " << M.det() << endl;
-      ofstream f;
-      f.open("data.dat", ofstream::app);
-      f << setw(12) << dt << " " << M.det() << " " << loops << endl;
+      std::cout << "= " << std::setw(12) << dt << " " << M.det() << std::endl;
+      std::ofstream f;
+      f.open("data.dat", std::ofstream::app);
+      f << std::setw(12) << dt << " " << M.det() << " " << loops << std::endl;
       f.close();
       tmax = dt;
   }
@@ -211,10 +211,10 @@ int main () {
     Mat3D rMa = La * Ma * Ra;
     Mat3D rMb = Lb * Mb * Rb;
 
-    if ((rMa-M).sqSum()>1e-8) cout << "error on MA" << endl;
-    if ((rMb-M).sqSum()>1e-8) cout << "error on MB" << endl;
+    if ((rMa-M).sqSum()>1e-8) std::cout << "error on MA" << std::endl;
+    if ((rMb-M).sqSum()>1e-8) std::cout << "error on MB" << std::endl;
     //if (fabs((La*Ra).det()-1.0)>1e-8) cout << "error on Det Ma" << endl;
-    if (fabs((Lb*Rb).det()-1.0)>1e-8) cout << "error on Det Mb " << (Lb*Rb).det() << " " << (Lb*Rb).det()-1.0 << endl;
+    if (fabs((Lb*Rb).det()-1.0)>1e-8) std::cout << "error on Det Mb " << (Lb*Rb).det() << " " << (Lb*Rb).det()-1.0 << std::endl;
     //if (Mb(2,2)<0) cout << "Mb value low " << Mb(2,2) << endl;
 
 
