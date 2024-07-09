@@ -138,16 +138,16 @@ add_executable(Clip
 #)
 
 target_link_libraries(Clip PUBLIC
-        Qt::Concurrent
-        Qt::Core
-        Qt::Gui
-        Qt::OpenGL
-        Qt::PrintSupport
-        Qt::Svg
+        Qt5::Concurrent
+        Qt5::Core
+        Qt5::Gui
+        Qt5::OpenGL
+        Qt5::PrintSupport
+        Qt5::Svg
         Qt5::WebKitWidgets
-        Qt::Widgets
-        Qt::Xml
-        TIFF::TIFF
+        Qt5::Widgets
+        Qt5::Xml
+        TIFF
         Eigen3::Eigen
 )
 
