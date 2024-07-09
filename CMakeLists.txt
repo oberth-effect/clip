@@ -420,7 +420,7 @@ target_link_libraries(Clip PUBLIC
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
     target_compile_definitions(Clip PUBLIC
             CLIP_DEBUG
-            CLIP_DEBUG_SOURCEDIR="\"\\\"${CMAKE_CURRENT_SOURCE_DIR}\\\"\""
+#            CLIP_DEBUG_SOURCEDIR="\"\\\"${CMAKE_CURRENT_SOURCE_DIR}\\\"\""
     )
 endif ()
 
