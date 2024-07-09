@@ -27,7 +27,6 @@
 
 #include "tools/xmltools.h"
 
-using namespace std;
 
 BezierCurve::BezierCurve(): params() {
   QList<QPointF> p;

@@ -34,7 +34,6 @@
 #include "config/colorbutton.h"
 #include "config/configstore.h"
 
-using namespace std;
 
 
 

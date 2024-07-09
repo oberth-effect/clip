@@ -40,7 +40,6 @@ const char XML_Stereo_Frame[] = "Frame";
 const char XML_Stereo_Frame_Mxx[] = "M%1%2";
 const char XML_Stereo_NonScattering[] = "DisplayNonScattering";
 
-using namespace std;
 
 StereoProjector::StereoProjector(QObject* _parent):
     Projector(_parent),

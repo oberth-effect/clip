@@ -27,7 +27,6 @@
 #include <QMetaMethod>
  
 
-using namespace std;
 
 template <class T> ItemStore<T>::ItemStore(QObject* _parent) :
     AbstractItemStore(_parent),

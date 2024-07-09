@@ -28,7 +28,6 @@
 #include "image/beziercurve.h"
 #include "tools/xmltools.h"
 #include "tools/threadrunner.h"
-using namespace std;
 
 
 DataScaler::DataScaler(DataProvider* dp, QObject* _parent) :

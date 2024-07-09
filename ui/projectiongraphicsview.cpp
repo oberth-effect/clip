@@ -28,7 +28,6 @@
 #include <QMimeData>
  
 
-using namespace std;
 
 QPolygonF rectToPoly(const QRectF& r);
 
@@ -38,7 +37,7 @@ ProjectionGraphicsView::ProjectionGraphicsView(QWidget* _parent) :
 }
 
 void ProjectionGraphicsView::dragEnterEvent(QDragEnterEvent *e) {
-  if (!not e->mimeData()->hasFormat("application/CrystalPointer"))
+  if (e->mimeData()->hasFormat("application/CrystalPointer"))
     QGraphicsView::dragEnterEvent(e);
   e->ignore();
 }

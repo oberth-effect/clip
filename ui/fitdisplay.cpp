@@ -37,7 +37,6 @@
 
 #include "refinement/neldermead.h"
 
-using namespace std;
 
 class NoEditDelegate: public QStyledItemDelegate {
 public:

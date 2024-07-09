@@ -30,7 +30,6 @@
 #include "ui/resolutioncalculator.h"
 #include "ui/contrastcurves.h"
 
-using namespace std;
 
 DataProvider::DataProvider(QObject* _parent) :
     QObject(_parent)

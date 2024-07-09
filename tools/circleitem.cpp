@@ -29,7 +29,6 @@
 
 #include "tools/tools.h"
 
-using namespace std;
 
 CircleItem::CircleItem(double r, QGraphicsItem *_parent) :
     QGraphicsObject(_parent)
@@ -114,7 +113,6 @@ void CircleItem::doUpdate() {
 
 
  
-using namespace std;
 void CircleItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
   if (event->button()==Qt::LeftButton) emit itemClicked();
   QGraphicsObject::mousePressEvent(event);

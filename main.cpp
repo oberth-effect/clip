@@ -26,7 +26,6 @@
  
 #include "ui/clip.h"
 
-using namespace std;
 
 #ifdef CLIP_STATIC
 #include <QtPlugin>

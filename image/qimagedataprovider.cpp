@@ -32,7 +32,6 @@
 
 #include <tiffio.h>
 
-using namespace std;
 
 
 QImageDataProvider::QImageDataProvider(const QImage& img, bool mono, QObject* _parent) :
