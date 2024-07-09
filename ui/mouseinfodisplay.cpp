@@ -57,7 +57,7 @@ public:
       painter->setPen(oldPen);
 
     } else {
-      painter->fillRect(option.rect, option.palette.background());
+      painter->fillRect(option.rect, option.palette.window());
     }
   }
 protected:
