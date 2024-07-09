@@ -8,7 +8,7 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-find_package(Qt5 COMPONENTS Core Concurrent Gui OpenGL PrintSupport Svg WebKitWidgets Widgets Xml REQUIRED)
+find_package(Qt5 COMPONENTS Core Concurrent Gui OpenGL PrintSupport WebKit WebKitWidgets Svg Widgets Xml REQUIRED)
 
 # QT CMake things
 set(CMAKE_AUTOMOC ON)
@@ -21,6 +21,7 @@ endif()
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+# Add dependencies
 include(${PROJECT_SOURCE_DIR}/cmake/Eigen3.cmake)
 FetchContent_MakeAvailable(Eigen3)
 
@@ -39,7 +40,7 @@ FetchContent_MakeAvailable(TIFF)
 #add_executable(Clip ${SOURCES} ${HEADERS} ${UI} ${RESOURCES})
 
 
-add_executable(Clip
+add_executable(Clip WIN32
         config.h
         config/colorbutton.cpp config/colorbutton.h
         config/colorconfigitem.cpp config/colorconfigitem.h
@@ -420,7 +421,7 @@ target_link_libraries(Clip PUBLIC
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
     target_compile_definitions(Clip PUBLIC
             CLIP_DEBUG
-#            CLIP_DEBUG_SOURCEDIR="\"\\\"${CMAKE_CURRENT_SOURCE_DIR}\\\"\""
+#            CLIP_DEBUG_SOURCEDIR=${CMAKE_CURRENT_SOURCE_DIR}
     )
 endif ()
 
