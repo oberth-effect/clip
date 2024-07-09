@@ -94,7 +94,7 @@ void SolutionModel::sort(int column, Qt::SortOrder order) {
 
   emit layoutAboutToBeChanged();
 
-  qStableSort(solutions.begin(), solutions.end(), SolutionCompare(sortColumn, sortOrder));
+  std::stable_sort(solutions.begin(), solutions.end(), SolutionCompare(sortColumn, sortOrder));
 
   QVector<int> ids(solutions.size());
   for (int i=0; i<solutions.size(); i++) {
