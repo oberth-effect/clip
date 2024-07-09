@@ -51,7 +51,7 @@ void DataProvider::insertFileInformation(const QString &filename) {
   QFileInfo info(filename);
   providerInformation.insert(Info_ImageFilename, info.fileName());
   providerInformation.insert(Info_ImagePath, info.canonicalFilePath());
-  providerInformation.insert(Info_ImageCreationDate, info.birthTime().toString(Qt::DefaultLocaleLongDate));
+  providerInformation.insert(Info_ImageCreationDate, info.birthTime().toString(QLocale::system().dateTimeFormat()));
 }
 
 QString DataProvider::name() {
