@@ -70,7 +70,7 @@ public:
   virtual Format format()=0;
   virtual QString name();
   virtual QList<QWidget*> toolboxPages();
-  virtual QVariant getProviderInfo(const QString& key) { return providerInformation[key]; }
+  virtual QVariant getProviderInfo(const QString& key) { return providerInformation.values(key).first(); }
   virtual QList<QString> getProviderInfoKeys() { return providerInformation.keys(); }
 
   static const char Info_ImageFilename[];
@@ -81,7 +81,7 @@ public:
 
 protected:
   explicit DataProvider(QObject* _parent = nullptr);
-  QMap<QString, QVariant> providerInformation;
+  QMultiMap<QString, QVariant> providerInformation;
 
 signals:
   void newDataAvailable();

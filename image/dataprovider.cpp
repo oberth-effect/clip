@@ -56,7 +56,7 @@ void DataProvider::insertFileInformation(const QString &filename) {
 
 QString DataProvider::name() {
   if (providerInformation.contains(Info_ImageFilename)) {
-    return providerInformation[Info_ImageFilename].toString();
+    return providerInformation.values(Info_ImageFilename).first().toString();
   }
   return QString();
 }
@@ -69,7 +69,7 @@ QList<QWidget*> DataProvider::toolboxPages() {
   QTableWidget* table = new QTableWidget(keys.size(),2);
   for (int i=0; i<keys.size(); i++) {
     table->setItem(i, 0, new QTableWidgetItem(keys.at(i)));
-    table->setItem(i, 1, new QTableWidgetItem(providerInformation[keys.at(i)].toString()));
+    table->setItem(i, 1, new QTableWidgetItem(providerInformation.values(keys.at(i)).first().toString()));
     table->item(i,0)->setFlags(Qt::ItemIsEnabled);
     table->item(i,1)->setFlags(Qt::ItemIsEnabled);
   }

@@ -347,7 +347,7 @@ const void* BrukerProvider::getData() {
 }
 
 QSize BrukerProvider::size() {
-  return QSize(providerInformation["NCOLS"].toInt(), providerInformation["NROWS"].toInt());
+  return QSize(providerInformation.values("NCOLS").first().toInt(), providerInformation.values("NROWS").first().toInt());
 }
 
 int BrukerProvider::bytesCount() {
