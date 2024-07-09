@@ -71,9 +71,9 @@ DataProvider* QImageDataProvider::Factory::getProvider(QString filename, ImageDa
           if (TIFFGetField(tif, TIFFTAG_IMAGEDESCRIPTION, &value)) {
             QString desc(value);
             //printf("Desc: |%s|\n", qPrintable(desc));
+            ismono = true; //convert all tiff files to monochrome
             if (desc.trimmed().startsWith("instrument:")) {
               printf("ILL Tiff file detected, parsing description\n");
-              ismono = true;
               QStringList pairs = desc.split(',');
               for (const QString &pair : pairs) {
                 QStringList keyValue = pair.split(':');
