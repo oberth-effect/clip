@@ -48,9 +48,10 @@ public:
   virtual int pixelCount();
   virtual Format format();
 private:
-  explicit QImageDataProvider(const QImage& img, QObject* _parent = nullptr);
+  explicit QImageDataProvider(const QImage& img, bool mono, QObject* _parent = nullptr);
   QImageDataProvider(const QImageDataProvider&);
   QImageDataProvider& operator=(const QImageDataProvider&);
+  bool mono;
   QImage data;
 
 signals:

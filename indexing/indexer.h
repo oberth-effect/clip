@@ -27,7 +27,7 @@
 #include <QMutex>
 #include <QAtomicInt>
 #include <QReadWriteLock>
-#include <QTime>
+#include <QElapsedTimer>
 
 #include "tools/vec3D.h"
 #include "indexing/candidategenerator.h"

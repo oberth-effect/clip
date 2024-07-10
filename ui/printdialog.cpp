@@ -25,6 +25,7 @@
 
 #include <QTextCharFormat>
 #include <QClipboard>
+#include <QMarginsF>
 #include <QMimeData>
 #include <QComboBox>
 #include <QToolButton>
@@ -97,7 +98,7 @@ PrintDialog::PrintDialog(Projector* p, QWidget* _parent) :
 
 
   printer = new QPrinter(QPrinterInfo::defaultPrinter());
-  printer->setPageMargins(10, 10, 10, 10, QPrinter::Millimeter);
+  printer->setPageMargins(QMarginsF(10, 10, 10, 10), QPageLayout::Millimeter);
   preview = new QPrintPreviewWidget(printer, ui->previewFrame);
 
   connect(projector, SIGNAL(imageClosed()), this, SLOT(handleImageStatus()));
@@ -529,7 +530,7 @@ void PrintDialog::previewSetFitting(bool on) {
 }
 
 void PrintDialog::previewUpdateZoomFactor() {
-  zoomFactor->lineEdit()->setText(QString().sprintf("%.1f%%", preview->zoomFactor()*100));
+  zoomFactor->lineEdit()->setText(QString().asprintf("%.1f%%", preview->zoomFactor()*100));
 }
 
 void PrintDialog::previewSetupPage() {
@@ -713,7 +714,7 @@ QSize PrintDialog::getImageSize(bool /*askForSize*/) {
   return QSize(100, 100);
 }
 
-PrintDialog::PaintDeviceFactory::PaintDeviceFactory(const QString &description, const QString &suffix): filename(QString::null), fileChooserAborted(false) {
+PrintDialog::PaintDeviceFactory::PaintDeviceFactory(const QString &description, const QString &suffix): filename(QString()), fileChooserAborted(false) {
   if (!description.isNull()) {
     filename = getFilename(description, suffix);
     fileChooserAborted = filename.isNull();
@@ -729,7 +730,7 @@ PrintDialog::PaintDeviceFactory::~PaintDeviceFactory() {
 QString PrintDialog::PaintDeviceFactory::getFilename(const QString &title, const QString &suffix) {
 
   QString fileName = QFileDialog::getSaveFileName(nullptr, title, QSettings().value("LastDirectory").toString(), QLatin1Char('*') + suffix);
-  if (fileName.isEmpty()) return QString::null;
+  if (fileName.isEmpty()) return QString();
   ;
 
   if (QFileInfo(fileName).suffix().isEmpty())
@@ -741,7 +742,7 @@ QString PrintDialog::PaintDeviceFactory::getFilename(const QString &title, const
 
 class PrinterDevice: public PrintDialog::PaintDeviceFactory {
 public:
-  PrinterDevice(QPrinter* _p, QPrinter::OutputFormat f=QPrinter::NativeFormat, const QString& description=QString::null, const QString& sufffix=QString::null):
+  PrinterDevice(QPrinter* _p, QPrinter::OutputFormat f=QPrinter::NativeFormat, const QString& description=QString(), const QString& sufffix=QString()):
       PaintDeviceFactory(description, sufffix),
       printer(_p),
       format(f) {}
@@ -835,9 +836,9 @@ void PrintDialog::printToPdf() {
   renderToPaintDevice(PrinterDevice(printer, QPrinter::PdfFormat, "Export to PDF", ".pdf"));
 }
 
-void PrintDialog::printToPS() {
-  renderToPaintDevice(PrinterDevice(printer, QPrinter::PostScriptFormat, "Export to Postscript", ".ps"));
-}
+// void PrintDialog::printToPS() {
+//   renderToPaintDevice(PrinterDevice(printer, QPrinter::PostScriptFormat, "Export to Postscript", ".ps"));
+// }
 
 void PrintDialog::printToPng() {
   renderToPaintDevice(PngDevice(projector));

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl xml svg webkit
+QT += core gui opengl xml svg widgets printsupport concurrent webkit webkitwidgets
 
 TARGET = Clip
 TEMPLATE = app
@@ -37,14 +37,18 @@ CONFIG(debug, debug|release) {
   DEFINES += CLIP_DEBUG CLIP_DEBUG_SOURCEDIR="\"\\\"$$PWD\\\"\""
 }
 
-DEFINES += CLIP_HG_REPRO_ID="\\\"\$(shell hg -R \"$$PWD\" -q id)\\\""
-DEFINES += CLIP_HG_REPRO_REV="\\\"\$(shell hg -R \"$$PWD\" -q parent --template {rev})\\\""
-DEFINES += CLIP_HG_REPRO_DATE="\"\\\"\$(shell hg -R \"$$PWD\" -q parent --template \"{date|date}\")\\\"\""
+# DEFINES += CLIP_HG_REPRO_ID="\\\"\$(shell hg -R \"$$PWD\" -q id)\\\""
+# DEFINES += CLIP_HG_REPRO_REV="\\\"\$(shell hg -R \"$$PWD\" -q parent --template {rev})\\\""
+# DEFINES += CLIP_HG_REPRO_DATE="\"\\\"\$(shell hg -R \"$$PWD\" -q parent --template \"{date|date}\")\\\"\""
 
 QMAKE_CXXFLAGS += -std=gnu++0x
 
+LIBS += -L../libtiff -ltiff
+
 # Eigen linear Algebra library
 INCLUDEPATH += ../eigen
+
+INCLUDEPATH += /usr/include/eigen3/
 
 QMAKE_CXXFLAGS_DEBUG += -pg -W -Wpointer-arith -Wcast-qual -Wcast-align -Wmissing-declarations -Wredundant-decls
 QMAKE_LFLAGS_DEBUG += -pg

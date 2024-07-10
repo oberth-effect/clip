@@ -25,12 +25,13 @@
 
 #include <QMainWindow>
 #include <QRubberBand>
-#include <QCustomEvent>
+#include <QEvent>
 #include <QActionGroup>
 #include <QPointer>
 #include <QDomElement>
 #include <QPrinter>
 #include <QTimer>
+#include <QMimeData>
 
 #include "tools/objectstore.h"
 #include "tools/mousepositioninfo.h"
