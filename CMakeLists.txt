@@ -43,6 +43,15 @@ else ()
     set(TIFF_COMPONENT "tiff")
 endif()
 
+set(RES_FILES "")
+if(MINGW)
+ set(RES_FILES "resources/clip.rc")
+ set(CMAKE_RC_COMPILER_INIT windres)
+ ENABLE_LANGUAGE(RC)
+ SET(CMAKE_RC_COMPILE_OBJECT
+ "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
+endif(MINGW)
+
 
 #file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
 #file(GLOB_RECURSE HEADERS ${PROJECT_SOURCE_DIR}/*.h)
@@ -145,6 +154,7 @@ add_executable(Clip WIN32
         ui/sadeasteregg.cpp ui/sadeasteregg.h ui/sadeasteregg.ui
         ui/stereocfg.cpp ui/stereocfg.h ui/stereocfg.ui
         resources/resources.qrc
+        ${RES_FILES}
 )
 #target_include_directories(Clip PUBLIC
 #    ../eigen
