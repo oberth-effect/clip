@@ -40,7 +40,6 @@
 #include "config/configstore.h"
 
 
-using namespace std;
 
 
 const char XML_LPP_DetSize[] = "DetSize";

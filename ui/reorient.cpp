@@ -30,7 +30,6 @@
 #include "ui/clip.h"
 #include "tools/tools.h"
 
-using namespace std;
 
 Reorient::Reorient(QWidget* _parent) :
     QWidget(_parent),
@@ -176,7 +175,7 @@ double Reorient::calcRotationAngle(const Vec3D& from, const Vec3D& to, const Vec
   Vec3D v2(to-axis*(to*axis));
   v2.normalize();
 
-  double angle = acos(min(1.0, max(-1.0, v1*v2)));
+  double angle = acos(std::min(1.0, std::max(-1.0, v1*v2)));
   Mat3D M(from, to, axis);
   if (M.det()<0) {
     angle*=-1;

@@ -24,6 +24,7 @@
 #include <cmath>
 
 #include <QElapsedTimer>
+#include <QRandomGenerator>
 #include <QMetaObject>
 #include <QtConcurrentRun>
 #include <QSettings>
@@ -39,7 +40,6 @@
 #include "refinement/fitparameter.h"
 #include "tools/threadrunner.h"
 
-using namespace std;
 
 
 
@@ -962,8 +962,8 @@ void Crystal::enableDebug(bool b) {
 
 void Crystal::debugSlot() {
   debugCallsInActualSecond++;
-  Vec3D a(1.0-2.0*qrand()/RAND_MAX, 1.0-2.0*qrand()/RAND_MAX, 1.0-2.0*qrand()/RAND_MAX);
-  addRotation(a.normalized(), 0.1*qrand()/RAND_MAX);
+  Vec3D a(1.0-2.0*QRandomGenerator::global()->generate()/RAND_MAX, 1.0-2.0*QRandomGenerator::global()->generate()/RAND_MAX, 1.0-2.0*QRandomGenerator::global()->generate()/RAND_MAX);
+  addRotation(a.normalized(), 0.1*QRandomGenerator::global()->generate()/RAND_MAX);
   if (debugEnabled) {
     if (debugTimer.elapsed()>1000) {
       double fps = 1000.0*debugCallsInActualSecond/debugTimer.restart();

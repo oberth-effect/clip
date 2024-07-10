@@ -35,7 +35,6 @@
 
 #include "image/imagedatastore.h"
 
-using namespace std;
 
 QVector<unsigned int> readArrayFromSfrm(QFile& f, int len, int bytes);
 int padTo(int value, int pad);
@@ -348,7 +347,7 @@ const void* BrukerProvider::getData() {
 }
 
 QSize BrukerProvider::size() {
-  return QSize(providerInformation["NCOLS"].toInt(), providerInformation["NROWS"].toInt());
+  return QSize(providerInformation.values("NCOLS").first().toInt(), providerInformation.values("NROWS").first().toInt());
 }
 
 int BrukerProvider::bytesCount() {

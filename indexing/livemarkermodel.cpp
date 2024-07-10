@@ -61,7 +61,7 @@ void LiveMarkerModel::markerAdded(AbstractMarkerItem *item) {
   // Get sorted keys
   QList<double> markerValues = getSortDataList();
   // search index, where to insert
-  int idx = qLowerBound(markerValues, getSortData(item)) - markerValues.begin();
+  int idx = std::lower_bound(markerValues.begin(), markerValues.end(), getSortData(item)) - markerValues.begin();
   // Do acutal insertion
   beginInsertRows(QModelIndex(), idx, idx);
   markers.insert(idx, item);
@@ -77,7 +77,7 @@ void LiveMarkerModel::markerChanged(AbstractMarkerItem *item) {
     // Remove changed marker value from (otherwise ordered!) array
     double val = markerValues.takeAt(idx);
     // Search, where to insert the marker in order to have the array ordered completly
-    int newIdx = qLowerBound(markerValues, val) - markerValues.begin();
+    int newIdx = std::lower_bound(markerValues.begin(), markerValues.end(), val) - markerValues.begin();
     // if beginMoveRows returns true, the move is valid.
     if (beginMoveRows(QModelIndex(), idx, idx, QModelIndex(), (idx>newIdx) ? newIdx : newIdx+1)) {
       // Acutally move the marker
@@ -165,7 +165,7 @@ QVariant LiveMarkerModel::data(const QModelIndex &index, int role) const {
 
 Qt::ItemFlags LiveMarkerModel::flags(const QModelIndex &index) const {
   if (index.row()==markers.size())
-    return 0;
+      return {};
   return QAbstractTableModel::flags(index);
 }
 
@@ -248,7 +248,7 @@ void LiveMarkerModel::sort(int column, Qt::SortOrder order) {
     values << SortFunctor(v.at(i), i);
   }
 
-  qStableSort(values);
+  std::stable_sort(values.begin(), values.end());
 
   QVector<int> ids(values.size());
   QList<AbstractMarkerItem*> tmpMarkers;

@@ -30,7 +30,6 @@
 #include "image/dataproviderfactory.h"
 #include "image/imagedatastore.h"
 
-using namespace std;
 
 XYZDataProvider::XYZDataProvider(QObject* _parent) :
     DataProvider(_parent)

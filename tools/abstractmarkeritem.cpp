@@ -121,7 +121,7 @@ AbstractProjectorMarkerItem::AbstractProjectorMarkerItem(Projector *p, MarkerTyp
 {
 }
 
-AbstractProjectorMarkerItem::~AbstractProjectorMarkerItem() {}
+AbstractProjectorMarkerItem::~AbstractProjectorMarkerItem() = default;
 
 Vec3D AbstractProjectorMarkerItem::normalToIndex(const Vec3D &v) {
   Vec3D n = projector->getCrystal()->getRotationMatrix().transposed() * v;

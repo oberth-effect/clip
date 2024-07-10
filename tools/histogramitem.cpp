@@ -26,7 +26,6 @@
 #include <cmath>
 #include <QTimer>
  
-using namespace std;
 
 HistogramItem::HistogramItem(QGraphicsItem *_parent) :
     QGraphicsObject(_parent)

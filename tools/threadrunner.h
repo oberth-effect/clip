@@ -96,6 +96,7 @@ private:
     //virtual void stop()=0;
     virtual void init(int numberOfThreads)=0;
     virtual void done(int numberOfThreads)=0;
+    virtual ~BaseThreadFunctor() = default;
   };
 
   template <typename WORKER> class ThreadFunctor: public BaseThreadFunctor {

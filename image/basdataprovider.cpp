@@ -34,7 +34,6 @@
 #include "tools/xmltools.h"
 #include "image/imagedatastore.h"
 
-using namespace std;
 
 const char BasDataProvider::Info_OriginalFilename[] = "OriginalFilename";
 const char BasDataProvider::Info_IPSize[] = "IP-Size";
@@ -132,7 +131,7 @@ DataProvider* BasDataProvider::Factory::getProvider(QString filename, ImageDataS
   quint64 unixtime = headerData[Info_UnixTime].toULongLong();
   QDateTime date;
   date.setTime_t(unixtime);
-  headerData[Info_UnixTime] = QVariant(QString("%1 (%2)").arg(unixtime).arg(date.toString(Qt::DefaultLocaleLongDate)));
+  headerData[Info_UnixTime] = QVariant(QString("%1 (%2)").arg(unixtime).arg(date.toString(QLocale::system().dateTimeFormat())));
 
   info.setFile(infFile.fileName());
   headerData.insert(Info_InfFilename, QVariant(info.fileName()));

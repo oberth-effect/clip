@@ -25,7 +25,6 @@
  
  
 
-using namespace std;
 
 
 PropagatingGraphicsObject::PropagatingGraphicsObject(QGraphicsItem *_parent) :

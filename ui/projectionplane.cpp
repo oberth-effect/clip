@@ -37,13 +37,14 @@
 #include <QMenu>
 #include <QCursor>
 #include <QShortcut>
-#include <QPrintDialog>
+//#include <QPrintDialog>
 #include <QSettings>
+#include <QMessageBox>
 
 #include "ui/clip.h"
 #include "ui/imagetoolbox.h"
 #include "ui/resolutioncalculator.h"
-#include "ui/printdialog.h"
+//#include "ui/printdialog.h"
 #include "core/crystal.h"
 #include "core/reflection.h"
 #include "core/projector.h"
@@ -282,7 +283,7 @@ void ProjectionPlane::mouseReleaseEvent(QMouseEvent *e) {
       if (ui->infoAction->isChecked() && projector->getCrystal()) {
         Reflection r = projector->getClosestReflection(projector->det2normal(mousePressOrigin));
         if (r.normal(0)>=0.0) {
-          double TT=180.0-360.0*M_1_PI*acos(max(-1.0, min(1.0, r.normal(0))));
+          double TT=180.0-360.0*M_1_PI*acos(std::max(-1.0, std::min(1.0, r.normal(0))));
           QString s = r.toHtml();
           s+=QString("<br>2T=%1").arg(TT, 0,'f',1);
           projector->addInfoItem(s, mousePressOrigin);
@@ -521,9 +522,11 @@ void ProjectionPlane::renderPrintout(QPainter* painter, const QRectF& target) {
 
 void ProjectionPlane::on_actionPrint_triggered()
 {
-  PrintDialog* d = new PrintDialog(projector, this);
-  connect(d, SIGNAL(paintRequested(QPainter*, const QRectF&)), this, SLOT(renderPrintout(QPainter*,QRectF)));
-  d->show();
+  QMessageBox::information(nullptr, "Sorry", "Printing support has been removed in version 4.2 because of obsolete library QtWebKit. It will be maybe added in the future again. If you need to use printing, please download version 4.1 or earlier.");
+
+//  PrintDialog* d = new PrintDialog(projector, this);
+//  connect(d, SIGNAL(paintRequested(QPainter*, const QRectF&)), this, SLOT(renderPrintout(QPainter*,QRectF)));
+//  d->show();
 }
 
 const char XML_ProjectionPlane_Element[] = "ProjectionPlane";

@@ -94,7 +94,7 @@ void SolutionModel::sort(int column, Qt::SortOrder order) {
 
   emit layoutAboutToBeChanged();
 
-  qStableSort(solutions.begin(), solutions.end(), SolutionCompare(sortColumn, sortOrder));
+  std::stable_sort(solutions.begin(), solutions.end(), SolutionCompare(sortColumn, sortOrder));
 
   QVector<int> ids(solutions.size());
   for (int i=0; i<solutions.size(); i++) {
@@ -113,7 +113,7 @@ void SolutionModel::sort(int column, Qt::SortOrder order) {
 
 
 void SolutionModel::addSolution(Solution s) {
-  int idx=qLowerBound(solutions.begin(), solutions.end(), s, SolutionCompare(sortColumn, sortOrder))-solutions.begin();
+  int idx=std::lower_bound(solutions.begin(), solutions.end(), s, SolutionCompare(sortColumn, sortOrder))-solutions.begin();
   beginInsertRows(QModelIndex(),idx,idx);
   solutions.insert(idx, s);
   endInsertRows();
@@ -122,7 +122,7 @@ void SolutionModel::addSolution(Solution s) {
 
 void SolutionModel::addSolutions(QList<Solution> newSolutions) {
   foreach (Solution s, newSolutions) {
-    int idx=qLowerBound(solutions.begin(), solutions.end(), s, SolutionCompare(sortColumn, sortOrder))-solutions.begin();
+    int idx=std::lower_bound(solutions.begin(), solutions.end(), s, SolutionCompare(sortColumn, sortOrder))-solutions.begin();
     beginInsertRows(QModelIndex(),idx,idx);
     solutions.insert(idx, s);
     endInsertRows();

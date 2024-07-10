@@ -34,7 +34,6 @@
 #include "tools/zipiterator.h"
 #include "tools/threadrunner.h"
 
-using namespace std;
 
 IndexDisplay::IndexDisplay(Crystal* _c, QWidget* _parent) :
     QWidget(_parent),

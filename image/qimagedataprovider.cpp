@@ -32,7 +32,6 @@
 
 #include <tiffio.h>
 
-using namespace std;
 
 
 QImageDataProvider::QImageDataProvider(const QImage& img, bool mono, QObject* _parent) :
@@ -58,7 +57,7 @@ DataProvider* QImageDataProvider::Factory::getProvider(QString filename, ImageDa
   QImage img;
   bool ismono = false;
   if (reader.read(&img)) {
-    QMap<QString, QVariant> headerData;
+    QMultiMap<QString, QVariant> headerData;
     foreach (QString key, img.textKeys()) {
       if (key!="") {
         headerData.insert(key, QVariant(img.text(key)));
@@ -68,10 +67,10 @@ DataProvider* QImageDataProvider::Factory::getProvider(QString filename, ImageDa
       TIFF* tif = TIFFOpen(filename.toStdString().c_str(), "r");
       if (tif) {
           char* value;
+          ismono = true; //convert all tiff files to monochrome
           if (TIFFGetField(tif, TIFFTAG_IMAGEDESCRIPTION, &value)) {
             QString desc(value);
             //printf("Desc: |%s|\n", qPrintable(desc));
-            ismono = true; //convert all tiff files to monochrome
             if (desc.trimmed().startsWith("instrument:")) {
               printf("ILL Tiff file detected, parsing description\n");
               QStringList pairs = desc.split(',');

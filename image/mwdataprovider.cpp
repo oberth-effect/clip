@@ -34,7 +34,6 @@
 #include "tools/xmltools.h"
 #include "image/imagedatastore.h"
 
-using namespace std;
 /*
  Multiwire Image class for *.hs2 (and someday *.his) files
  written by Gregory Tucker supported by Ames Laboratory and Iowa State University

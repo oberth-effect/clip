@@ -23,6 +23,7 @@
 #include "neldermead_worker.h"
 
 #include <cstdlib>
+#include <QRandomGenerator>
 
 #include "core/crystal.h"
 #include "core/projector.h"
@@ -182,7 +183,7 @@ void NMWorker::initSimplex() {
   // Add N more Vertices, with exactely one parameter changed
   for (int n=0; n<N; n++) {
     Vertex t(v);
-    double factor = 5000.0*qrand()/RAND_MAX - 2500.0;
+    double factor = 5000.0*QRandomGenerator::global()->generate()/RAND_MAX - 2500.0;
     t.coordinates[n] += factor*parameters.at(n)->epsilon();
     simplex << t;
   }
@@ -192,7 +193,7 @@ void NMWorker::initSimplex() {
     score(simplex[i]);
 
   // And sort the Simplex...
-  qSort(simplex);
+  std::sort(simplex.begin(), simplex.end());
 }
 
 void NMWorker::doOneIteration() {
@@ -217,9 +218,9 @@ void NMWorker::doOneIteration() {
   if (simplex.first()<R && R<simplex.last()) {
     // Score is better than second-worst but not better than best
     // Insert at right position
-    simplex.insert(qLowerBound(simplex, R) - simplex.begin(), R);
+    simplex.insert(std::lower_bound(simplex.begin(), simplex.end(), R) - simplex.begin(), R);
     //simplex << R;
-    //qSort(simplex);
+    //std::sort(simplex.begin(), simplex.end());
   } else if (R<simplex.first()) {
     // Score is better than best, try to extend further
     Vertex E = CoG + (CoG - W)*gamma;
@@ -236,7 +237,7 @@ void NMWorker::doOneIteration() {
     score(C);
     if (C<simplex.last()) {
       // if good, then take
-      simplex.insert(qLowerBound(simplex, C) - simplex.begin(), C);
+      simplex.insert(std::lower_bound(simplex.begin(), simplex.end(), C) - simplex.begin(), C);
     } else {
       // Shrink Simplex around best element
       simplex << W;
@@ -244,7 +245,7 @@ void NMWorker::doOneIteration() {
         simplex[i] = simplex.first() + (simplex[i] - simplex.first())*beta;
         score(simplex[i]);
       }
-      qSort(simplex);
+      std::sort(simplex.begin(), simplex.end());
     }
   }
   calcDeviation();

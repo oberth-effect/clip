@@ -660,12 +660,12 @@ void PrintDialog::on_actionInsert_Image_info_triggered() {
       foreach (QString key, projector->getLaueImage()->infoKeys())
         if (key!=DataProvider::Info_ImagePath)
           values.append(qMakePair(key, projector->getLaueImage()->getInfo(key).toString()));
-      qStableSort(values.begin(), values.end(), ValueSorter());
+      std::stable_sort(values.begin(), values.end(), ValueSorter());
 
       int mix = (values.size()+1)/2;
 
-      qStableSort(values.begin(), values.begin()+mix);
-      qStableSort(values.begin()+mix, values.end());
+      std::stable_sort(values.begin(), values.begin()+mix);
+      std::stable_sort(values.begin()+mix, values.end());
 
       QList<QPair<QString, QString> > tmpValues;
       for (int i=0; i<mix; i++) {

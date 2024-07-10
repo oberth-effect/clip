@@ -30,7 +30,6 @@
 #include <stdio.h>
 
 
-using namespace std;
 
 template <typename T> TVec3D<T>::TVec3D(){
   for (int i=0; i<3; i++) (*this)(i) = InitatorValues<T>::Zero();
