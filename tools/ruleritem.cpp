@@ -27,7 +27,6 @@
 #include "tools/circleitem.h"
 #include "config/configstore.h"
 
-using namespace std;
 
 
 RulerItem::RulerItem(const QPointF& p1, const QPointF& p2, double r, QGraphicsItem* _parent):

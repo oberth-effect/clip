@@ -24,7 +24,6 @@
 #include "image/datascalerfactory.h"
  
 
-using namespace std;
 
 SimpleRGBScaler::SimpleRGBScaler(DataProvider* dp, QObject* _parent) :
     DataScaler(dp, _parent)

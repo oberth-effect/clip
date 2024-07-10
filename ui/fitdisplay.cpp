@@ -37,7 +37,6 @@
 
 #include "refinement/neldermead.h"
 
-using namespace std;
 
 class NoEditDelegate: public QStyledItemDelegate {
 public:
@@ -106,7 +105,7 @@ void FitDisplay::fitObjectAdded(FitObject* o) {
   if (o->allParameters().size()>0) {
     QTreeWidgetItem* objectItem = new QTreeWidgetItem(ui->parameterView);
     objectItem->setText(0, o->FitObjectName());
-    objectItem->setData(0, Qt::UserRole, qVariantFromValue(o));
+    objectItem->setData(0, Qt::UserRole, QVariant::fromValue(o));
     foreach(FitParameter* p, o->allParameters()) {
       new FitParameterTreeItem(p, objectItem);
     }

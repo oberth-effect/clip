@@ -36,7 +36,6 @@
 #include "indexing/marker.h"
 
 
-using namespace std;
 
 
 
@@ -73,9 +72,9 @@ Indexer::Indexer(QList<AbstractMarkerItem*> crystalMarkers, const Mat3D& _MReal,
       }
     }
   }
-  qSort(spotSpotAngles);
-  qSort(zoneZoneAngles);
-  qSort(spotZoneAngles);
+  std::sort(spotSpotAngles.begin(), spotZoneAngles.end());
+  std::sort(zoneZoneAngles.begin(),zoneZoneAngles.end()) ;
+  std::sort(spotZoneAngles.begin(), spotZoneAngles.end());
 
   connect(&candidates, SIGNAL(nextMajorIndex(int)), this, SIGNAL(nextMajorIndex(int)));
   connect(&candidates, SIGNAL(progessInfo(int)), this, SIGNAL(progressInfo(int)));

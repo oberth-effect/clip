@@ -28,15 +28,14 @@
 
 #include <iostream>
 
-using namespace std;
 
 template<class T> void printRect(const T& r) {
-  cout << "Rect = " << r.left() << " <-> " << r.right() << " | " << r.top() << " <-> " << r.bottom() << "  (" << r.width() << " x " << r.height() << ")" << endl;
+  std::cout << "Rect = " << r.left() << " <-> " << r.right() << " | " << r.top() << " <-> " << r.bottom() << "  (" << r.width() << " x " << r.height() << ")" << std::endl;
 }
 
 
 template<class T> void printPoint(const QString& s, const T& r) {
-  cout << qPrintable(s) << " = (" << r.x() << "," << r.y() << ")" << endl;
+  std::cout << qPrintable(s) << " = (" << r.x() << "," << r.y() << ")" << std::endl;
 }
 #endif
 

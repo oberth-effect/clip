@@ -1,39 +1,44 @@
 cmake_minimum_required(VERSION 3.18)
 project(Clip VERSION 4.0 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-find_package(Qt5 COMPONENTS Core Concurrent Gui OpenGL PrintSupport Svg WebKitWidgets Widgets Xml REQUIRED)
+find_package(Qt5 COMPONENTS Core Concurrent Gui OpenGL PrintSupport Svg Widgets Xml REQUIRED)
 
 # QT CMake things
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-if(CMAKE_VERSION VERSION_LESS "3.7.0")
-    set(CMAKE_INCLUDE_CURRENT_DIR ON)
-endif()
-
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+# Add dependencies
+find_package(Eigen3)
+if (${Eigen3_FOUND})
+    message(STATUS "Eigen3 found on system")
+else ()
+    message(STATUS "Eigen3 not found on system, fetching...")
+    include(${PROJECT_SOURCE_DIR}/cmake/Eigen3.cmake)
+endif ()
+
 find_package(TIFF)
-find_package(Eigen3 REQUIRED)
+if (${TIFF_FOUND})
+    message(STATUS "libTIFF found on system")
+    set(TIFF_COMPONENT "TIFF")
+else ()
+    message(STATUS "libtiff not found on system, fetching...")
+    include(${PROJECT_SOURCE_DIR}/cmake/TIFF.cmake)
+    set(TIFF_COMPONENT "tiff")
+endif ()
 
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
-#file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
-#file(GLOB_RECURSE HEADERS ${PROJECT_SOURCE_DIR}/*.h)
-#file(GLOB_RECURSE UI ${PROJECT_SOURCE_DIR}/*.ui)
-#file(GLOB_RECURSE RESOURCES ${PROJECT_SOURCE_DIR}/*.qrc)
-#
-#add_executable(Clip ${SOURCES} ${HEADERS} ${UI} ${RESOURCES})
-
-
-add_executable(Clip
+add_executable(Clip WIN32
         config.h
         config/colorbutton.cpp config/colorbutton.h
         config/colorconfigitem.cpp config/colorconfigitem.h
@@ -100,7 +105,7 @@ add_executable(Clip
         tools/threadrunner.cpp tools/threadrunner.h
         tools/tools.cpp tools/tools.h
         tools/vec3D.cpp tools/vec3D.h
-        tools/webkittextobject.cpp tools/webkittextobject.h
+        #        tools/webkittextobject.cpp tools/webkittextobject.h
         tools/xmllistiterators.cpp tools/xmllistiterators.h
         tools/xmltools.cpp tools/xmltools.h
         tools/zipiterator.cpp tools/zipiterator.h
@@ -116,7 +121,7 @@ add_executable(Clip
         ui/laueplanecfg.cpp ui/laueplanecfg.h ui/laueplanecfg.ui
         ui/monoscalercfg.cpp ui/monoscalercfg.h ui/monoscalercfg.ui
         ui/mouseinfodisplay.cpp ui/mouseinfodisplay.h ui/mouseinfodisplay.ui
-        ui/printdialog.cpp ui/printdialog.h ui/printdialog.ui
+        #        ui/printdialog.cpp ui/printdialog.h ui/printdialog.ui
         ui/projectiongraphicsview.cpp ui/projectiongraphicsview.h
         ui/projectionplane.cpp ui/projectionplane.h ui/projectionplane.ui
         ui/reorient.cpp ui/reorient.h ui/reorient.ui
@@ -125,301 +130,31 @@ add_executable(Clip
         ui/sadeasteregg.cpp ui/sadeasteregg.h ui/sadeasteregg.ui
         ui/stereocfg.cpp ui/stereocfg.h ui/stereocfg.ui
         resources/resources.qrc
+        resources/clip.rc
 )
-#target_include_directories(Clip PUBLIC
-#    ../eigen
-#    /usr/include/eigen3
-#)
 
 target_link_libraries(Clip PUBLIC
-        Qt::Concurrent
-        Qt::Core
-        Qt::Gui
-        Qt::OpenGL
-        Qt::PrintSupport
-        Qt::Svg
-        Qt5::WebKitWidgets
-        Qt::Widgets
-        Qt::Xml
-        TIFF::TIFF
+        Qt5::Concurrent
+        Qt5::Core
+        Qt5::Gui
+        Qt5::OpenGL
+        Qt5::PrintSupport
+        Qt5::Svg
+        Qt5::Widgets
+        Qt5::Xml
         Eigen3::Eigen
+        TIFF::${TIFF_COMPONENT}
 )
-
-## Resources:
-#set(resources_resource_files
-#        "resources/AboutMessage.txt"
-#        "resources/DefaultCrystal.xml"
-#        "resources/DefaultWorkspace.cws"
-#        "resources/Default_LauePlaneProjector.xml"
-#        "resources/Default_StereoProjector.xml"
-#        "resources/curves/00-greyscale.curve"
-#        "resources/curves/01-red-yellow.curve"
-#        "resources/curves/02-red-magenta.curve"
-#        "resources/curves/03-green-cyan.curve"
-#        "resources/curves/04-green-yellow.curve"
-#        "resources/curves/05-blue-cyan.curve"
-#        "resources/curves/06-blue-magenta.curve"
-#        "resources/curves/07-rainbow.curve"
-#        "resources/icons/arrow-down.png"
-#        "resources/icons/arrow-up.png"
-#        "resources/icons/clip.ico"
-#        "resources/icons/clip.png"
-#        "resources/icons/color_curve.png"
-#        "resources/icons/configure.png"
-#        "resources/icons/crystal.png"
-#        "resources/icons/crystaltable.png"
-#        "resources/icons/cursor_hor.png"
-#        "resources/icons/cursor_rot.png"
-#        "resources/icons/cut.png"
-#        "resources/icons/editcopy.png"
-#        "resources/icons/editcut.png"
-#        "resources/icons/editpaste.png"
-#        "resources/icons/editredo.png"
-#        "resources/icons/editundo.png"
-#        "resources/icons/fileclose.png"
-#        "resources/icons/fileopen.png"
-#        "resources/icons/fileprint.png"
-#        "resources/icons/fileprintpdf.png"
-#        "resources/icons/fileprintpng.png"
-#        "resources/icons/fileprintps.png"
-#        "resources/icons/fileprintsvg.png"
-#        "resources/icons/filequickprint.png"
-#        "resources/icons/filesave.png"
-#        "resources/icons/fit-page.png"
-#        "resources/icons/fit-width.png"
-#        "resources/icons/flag.png"
-#        "resources/icons/flip_horizontal.png"
-#        "resources/icons/flip_vertical.png"
-#        "resources/icons/imagetable.png"
-#        "resources/icons/index.png"
-#        "resources/icons/info.png"
-#        "resources/icons/layout-landscape.png"
-#        "resources/icons/layout-portrait.png"
-#        "resources/icons/lock.png"
-#        "resources/icons/page-setup.png"
-#        "resources/icons/pan.png"
-#        "resources/icons/projector.png"
-#        "resources/icons/projectortable.png"
-#        "resources/icons/rotate_ccw.png"
-#        "resources/icons/rotate_cw.png"
-#        "resources/icons/ruler.png"
-#        "resources/icons/textbold.png"
-#        "resources/icons/textcenter.png"
-#        "resources/icons/textitalic.png"
-#        "resources/icons/textjustify.png"
-#        "resources/icons/textleft.png"
-#        "resources/icons/textright.png"
-#        "resources/icons/textsubscript.png"
-#        "resources/icons/textsuperscript.png"
-#        "resources/icons/textunder.png"
-#        "resources/icons/unlock.png"
-#        "resources/icons/viewmag+.png"
-#        "resources/icons/viewmag-.png"
-#        "resources/icons/zone.png"
-#        "resources/icons/zoom.png"
-#        "resources/papa.jpeg"
-#        "resources/report.css"
-#        "resources/report_LauePlaneProjector.html"
-#        "resources/report_crystal.html"
-#        "resources/report_image.html"
-#)
-#
-
-
-#set(resources1_resource_files
-#    "resources/AboutMessage.txt"
-#    "resources/DefaultCrystal.xml"
-#    "resources/DefaultWorkspace.cws"
-#    "resources/Default_LauePlaneProjector.xml"
-#    "resources/Default_StereoProjector.xml"
-#    "resources/curves/00-greyscale.curve"
-#    "resources/curves/01-red-yellow.curve"
-#    "resources/curves/02-red-magenta.curve"
-#    "resources/curves/03-green-cyan.curve"
-#    "resources/curves/04-green-yellow.curve"
-#    "resources/curves/05-blue-cyan.curve"
-#    "resources/curves/06-blue-magenta.curve"
-#    "resources/curves/07-rainbow.curve"
-#    "resources/icons/arrow-down.png"
-#    "resources/icons/arrow-up.png"
-#    "resources/icons/clip.ico"
-#    "resources/icons/clip.png"
-#    "resources/icons/color_curve.png"
-#    "resources/icons/configure.png"
-#    "resources/icons/crystal.png"
-#    "resources/icons/crystaltable.png"
-#    "resources/icons/cursor_hor.png"
-#    "resources/icons/cursor_rot.png"
-#    "resources/icons/cut.png"
-#    "resources/icons/editcopy.png"
-#    "resources/icons/editcut.png"
-#    "resources/icons/editpaste.png"
-#    "resources/icons/editredo.png"
-#    "resources/icons/editundo.png"
-#    "resources/icons/fileclose.png"
-#    "resources/icons/fileopen.png"
-#    "resources/icons/fileprint.png"
-#    "resources/icons/fileprintpdf.png"
-#    "resources/icons/fileprintpng.png"
-#    "resources/icons/fileprintps.png"
-#    "resources/icons/fileprintsvg.png"
-#    "resources/icons/filequickprint.png"
-#    "resources/icons/filesave.png"
-#    "resources/icons/fit-page.png"
-#    "resources/icons/fit-width.png"
-#    "resources/icons/flag.png"
-#    "resources/icons/flip_horizontal.png"
-#    "resources/icons/flip_vertical.png"
-#    "resources/icons/imagetable.png"
-#    "resources/icons/index.png"
-#    "resources/icons/info.png"
-#    "resources/icons/layout-landscape.png"
-#    "resources/icons/layout-portrait.png"
-#    "resources/icons/lock.png"
-#    "resources/icons/page-setup.png"
-#    "resources/icons/pan.png"
-#    "resources/icons/projector.png"
-#    "resources/icons/projectortable.png"
-#    "resources/icons/rotate_ccw.png"
-#    "resources/icons/rotate_cw.png"
-#    "resources/icons/ruler.png"
-#    "resources/icons/textbold.png"
-#    "resources/icons/textcenter.png"
-#    "resources/icons/textitalic.png"
-#    "resources/icons/textjustify.png"
-#    "resources/icons/textleft.png"
-#    "resources/icons/textright.png"
-#    "resources/icons/textsubscript.png"
-#    "resources/icons/textsuperscript.png"
-#    "resources/icons/textunder.png"
-#    "resources/icons/unlock.png"
-#    "resources/icons/viewmag+.png"
-#    "resources/icons/viewmag-.png"
-#    "resources/icons/zone.png"
-#    "resources/icons/zoom.png"
-#    "resources/papa.jpeg"
-#    "resources/report.css"
-#    "resources/report_LauePlaneProjector.html"
-#    "resources/report_crystal.html"
-#    "resources/report_image.html"
-#)
-#
-#qt6_add_resources(Clip "resources1"
-#    PREFIX
-#        "/icons"
-#    BASE
-#        "resources"
-#    FILES
-#        ${resources1_resource_files}
-#)
-#set(resources2_resource_files
-#    "resources/AboutMessage.txt"
-#    "resources/DefaultCrystal.xml"
-#    "resources/DefaultWorkspace.cws"
-#    "resources/Default_LauePlaneProjector.xml"
-#    "resources/Default_StereoProjector.xml"
-#    "resources/curves/00-greyscale.curve"
-#    "resources/curves/01-red-yellow.curve"
-#    "resources/curves/02-red-magenta.curve"
-#    "resources/curves/03-green-cyan.curve"
-#    "resources/curves/04-green-yellow.curve"
-#    "resources/curves/05-blue-cyan.curve"
-#    "resources/curves/06-blue-magenta.curve"
-#    "resources/curves/07-rainbow.curve"
-#    "resources/icons/arrow-down.png"
-#    "resources/icons/arrow-up.png"
-#    "resources/icons/clip.ico"
-#    "resources/icons/clip.png"
-#    "resources/icons/color_curve.png"
-#    "resources/icons/configure.png"
-#    "resources/icons/crystal.png"
-#    "resources/icons/crystaltable.png"
-#    "resources/icons/cursor_hor.png"
-#    "resources/icons/cursor_rot.png"
-#    "resources/icons/cut.png"
-#    "resources/icons/editcopy.png"
-#    "resources/icons/editcut.png"
-#    "resources/icons/editpaste.png"
-#    "resources/icons/editredo.png"
-#    "resources/icons/editundo.png"
-#    "resources/icons/fileclose.png"
-#    "resources/icons/fileopen.png"
-#    "resources/icons/fileprint.png"
-#    "resources/icons/fileprintpdf.png"
-#    "resources/icons/fileprintpng.png"
-#    "resources/icons/fileprintps.png"
-#    "resources/icons/fileprintsvg.png"
-#    "resources/icons/filequickprint.png"
-#    "resources/icons/filesave.png"
-#    "resources/icons/fit-page.png"
-#    "resources/icons/fit-width.png"
-#    "resources/icons/flag.png"
-#    "resources/icons/flip_horizontal.png"
-#    "resources/icons/flip_vertical.png"
-#    "resources/icons/imagetable.png"
-#    "resources/icons/index.png"
-#    "resources/icons/info.png"
-#    "resources/icons/layout-landscape.png"
-#    "resources/icons/layout-portrait.png"
-#    "resources/icons/lock.png"
-#    "resources/icons/page-setup.png"
-#    "resources/icons/pan.png"
-#    "resources/icons/projector.png"
-#    "resources/icons/projectortable.png"
-#    "resources/icons/rotate_ccw.png"
-#    "resources/icons/rotate_cw.png"
-#    "resources/icons/ruler.png"
-#    "resources/icons/textbold.png"
-#    "resources/icons/textcenter.png"
-#    "resources/icons/textitalic.png"
-#    "resources/icons/textjustify.png"
-#    "resources/icons/textleft.png"
-#    "resources/icons/textright.png"
-#    "resources/icons/textsubscript.png"
-#    "resources/icons/textsuperscript.png"
-#    "resources/icons/textunder.png"
-#    "resources/icons/unlock.png"
-#    "resources/icons/viewmag+.png"
-#    "resources/icons/viewmag-.png"
-#    "resources/icons/zone.png"
-#    "resources/icons/zoom.png"
-#    "resources/papa.jpeg"
-#    "resources/report.css"
-#    "resources/report_LauePlaneProjector.html"
-#    "resources/report_crystal.html"
-#    "resources/report_image.html"
-#)
-#
-#qt6_add_resources(Clip "resources2"
-#    PREFIX
-#        "/"
-#    BASE
-#        "resources"
-#    FILES
-#        ${resources2_resource_files}
-#)
-
-#if(WIN32 AND CONFIG(debug,debug OR release))
-#    set_target_properties(Clip PROPERTIES
-#        WIN32_EXECUTABLE FALSE
-#    )
-#endif()
-#
-#if(static)
-#    target_compile_definitions(Clip PUBLIC
-#        CLIP_STATIC
-#    )
-#endif()
 
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
     target_compile_definitions(Clip PUBLIC
             CLIP_DEBUG
-            CLIP_DEBUG_SOURCEDIR="\"\\\"${CMAKE_CURRENT_SOURCE_DIR}\\\"\""
+            #            CLIP_DEBUG_SOURCEDIR=${CMAKE_CURRENT_SOURCE_DIR}
     )
 endif ()
 
 if (NOT DEFINED INSTALL_EXAMPLESDIR)
-    set(INSTALL_EXAMPLESDIR "examples")
+    set(INSTALL_EXAMPLESDIR "Clip/bin")
 endif ()
 
 set(INSTALL_EXAMPLEDIR "${INSTALL_EXAMPLESDIR}")

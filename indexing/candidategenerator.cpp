@@ -29,7 +29,6 @@
 #include "core/spacegroup.h"
 #include "tools/tools.h"
 
-using namespace std;
 
 
 CandidateGenerator::CandidateGenerator(const Mat3D& _MReal, const Mat3D& _MReciprocal, QObject* _parent):
@@ -97,7 +96,7 @@ void CandidateGenerator::reset() {
 
 class Vec3DOrder {
 public:
-  bool operator()(const TVec3D<int>& v1, const TVec3D<int>& v2) {
+  bool operator()(const TVec3D<int>& v1, const TVec3D<int>& v2) const {
     for (int i=0; i<3; i++) {
       if (v1(i)<v2(i)) return true;
       if (v1(i)>v2(i)) return false;
@@ -118,7 +117,7 @@ void CandidateGenerator::generateNextIndex() {
   emit progessInfo((maxIndex(1)+1)*maxIndex(1)/2+maxIndex(2));
 
   if (ggt(maxIndex(0), ggt(maxIndex(1), maxIndex(2)))==1) {
-    set< TVec3D<int>, Vec3DOrder> vectorGroup;
+    std::set< TVec3D<int>, Vec3DOrder> vectorGroup;
 
     foreach(TMat3D<int> M, group) {
       vectorGroup.insert(M*maxIndex);

@@ -35,7 +35,6 @@
 
 #include "tools/tools.h"
 
-using namespace std;
 
 template <typename T> TMat3D<T>::TMat3D() {
   zero();
@@ -82,7 +81,7 @@ template <typename T> TMat3D<T>::TMat3D(TVec3D<T> axis, T angle) {
 }
 
 
-template <typename T> TMat3D<T>::TMat3D(vector<T> m) {
+template <typename T> TMat3D<T>::TMat3D(std::vector<T> m) {
   for (int i=0; i<3; i++) {
     for (int j=0; j<9; j+=3)
       (*this)(i,j)=m[j+i];

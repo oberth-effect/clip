@@ -73,7 +73,7 @@ template <typename T> void SimpleMonochromScaler<T>::makeValueIndex() {
 
   // Generates a hashed Tree with the distinct pixel values in the image.
   // store the index of each pixel for every pixel value
-  set<UniqueHelper> indexSet;
+  std::set<UniqueHelper> indexSet;
   std::tr1::unordered_set<UniqueHelper, hash> uniqueSet;
   // loop over all pixel
   for (int i=0; i<provider->pixelCount(); i++) {

@@ -25,7 +25,6 @@
  
 #include <QStringList>
 
-using namespace std;
 
 
 DataProviderFactory::DataProviderFactory()

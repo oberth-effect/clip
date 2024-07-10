@@ -35,14 +35,13 @@
 #include "tools/indexparser.h"
 #include "tools/tools.h"
 
-using namespace std;
 
 
 class NoBorderDelegate: public QStyledItemDelegate {
 public:
   NoBorderDelegate(QTableWidget* _parent = nullptr): QStyledItemDelegate(_parent) {
     // create grid pen
-    int gridHint = _parent->style()->styleHint(QStyle::SH_Table_GridLineColor, new QStyleOptionViewItemV4());
+    int gridHint = _parent->style()->styleHint(QStyle::SH_Table_GridLineColor, new QStyleOptionViewItem());
     QColor gridColor = static_cast<QRgb>(gridHint);
     _gridPen = QPen(gridColor, 0, _parent->gridStyle());
   }
@@ -58,7 +57,7 @@ public:
       painter->setPen(oldPen);
 
     } else {
-      painter->fillRect(option.rect, option.palette.background());
+      painter->fillRect(option.rect, option.palette.window());
     }
   }
 protected:
@@ -82,12 +81,12 @@ MouseInfoDisplay::MouseInfoDisplay(QWidget* _parent) :
 
   ui->angleTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
   ui->angleTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-  ui->angleTable->horizontalHeader()->setMinimumSectionSize(fontMetrics().width("Negative")+8);
+  ui->angleTable->horizontalHeader()->setMinimumSectionSize(fontMetrics().horizontalAdvance("Negative")+8);
   ui->angleTable->horizontalHeader()->setStyleSheet(headerStyleSheet);
 
   ui->scatterTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
   ui->scatterTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-  ui->scatterTable->horizontalHeader()->setMinimumSectionSize(fontMetrics().width("  123.456  "));
+  ui->scatterTable->horizontalHeader()->setMinimumSectionSize(fontMetrics().horizontalAdvance("  123.456  "));
   ui->scatterTable->horizontalHeader()->setStyleSheet(headerStyleSheet);
 
   ui->cursorTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);

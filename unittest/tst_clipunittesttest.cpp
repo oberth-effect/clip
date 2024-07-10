@@ -28,7 +28,6 @@
 #include <iomanip>
 #include <ctime>
 
-using namespace std;
 
 #include "../tools/mat3d.h"
 #include "../tools/vec3d.h"
@@ -96,9 +95,9 @@ void ClipUnitTestTest::testMatrixSVDRandomCombine() {
 
     for (int i=0; i<3; i++) {
       for (int j=0; j<3; j++) {
-        M1(i,j) = 2.0*(1.0*qrand()/RAND_MAX-0.5);
+        M1(i,j) = 2.0*(1.0*QRandomGenerator::global()->generate()/RAND_MAX-0.5);
       }
-    }
+    }`
 
     Mat3D M2(M1);
     Mat3D Q1;
@@ -117,12 +116,12 @@ void ClipUnitTestTest::benchmarkMatrixMultiply() {
   Mat3D M1;
   Mat3D M2;
 
-  qsrand(time(0));
+  QRandomGenerator rand(time(0));
 
   for (int i=0; i<3; i++) {
     for (int j=0; j<3; j++) {
-      M1(i,j) = 2.0*(1.0*qrand()/RAND_MAX-0.5);
-      M2(i,j) = 2.0*(1.0*qrand()/RAND_MAX-0.5);
+      M1(i,j) = 2.0*(1.0*rand.generate()/RAND_MAX-0.5);
+      M2(i,j) = 2.0*(1.0*rand.generate()/RAND_MAX-0.5);
     }
   }
 
@@ -154,25 +153,23 @@ void ClipUnitTestTest::benchmarkMatrixSVD() {
 
     for (int i=0; i<3; i++) {
       for (int j=0; j<3; j++) {
-        M(i,j) = qrand()%19 - 9;
+        M(i,j) = QRandomGenerator::global()->generate()%19 - 9;
       }
     }
     Mat3D M2(M);
     int loops = M2.svd(Q1, Q2);
     unsigned long long dt = rdtsctime() - t1;
-    if ((dt>tmax) || true) {
-      for (int i=0; i<3; i++) {
-        for (int j=0; j<3; j++) {
-          cout << setw(2) << M(i,j) << " ";
-        }
+      for (int i = 0; i < 3; i++) {
+          for (int j = 0; j < 3; j++) {
+              std::cout << std::setw(2) << M(i, j) << " ";
+          }
       }
-      cout << "= " << setw(12) << dt << " " << M.det() << endl;
-      ofstream f;
-      f.open("data.dat", ofstream::app);
-      f << setw(12) << dt << " " << M.det() << " " << loops << endl;
+      std::cout << "= " << std::setw(12) << dt << " " << M.det() << std::endl;
+      std::ofstream f;
+      f.open("data.dat", std::ofstream::app);
+      f << std::setw(12) << dt << " " << M.det() << " " << loops << std::endl;
       f.close();
       tmax = dt;
-    }
   }
 
 
@@ -183,7 +180,7 @@ void ClipUnitTestTest::benchmarkMatrixSVD() {
 #include <Winbase.h>
 
 int main () {
-  qsrand(time(0));
+  QRandomGenerator rand(time(0));
   int N = 0;
   double m1 = 0.0;
   double m2 = 0.0;
@@ -199,8 +196,8 @@ int main () {
 
     for (int i=0; i<3; i++) {
       for (int j=0; j<3; j++) {
-        //M(i,j) = 1.0-2.0*qrand()/RAND_MAX;
-        M(i,j) = qrand()%19 - 9;
+        //M(i,j) = 1.0-2.0*QRandomGenerator::global()->generate()/RAND_MAX;
+        M(i,j) = rand.generate()%19 - 9;
       }
     }
     Mat3D Ma = M;
@@ -214,10 +211,10 @@ int main () {
     Mat3D rMa = La * Ma * Ra;
     Mat3D rMb = Lb * Mb * Rb;
 
-    if ((rMa-M).sqSum()>1e-8) cout << "error on MA" << endl;
-    if ((rMb-M).sqSum()>1e-8) cout << "error on MB" << endl;
+    if ((rMa-M).sqSum()>1e-8) std::cout << "error on MA" << std::endl;
+    if ((rMb-M).sqSum()>1e-8) std::cout << "error on MB" << std::endl;
     //if (fabs((La*Ra).det()-1.0)>1e-8) cout << "error on Det Ma" << endl;
-    if (fabs((Lb*Rb).det()-1.0)>1e-8) cout << "error on Det Mb " << (Lb*Rb).det() << " " << (Lb*Rb).det()-1.0 << endl;
+    if (fabs((Lb*Rb).det()-1.0)>1e-8) std::cout << "error on Det Mb " << (Lb*Rb).det() << " " << (Lb*Rb).det()-1.0 << std::endl;
     //if (Mb(2,2)<0) cout << "Mb value low " << Mb(2,2) << endl;
 
 

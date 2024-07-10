@@ -1,17 +1,5 @@
-FROM ubuntu:18.04
+FROM reivilo1234/qt-linux-cmake:ubuntu20-qt5.15.2
 
-RUN apt -y update \
-	&& apt install -y make \
-	&& apt install -y gcc \
-	&& apt install -y g++ \
-	&& apt install -y xauth \
-	&& touch ~/.Xauthority
+# Install libTiff
+RUN apt-get update && apt-get install -y libtiff-dev 
 
-RUN apt install -y qt4-default libqtwebkit-dev
-ENV QT_X11_NO_MITSHM=1
-
-
-# Install special packages
-# COPY packages packages
-RUN apt install -y libeigen3-dev 
-#ENTRYPOINT [ "/workspace/start.sh" ]

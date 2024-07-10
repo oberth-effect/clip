@@ -27,7 +27,6 @@
 
 #include "tools/xmltools.h"
 
-using namespace std;
 
 BezierCurve::BezierCurve(): params() {
   QList<QPointF> p;
@@ -189,7 +188,7 @@ QList<float> BezierCurve::mapSorted(QList<float> X, QList<int> Idx) {
 
 int BezierCurve::getCurveParamIdx(float x) {
   CurveParams cp(0,0,0,0,0,x);
-  QList<CurveParams>::const_iterator iter=qLowerBound(params.constBegin(), params.constEnd(), cp);
+  QList<CurveParams>::const_iterator iter=std::lower_bound(params.constBegin(), params.constEnd(), cp);
   if (iter==params.constEnd())
     iter--;
   return qMax(0,iter-params.constBegin());

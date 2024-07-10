@@ -25,7 +25,6 @@
 #include "image/datascaler.h"
 
 
-using namespace std;
 
 DataScalerFactory::DataScalerFactory() {
 }
