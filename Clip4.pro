@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT += core gui opengl xml svg widgets printsupport concurrent webkit webkitwidgets
+QT += core gui opengl xml svg widgets printsupport concurrent #webkit webkitwidgets
 
 TARGET = Clip
 TEMPLATE = app
@@ -119,7 +119,7 @@ SOURCES += main.cpp\
     tools/spotitem.cpp \
     tools/tools.cpp \
     tools/vec3D.cpp \
-    tools/webkittextobject.cpp \
+#    tools/webkittextobject.cpp \
     tools/xmllistiterators.cpp \
     tools/xmltools.cpp \
     tools/zipiterator.cpp \
@@ -133,7 +133,7 @@ SOURCES += main.cpp\
     ui/indexdisplay.cpp \
     ui/laueplanecfg.cpp \
     ui/mouseinfodisplay.cpp \
-    ui/printdialog.cpp \
+#    ui/printdialog.cpp \
     ui/projectiongraphicsview.cpp \
     ui/projectionplane.cpp \
     ui/reorient.cpp \
@@ -207,7 +207,7 @@ HEADERS  += ui/clip.h \
     tools/spotitem.h \
     tools/tools.h \
     tools/vec3D.h \
-    tools/webkittextobject.h \
+#    tools/webkittextobject.h \
     tools/xmllistiterators.h \
     tools/xmltools.h \
     tools/zipiterator.h \
@@ -221,7 +221,7 @@ HEADERS  += ui/clip.h \
     ui/indexdisplay.h \
     ui/laueplanecfg.h \
     ui/mouseinfodisplay.h \
-    ui/printdialog.h \
+#    ui/printdialog.h \
     ui/projectiongraphicsview.h \
     ui/projectionplane.h \
     ui/reorient.h \
@@ -243,7 +243,7 @@ FORMS    += ui/clip.ui \
     ui/indexdisplay.ui \
     ui/laueplanecfg.ui \
     ui/mouseinfodisplay.ui \
-    ui/printdialog.ui \
+#    ui/printdialog.ui \
     ui/projectionplane.ui \
     ui/reorient.ui \
     ui/resolutioncalculator.ui \
