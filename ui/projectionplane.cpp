@@ -37,13 +37,14 @@
 #include <QMenu>
 #include <QCursor>
 #include <QShortcut>
-#include <QPrintDialog>
+//#include <QPrintDialog>
 #include <QSettings>
+#include <QMessageBox>
 
 #include "ui/clip.h"
 #include "ui/imagetoolbox.h"
 #include "ui/resolutioncalculator.h"
-#include "ui/printdialog.h"
+//#include "ui/printdialog.h"
 #include "core/crystal.h"
 #include "core/reflection.h"
 #include "core/projector.h"
@@ -521,6 +522,8 @@ void ProjectionPlane::renderPrintout(QPainter* painter, const QRectF& target) {
 
 void ProjectionPlane::on_actionPrint_triggered()
 {
+  QMessageBox::information(nullptr, "Sorry", "Printing support has been removed in version 4.2 because of obsolete library QtWebKit. It will be maybe added in the future again. If you need to use printing, please download version 4.1 or earlier.");
+
 //  PrintDialog* d = new PrintDialog(projector, this);
 //  connect(d, SIGNAL(paintRequested(QPainter*, const QRectF&)), this, SLOT(renderPrintout(QPainter*,QRectF)));
 //  d->show();
