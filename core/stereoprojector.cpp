@@ -197,7 +197,7 @@ void StereoProjector::decorateScene() {
     ti->setPos(p);
     QRectF r=ti->boundingRect();
     double sc=getTextSize()/std::min(r.width(), r.height());
-    ti->scale(sc,sc);
+    ti->setScale(sc);
 
     ti->moveBy( std::min(SCENEBLOWUP(1.0)-ti->sceneBoundingRect().right(), 0.0), 0);
     ti->moveBy(-std::min(SCENEBLOWUP(1.0)+ti->sceneBoundingRect().left() , 0.0), 0);

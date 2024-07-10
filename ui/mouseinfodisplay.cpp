@@ -80,18 +80,18 @@ MouseInfoDisplay::MouseInfoDisplay(QWidget* _parent) :
   connect(Clip::getInstance(), SIGNAL(mousePositionInfo(MousePositionInfo)), this, SLOT(showMouseInfo(MousePositionInfo)));
   connect(this, SIGNAL(highlightMarker(Vec3D)), Clip::getInstance(), SIGNAL(highlightMarker(Vec3D)));
 
-  ui->angleTable->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
-  ui->angleTable->verticalHeader()->setResizeMode(QHeaderView::Stretch);
+  ui->angleTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+  ui->angleTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
   ui->angleTable->horizontalHeader()->setMinimumSectionSize(fontMetrics().width("Negative")+8);
   ui->angleTable->horizontalHeader()->setStyleSheet(headerStyleSheet);
 
-  ui->scatterTable->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
-  ui->scatterTable->verticalHeader()->setResizeMode(QHeaderView::Stretch);
+  ui->scatterTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+  ui->scatterTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
   ui->scatterTable->horizontalHeader()->setMinimumSectionSize(fontMetrics().width("  123.456  "));
   ui->scatterTable->horizontalHeader()->setStyleSheet(headerStyleSheet);
 
-  ui->cursorTable->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
-  ui->cursorTable->verticalHeader()->setResizeMode(QHeaderView::Stretch);
+  ui->cursorTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+  ui->cursorTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
   ui->cursorTable->horizontalHeader()->setStyleSheet(headerStyleSheet);
 
   ui->cursorTable->setItemDelegate(new NoBorderDelegate(ui->cursorTable));

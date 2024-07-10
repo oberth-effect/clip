@@ -103,7 +103,7 @@ private slots:
   void printToDefaultPrinter();
   void printToPrinter();
   void printToPdf();
-  void printToPS();
+  // void printToPS();
   void printToPng();
   void printToSvg();
   void printPreview(QPrinter *);
@@ -111,7 +111,7 @@ private slots:
 public:
   class PaintDeviceFactory {
   public:
-    PaintDeviceFactory(const QString& description=QString::null, const QString& suffix=QString::null);
+    PaintDeviceFactory(const QString& description=QString(), const QString& suffix=QString());
     virtual ~PaintDeviceFactory();
     virtual QPaintDevice* getDevice(int textHeight) = 0;
     virtual double desiredTextWidth() const = 0;

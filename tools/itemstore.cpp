@@ -105,7 +105,7 @@ template <class T> void ItemStore<T>::addItem(T* item) {
     connect(o, SIGNAL(positionChanged()), this, SLOT(emitChanged()));
     for (int i=0; i<o->metaObject()->methodCount(); i++) {
       if (o->metaObject()->method(i).methodType()==QMetaMethod::Signal) {
-        if (QString(o->metaObject()->method(i).signature())=="itemClicked()") {
+        if (QString(o->metaObject()->method(i).methodSignature())=="itemClicked()") {
           connect(o, SIGNAL(itemClicked()), this, SLOT(emitItemClicked()));
         }
       }

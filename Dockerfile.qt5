@@ -1,0 +1,27 @@
+ARG ubuntu_tag=20.04
+
+FROM ubuntu:${ubuntu_tag}
+
+# Install dependencies.
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    git \
+    build-essential \
+    cmake \
+    qt5-default  \
+    libqt5svg5-dev \
+    libqt5webkit5-dev \
+    libfontconfig1 \
+    mesa-common-dev  \
+    libglu1-mesa-dev \
+    libgtest-dev \
+    libeigen3-dev 
+
+# Build GTest
+# RUN cd /usr/src/gtest/ && \
+#     cmake -DBUILD_SHARED_LIBS=ON && \
+#     make && \
+#     cp -a include/gtest /usr/include && \
+#     cp -a libgtest_main.so libgtest.so /usr/lib/
+
+# Cleanup
+RUN rm -rf /var/lib/apt/lists/*

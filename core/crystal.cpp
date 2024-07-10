@@ -23,7 +23,7 @@
 
 #include <cmath>
 
-#include <QTime>
+#include <QElapsedTimer>
 #include <QMetaObject>
 #include <QtConcurrentRun>
 #include <QSettings>

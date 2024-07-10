@@ -67,7 +67,8 @@ QPicture* WebkitTextObject::getPicture(const QTextFormat &format) {
 
   QPair<int, QString> key = qMakePair(fontSize, fontFamily);
 
-  PictureCacheClass* cache = qVariantValue< QSharedPointer<PictureCacheClass> >(format.property(PictureCache)).data();
+  // PictureCacheClass* cache = qVariantValue< QSharedPointer<PictureCacheClass> >(format.property(PictureCache)).data();
+  PictureCacheClass* cache = (format.property(PictureCache).value< QSharedPointer<PictureCacheClass> >()).data();
 
   if (!cache->contains(key)) {
 

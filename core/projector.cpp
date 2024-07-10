@@ -26,7 +26,7 @@
  
 #include <QTimer>
 #include <QCursor>
-#include <QTime>
+#include <QElapsedTimer>
 #include <QFile>
 #include <QTextStream>
 #include <QPainter>
@@ -137,7 +137,7 @@ QString Projector::FitObjectName() {
 }
 
 QString Projector::fillInfoTable(const QString &) {
-  return QString::null;
+  return QString();
 }
 
 Projector& Projector::operator=(const Projector& o) {
@@ -223,7 +223,7 @@ void Projector::addInfoItem(const QString& text, const QPointF& p) {
   double s=getTextSize()/std::min(r.width(), r.height());
 
   bg->setRect(t->boundingRect());
-  bg->scale(s,s);
+  bg->setScale(s);
 
   scene.addItem(bg);
   infoStore.addItem(bg);
@@ -268,7 +268,7 @@ void Projector::doProjection() {
         ConfigStore::getInstance()->ensureColor(ConfigStore::HKLIndicator, t, SLOT(setColor(QColor)));
         QRectF r=t->boundingRect();
         double s=getTextSize()/std::min(r.width(), r.height());
-        t->scale(s,s);
+        t->setScale(s);
         textMarkerItems.append(t);
         scene.addItem(t);
       }
@@ -285,7 +285,7 @@ void Projector::doProjection() {
 }
 
 QString Projector::diffractionOrders(const Vec3D &hkl) {
-  if (crystal.isNull()) return QString::null;
+  if (crystal.isNull()) return QString();
 
   TVec3D<int> integralHKL = hkl.toType<int>();
   bool isInt = ((hkl-integralHKL.toType<double>()).norm_sq() < 1e-2);
