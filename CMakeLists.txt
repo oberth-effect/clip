@@ -8,7 +8,10 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-find_package(Qt5 COMPONENTS Core Concurrent Gui OpenGL PrintSupport Svg Widgets Xml REQUIRED)
+set(QT_VER 6)
+find_package(Qt${QT_VER} COMPONENTS Core Concurrent Gui OpenGL PrintSupport Svg Widgets Xml Core5Compat REQUIRED)
+
+message(STATUS "Using Qt ${Qt${QT_VER}_VERSION}")
 
 # QT CMake things
 set(CMAKE_AUTOMOC ON)
@@ -134,17 +137,21 @@ add_executable(Clip WIN32
 )
 
 target_link_libraries(Clip PUBLIC
-        Qt5::Concurrent
-        Qt5::Core
-        Qt5::Gui
-        Qt5::OpenGL
-        Qt5::PrintSupport
-        Qt5::Svg
-        Qt5::Widgets
-        Qt5::Xml
+        Qt${QT_VER}::Concurrent
+        Qt${QT_VER}::Core
+        Qt${QT_VER}::Gui
+        Qt${QT_VER}::OpenGL
+        Qt${QT_VER}::PrintSupport
+        Qt${QT_VER}::Svg
+        Qt${QT_VER}::Widgets
+        Qt${QT_VER}::Xml
         Eigen3::Eigen
         TIFF::${TIFF_COMPONENT}
 )
+
+if (${QT_VER} MATCHES 6)
+    target_link_libraries(Clip PUBLIC Qt6::Core5Compat)
+endif ()
 
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
     target_compile_definitions(Clip PUBLIC
