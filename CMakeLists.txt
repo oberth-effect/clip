@@ -22,14 +22,25 @@ endif()
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # Add dependencies
-include(${PROJECT_SOURCE_DIR}/cmake/Eigen3.cmake)
-FetchContent_MakeAvailable(Eigen3)
 
-include(${PROJECT_SOURCE_DIR}/cmake/TIFF.cmake)
-FetchContent_MakeAvailable(TIFF)
 
-#find_package(TIFF)
-#find_package(Eigen3 REQUIRED)
+find_package(Eigen3)
+if(${Eigen3_FOUND})
+    message(STATUS "Eigen3 found on system")
+else()
+    message(STATUS "Eigen3 not found on system, fetching...")
+    include(${PROJECT_SOURCE_DIR}/cmake/Eigen3.cmake)
+endif()
+
+find_package(TIFF)
+if (${TIFF_FOUND})
+    message(STATUS "libTIFF found on system")
+    set(TIFF_COMPONENT "TIFF")
+else ()
+    message(STATUS "libtiff not found on system, fetching...")
+    include(${PROJECT_SOURCE_DIR}/cmake/TIFF.cmake)
+    set(TIFF_COMPONENT "tiff")
+endif()
 
 
 #file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
@@ -150,7 +161,7 @@ target_link_libraries(Clip PUBLIC
         Qt5::Widgets
         Qt5::Xml
         Eigen3::Eigen
-        TIFF::tiff
+        TIFF::${TIFF_COMPONENT}
 )
 
 ## Resources:
@@ -427,7 +438,7 @@ if (CMAKE_BUILD_TYPE STREQUAL Debug)
 endif ()
 
 if (NOT DEFINED INSTALL_EXAMPLESDIR)
-    set(INSTALL_EXAMPLESDIR "examples")
+    set(INSTALL_EXAMPLESDIR "bin")
 endif ()
 
 set(INSTALL_EXAMPLEDIR "${INSTALL_EXAMPLESDIR}")
