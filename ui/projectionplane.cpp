@@ -521,9 +521,9 @@ void ProjectionPlane::renderPrintout(QPainter* painter, const QRectF& target) {
 
 void ProjectionPlane::on_actionPrint_triggered()
 {
-  PrintDialog* d = new PrintDialog(projector, this);
-  connect(d, SIGNAL(paintRequested(QPainter*, const QRectF&)), this, SLOT(renderPrintout(QPainter*,QRectF)));
-  d->show();
+//  PrintDialog* d = new PrintDialog(projector, this);
+//  connect(d, SIGNAL(paintRequested(QPainter*, const QRectF&)), this, SLOT(renderPrintout(QPainter*,QRectF)));
+//  d->show();
 }
 
 const char XML_ProjectionPlane_Element[] = "ProjectionPlane";

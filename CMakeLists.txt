@@ -8,7 +8,8 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-find_package(Qt5 COMPONENTS Core Concurrent Gui OpenGL PrintSupport WebKit WebKitWidgets Svg Widgets Xml REQUIRED)
+#find_package(Qt5 COMPONENTS Core Concurrent Gui OpenGL PrintSupport WebKit WebKitWidgets Svg Widgets Xml REQUIRED)
+find_package(Qt5 COMPONENTS Core Concurrent Gui OpenGL PrintSupport Svg Widgets Xml REQUIRED)
 
 # QT CMake things
 set(CMAKE_AUTOMOC ON)
@@ -119,7 +120,7 @@ add_executable(Clip WIN32
         tools/threadrunner.cpp tools/threadrunner.h
         tools/tools.cpp tools/tools.h
         tools/vec3D.cpp tools/vec3D.h
-        tools/webkittextobject.cpp tools/webkittextobject.h
+#        tools/webkittextobject.cpp tools/webkittextobject.h
         tools/xmllistiterators.cpp tools/xmllistiterators.h
         tools/xmltools.cpp tools/xmltools.h
         tools/zipiterator.cpp tools/zipiterator.h
@@ -135,7 +136,7 @@ add_executable(Clip WIN32
         ui/laueplanecfg.cpp ui/laueplanecfg.h ui/laueplanecfg.ui
         ui/monoscalercfg.cpp ui/monoscalercfg.h ui/monoscalercfg.ui
         ui/mouseinfodisplay.cpp ui/mouseinfodisplay.h ui/mouseinfodisplay.ui
-        ui/printdialog.cpp ui/printdialog.h ui/printdialog.ui
+#        ui/printdialog.cpp ui/printdialog.h ui/printdialog.ui
         ui/projectiongraphicsview.cpp ui/projectiongraphicsview.h
         ui/projectionplane.cpp ui/projectionplane.h ui/projectionplane.ui
         ui/reorient.cpp ui/reorient.h ui/reorient.ui
@@ -157,7 +158,7 @@ target_link_libraries(Clip PUBLIC
         Qt5::OpenGL
         Qt5::PrintSupport
         Qt5::Svg
-        Qt5::WebKitWidgets
+#        Qt5::WebKitWidgets
         Qt5::Widgets
         Qt5::Xml
         Eigen3::Eigen
