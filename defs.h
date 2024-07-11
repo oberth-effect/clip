@@ -33,11 +33,11 @@ extern const char* QT_BUILD_VERSION;
 extern const char* QT_RUN_VERSION;
 extern const char* CXX_VERSION_STR;
 
-#define VER_FILEVERSION             4,2,0,0
-#define VER_FILEVERSION_STR         "4.2.0.0\0"
+#define VER_FILEVERSION             4,2,1,0
+#define VER_FILEVERSION_STR         "4.2.1.0\0"
 
-#define VER_PRODUCTVERSION          4,2,0,0
-#define VER_PRODUCTVERSION_STR      "4.2 beta\0"
+#define VER_PRODUCTVERSION          4,2,1,0
+#define VER_PRODUCTVERSION_STR      "4.2.1 beta\0"
 
 #define VER_COMPANYNAME_STR         ""
 #define VER_FILEDESCRIPTION_STR     "Software for evaluation of Laue diffraction images"
