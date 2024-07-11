@@ -2,9 +2,11 @@
 
 To download latest executable binary, go to the [Latest release](https://gitlab.mff.cuni.cz/alsa/clip4/-/releases/permalink/latest)
 
+This repository is mirrored to the [GitHub](https://github.com/oberth-effect/clip), however compiled binaries for windows and linux are available only from the release section on Charles University [GitLab](https://gitlab.mff.cuni.cz/alsa/clip4/).
+
 Program was originally developed by Olaf Schumann, it was originally written in Python as a part of his [thesis](http://nbn-resolving.de/urn:nbn:de:hbz:38-32507) and then ported to pure C++ (version 4). Program was no longer maintained after 2011. In 2024 we have moved source to github and start maintaining it again. For support it is best to use old still available resources:
 
- - [Original webapge](https://clip4.sourceforge.net/)
+ - [Original webpage](https://clip4.sourceforge.net/)
  - [PDF Manual](https://clip4.sourceforge.net/manual.pdf)
  - [ILL tutorial](https://www.ill.eu/users/instruments/instruments-list/orientexpress/manuals-and-tutorials/clip)
  - [Mercurial repository on Sourceforge](https://sourceforge.net/p/clip4/code/ci/default/tree/)
@@ -27,9 +29,7 @@ It runs on Windows, Linux and MacOS X.
 
 Download the zip file from the [release section](https://gitlab.mff.cuni.cz/alsa/clip4/-/releases) and unzip it somewhere. Then run clip.exe - no installation is required.
 
-
 ## Acknowledgement
-
 
 O.J.Schumann would like to thank Gregory Tucker for his contributions to the
 Multiwire-Import filter.
