@@ -72,8 +72,8 @@ Indexer::Indexer(QList<AbstractMarkerItem*> crystalMarkers, const Mat3D& _MReal,
       }
     }
   }
-  std::sort(spotSpotAngles.begin(), spotZoneAngles.end());
-  std::sort(zoneZoneAngles.begin(),zoneZoneAngles.end()) ;
+  std::sort(spotSpotAngles.begin(), spotSpotAngles.end());
+  std::sort(zoneZoneAngles.begin(), zoneZoneAngles.end()) ;
   std::sort(spotZoneAngles.begin(), spotZoneAngles.end());
 
   connect(&candidates, SIGNAL(nextMajorIndex(int)), this, SIGNAL(nextMajorIndex(int)));
