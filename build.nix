@@ -10,6 +10,7 @@
   eigen,
   libtiff,
   qtbase,
+  qtsvg,
 
 }:
 
@@ -23,6 +24,7 @@ mkDerivation {
     eigen
     libtiff
     qtbase
+    qtsvg
   ];
 
   nativeBuildInputs = [
