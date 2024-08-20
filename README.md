@@ -29,6 +29,13 @@ It runs on Windows, Linux and MacOS X.
 
 Download the zip file from the [release section](https://gitlab.mff.cuni.cz/alsa/clip4/-/releases) and unzip it somewhere. Then run clip.exe - no installation is required.
 
+#### Nix support
+Run the latest version:
+
+```shell
+nix run github:oberth-effect/clip
+```
+
 ## Acknowledgement
 
 O.J.Schumann would like to thank Gregory Tucker for his contributions to the
