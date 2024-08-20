@@ -1,0 +1,13 @@
+name: Try build M1
+
+on:
+  workflow_dispatch: # allows manual triggering
+
+jobs:
+  dbuild:
+    runs-on: macos-14
+    steps:      
+      - uses: actions/checkout@v3
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - run: nix build .
