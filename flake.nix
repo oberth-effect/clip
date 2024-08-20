@@ -13,17 +13,36 @@
         # "aarch64-darwin"
       ];
       forEachSupportedSystem =
-        f: nixpkgs.lib.genAttrs supportedSystems (system: f { pkgs = import nixpkgs { inherit system; }; });
+        f:
+        nixpkgs.lib.genAttrs supportedSystems (
+          system:
+          f {
+            pkgs = import nixpkgs { inherit system; };
+            system = system;
+          }
+        );
     in
     {
       packages = forEachSupportedSystem (
-        { pkgs }:
-        {
-          default = pkgs.libsForQt5.callPackage ./build.nix { };
+        { pkgs, system }:
+        rec {
+          default = clip4;
+          clip4 = pkgs.libsForQt5.callPackage ./build.nix { };
         }
       );
 
-      formatter = forEachSupportedSystem ({ pkgs }: pkgs.nixfmt-rfc-style);
+      apps = forEachSupportedSystem (
+        { pkgs, system }:
+        rec {
+          default = clip4;
+          clip4 = {
+            type = "app";
+            program = "${self.packages.${system}.clip4}/bin/clip4";
+          };
+        }
+      );
+
+      formatter = forEachSupportedSystem ({ pkgs, system }: pkgs.nixfmt-rfc-style);
 
     };
 }
