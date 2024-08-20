@@ -38,7 +38,7 @@ endif ()
 
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
-add_executable(Clip WIN32
+add_executable(clip4 WIN32
         config.h
         config/colorbutton.cpp config/colorbutton.h
         config/colorconfigitem.cpp config/colorconfigitem.h
@@ -133,7 +133,7 @@ add_executable(Clip WIN32
         resources/clip.rc
 )
 
-target_link_libraries(Clip PUBLIC
+target_link_libraries(clip4 PUBLIC
         Qt5::Concurrent
         Qt5::Core
         Qt5::Gui
@@ -147,19 +147,19 @@ target_link_libraries(Clip PUBLIC
 )
 
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
-    target_compile_definitions(Clip PUBLIC
+    target_compile_definitions(clip4 PUBLIC
             CLIP_DEBUG
             #            CLIP_DEBUG_SOURCEDIR=${CMAKE_CURRENT_SOURCE_DIR}
     )
 endif ()
 
 if (NOT DEFINED INSTALL_EXAMPLESDIR)
-    set(INSTALL_EXAMPLESDIR "Clip/bin")
+    set(INSTALL_EXAMPLESDIR "bin/")
 endif ()
 
 set(INSTALL_EXAMPLEDIR "${INSTALL_EXAMPLESDIR}")
 
-install(TARGETS Clip
+install(TARGETS clip4
         RUNTIME DESTINATION "${INSTALL_EXAMPLEDIR}"
         BUNDLE DESTINATION "${INSTALL_EXAMPLEDIR}"
         LIBRARY DESTINATION "${INSTALL_EXAMPLEDIR}"
