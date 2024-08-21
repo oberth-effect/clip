@@ -26,7 +26,7 @@
 Marker::Marker(const Vec3D &n, MarkerType t, int _maxSearchIndex):
     AbstractMarkerItem(t),
     markerNormal(n),
-    normalToIndexMatrix(0)
+    normalToIndexMatrix(nullptr)
 {
   setMaxSearchIndex(_maxSearchIndex);
 }

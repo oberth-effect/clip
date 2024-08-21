@@ -27,7 +27,7 @@
 
 
 FitParameterTreeItem::FitParameterTreeItem(FitParameter *p, QTreeWidgetItem* _parent):
-    QObject(0),
+    QObject(nullptr),
     QTreeWidgetItem(_parent),
     parameter(p)
 {

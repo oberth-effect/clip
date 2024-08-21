@@ -43,7 +43,7 @@ template <typename T> SimpleMonochromScaler<T>::SimpleMonochromScaler(DataProvid
   makeValueIndex();
 }
 
-template <typename T> SimpleMonochromScaler<T>::SimpleMonochromScaler(const SimpleMonochromScaler &): AbstractMonoScaler(0)  {}
+template <typename T> SimpleMonochromScaler<T>::SimpleMonochromScaler(const SimpleMonochromScaler &): AbstractMonoScaler(nullptr)  {}
 
 template <typename T> SimpleMonochromScaler<T>::~SimpleMonochromScaler() {
 }

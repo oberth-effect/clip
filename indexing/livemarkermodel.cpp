@@ -54,7 +54,7 @@ LiveMarkerModel::~LiveMarkerModel() {
 
 void LiveMarkerModel::prepareDelete() {
   markers.clear();
-  crystal = 0;
+  crystal = nullptr;
 }
 
 void LiveMarkerModel::markerAdded(AbstractMarkerItem *item) {

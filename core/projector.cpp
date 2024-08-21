@@ -83,9 +83,9 @@ Projector::Projector(QObject* _parent):
     scene(this),
     imageItemsPlane(new QGraphicsPixmapItem()),
     spotIndicator(new SpotIndicatorGraphicsItem()),
-    imageData(0),
+    imageData(nullptr),
     spotHighlightHKL(),
-    spotHighlightItem(0)
+    spotHighlightItem(nullptr)
 {
   imageItemsPlane->setFlag(QGraphicsItem::ItemIsMovable, false);
 
@@ -512,7 +512,7 @@ void Projector::updateSpotHighlightMarker() {
 
   // show might be changed above in normal2det()
   if (show) {
-    if (spotHighlightItem==0) {
+    if (spotHighlightItem==nullptr) {
       auto* item = new CircleItem(1.1*getSpotSize());
       ConfigStore::getInstance()->ensureColor(ConfigStore::SpotIndicatorHighlight, item, SLOT(setColor(QColor)));
       item->setLineWidth(3);
@@ -522,7 +522,7 @@ void Projector::updateSpotHighlightMarker() {
     spotHighlightItem->setPos(p);
   } else if (spotHighlightItem) {
     delete spotHighlightItem;
-    spotHighlightItem = 0;
+    spotHighlightItem = nullptr;
   }
 }
 
@@ -737,7 +737,7 @@ void Projector::setImage(LaueImage *tmpImage) {
 void Projector::closeImage() {
   if (imageData) {
     delete imageData;
-    imageData = 0;
+    imageData = nullptr;
     emit imageClosed();
   }
 }

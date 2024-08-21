@@ -65,12 +65,12 @@ ProjectionPlane::ProjectionPlane(Projector* p, QWidget* _parent) :
     QMainWindow(_parent),
     ui(new Ui::ProjectionPlane),
     projector(p),
-    projectorConfig(0),
-    imageToolbox(0),
+    projectorConfig(nullptr),
+    imageToolbox(nullptr),
     mousePressOrigin(),
     lastMousePosition(),
     inMousePress(false),
-    zoomRubber(0),
+    zoomRubber(nullptr),
     zoomSteps()
 {
   ui->setupUi(this);

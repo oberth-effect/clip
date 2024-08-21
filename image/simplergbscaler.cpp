@@ -33,7 +33,7 @@ SimpleRGBScaler::SimpleRGBScaler(DataProvider* dp, QObject* _parent) :
   dataheight = dp->size().height();
 }
 
-SimpleRGBScaler::SimpleRGBScaler(const SimpleRGBScaler &): DataScaler(0)  {}
+SimpleRGBScaler::SimpleRGBScaler(const SimpleRGBScaler &): DataScaler(nullptr)  {}
 
 SimpleRGBScaler::~SimpleRGBScaler() {
 }

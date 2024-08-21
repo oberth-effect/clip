@@ -119,7 +119,7 @@ void Clip::on_newDiffStereo_triggered()
 
 
 auto Clip::addProjector(Projector* p) -> ProjectionPlane* {
-  if (!p) return 0;
+  if (!p) return nullptr;
   auto* pp = new ProjectionPlane(connectToLastCrystal(p), this);
   connect(pp, SIGNAL(rotationFromProjector(double)), this, SIGNAL(projectorRotation(double)));
   connect(pp, SIGNAL(mousePositionInfo(MousePositionInfo)), this, SIGNAL(mousePositionInfo(MousePositionInfo)));
