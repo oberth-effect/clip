@@ -31,8 +31,8 @@ IndexParser::IndexParser(QString s) {
   valid = false;
   integral = false;
 
-  QRegExp compactIndex("\\s*(\\d)(\\d)(\\d)\\s*");
-  QRegExp normalIndex("\\s*(-?\\d+(?:\\.\\d+)?)\\s+(-?\\d+(?:\\.\\d+)?)\\s+(-?\\d+(?:\\.\\d+)?)\\s*");
+  QRegExp compactIndex(R"(\s*(\d)(\d)(\d)\s*)");
+  QRegExp normalIndex(R"(\s*(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s*)");
   if (compactIndex.exactMatch(s)) {
     valid = true;
     integral = true;

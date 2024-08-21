@@ -227,7 +227,7 @@ auto Spacegroup::generateGroup(QString hall) -> bool {
   QList<GroupElement> tmpGroup;
 
 
-  QRegExp shiftVector("\\s*\\((-?\\d+)\\s+(-?\\d+)\\s+(-?\\d+)\\)$");
+  QRegExp shiftVector(R"(\s*\((-?\d+)\s+(-?\d+)\s+(-?\d+)\)$)");
   if (shiftVector.indexIn(hall)!=-1) {
     hall.truncate(shiftVector.pos());
   }
