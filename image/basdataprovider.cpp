@@ -60,8 +60,7 @@ BasDataProvider::BasDataProvider(QObject* _parent) :
 {
 }
 
-BasDataProvider::~BasDataProvider() {
-}
+BasDataProvider::~BasDataProvider() = default;
 
 
 auto BasDataProvider::Factory::fileFormatFilters() -> QStringList {

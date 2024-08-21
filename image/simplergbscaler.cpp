@@ -35,8 +35,7 @@ SimpleRGBScaler::SimpleRGBScaler(DataProvider* dp, QObject* _parent) :
 
 SimpleRGBScaler::SimpleRGBScaler(const SimpleRGBScaler &): DataScaler(nullptr)  {}
 
-SimpleRGBScaler::~SimpleRGBScaler() {
-}
+SimpleRGBScaler::~SimpleRGBScaler() = default;
 
 auto SimpleRGBScaler::getScaler(DataProvider *dp, QObject* _parent) -> DataScaler* {
   return new SimpleRGBScaler(dp, _parent);

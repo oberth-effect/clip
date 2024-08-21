@@ -26,13 +26,11 @@
 
 
 
-DataScalerFactory::DataScalerFactory() {
-}
+DataScalerFactory::DataScalerFactory() = default;
 
 DataScalerFactory::DataScalerFactory(const DataScalerFactory &) {};
 
-DataScalerFactory::~DataScalerFactory() {
-}
+DataScalerFactory::~DataScalerFactory() = default;
 
 auto DataScalerFactory::getInstance() -> DataScalerFactory& {
   static DataScalerFactory instance;

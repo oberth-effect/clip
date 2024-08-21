@@ -36,8 +36,7 @@ DataProvider::DataProvider(QObject* _parent) :
 {
 }
 
-DataProvider::~DataProvider() {
-}
+DataProvider::~DataProvider() = default;
 
 auto DataProvider::openDevice() -> DataProvider* {
   return nullptr;

@@ -51,9 +51,7 @@ RulerItem::RulerItem(const QPointF& p1, const QPointF& p2, double r, QGraphicsIt
   ConfigStore::getInstance()->ensureColor(ConfigStore::Ruler, this, SLOT(setColor(QColor)));
 }
 
-RulerItem::~RulerItem() {
-
-}
+RulerItem::~RulerItem() = default;
 
 void RulerItem::setColor(const QColor &c) {
   rulerColor = c;

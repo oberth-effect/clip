@@ -24,14 +24,12 @@
 
 #include "config.h"
 
-ProjectorFactory::ProjectorFactory(){
-}
+ProjectorFactory::ProjectorFactory()= default;
 
 ProjectorFactory::ProjectorFactory(const ProjectorFactory &) {
 }
 
-ProjectorFactory::~ProjectorFactory() {
-}
+ProjectorFactory::~ProjectorFactory() = default;
 
 auto ProjectorFactory::getInstance() -> ProjectorFactory& {
   static ProjectorFactory instance;

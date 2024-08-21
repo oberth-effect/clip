@@ -28,8 +28,7 @@
 
 
 DataProviderFactory::DataProviderFactory()
-{
-}
+= default;
 
 DataProviderFactory::DataProviderFactory(const DataProviderFactory &) {};
 

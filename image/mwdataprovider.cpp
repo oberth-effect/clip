@@ -47,8 +47,7 @@ MWDataProvider::MWDataProvider(QObject* _parent) :
 {
 }
 
-MWDataProvider::~MWDataProvider() {
-}
+MWDataProvider::~MWDataProvider() = default;
 
 
 auto MWDataProvider::Factory::fileFormatFilters() -> QStringList {

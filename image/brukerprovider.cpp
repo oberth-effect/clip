@@ -46,8 +46,7 @@ BrukerProvider::BrukerProvider(QObject* _parent) :
 {
 }
 
-BrukerProvider::~BrukerProvider() {
-}
+BrukerProvider::~BrukerProvider() = default;
 
 
 auto BrukerProvider::Factory::fileFormatFilters() -> QStringList {

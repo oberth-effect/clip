@@ -45,8 +45,7 @@ template <typename T> SimpleMonochromScaler<T>::SimpleMonochromScaler(DataProvid
 
 template <typename T> SimpleMonochromScaler<T>::SimpleMonochromScaler(const SimpleMonochromScaler &): AbstractMonoScaler(nullptr)  {}
 
-template <typename T> SimpleMonochromScaler<T>::~SimpleMonochromScaler() {
-}
+template <typename T> SimpleMonochromScaler<T>::~SimpleMonochromScaler() = default;
 
 template <typename T> auto SimpleMonochromScaler<T>::getScaler(DataProvider *dp, QObject* _parent) -> DataScaler* {
   return new SimpleMonochromScaler(dp, _parent);

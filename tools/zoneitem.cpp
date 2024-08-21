@@ -69,8 +69,7 @@ ZoneItem::ZoneItem(const QPointF& p1, const QPointF& p2, Projector* p, QGraphics
 }
 
 
-ZoneItem::~ZoneItem() {
-}
+ZoneItem::~ZoneItem() = default;
 
 auto ZoneItem::boundingRect() const -> QRectF {
   return tightBoundingRect;

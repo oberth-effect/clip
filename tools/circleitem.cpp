@@ -40,8 +40,7 @@ CircleItem::CircleItem(double r, QGraphicsItem *_parent) :
   lineWidth = 1.0;
 }
 
-CircleItem::~CircleItem() {
-}
+CircleItem::~CircleItem() = default;
 
 void CircleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem* /*option*/, QWidget* /*widget*/) {
   //PDF-Export via QPrinter::setOutputFormat(PdfFormat) has a Bug concerning

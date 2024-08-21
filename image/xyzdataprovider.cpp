@@ -36,8 +36,7 @@ XYZDataProvider::XYZDataProvider(QObject* _parent) :
 {
 }
 
-XYZDataProvider::~XYZDataProvider() {
-}
+XYZDataProvider::~XYZDataProvider() = default;
 
 
 auto XYZDataProvider::Factory::fileFormatFilters() -> QStringList {

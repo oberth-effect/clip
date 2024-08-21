@@ -80,8 +80,7 @@ Indexer::Indexer(QList<AbstractMarkerItem*> crystalMarkers, const Mat3D& _MReal,
   connect(&candidates, SIGNAL(progessInfo(int)), this, SIGNAL(progressInfo(int)));
 }
 
-Indexer::~Indexer() {
-}
+Indexer::~Indexer() = default;
 
 void Indexer::run() {
   runningThreads.ref();

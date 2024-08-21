@@ -355,11 +355,7 @@ NMWorker::Vertex::Vertex(const Vertex& o) {
   coordinates = o.coordinates;
 }
 
-auto NMWorker::Vertex::operator=(const Vertex& o) -> NMWorker::Vertex& {
-  score = o.score;
-  coordinates = o.coordinates;
-  return *this;
-}
+auto NMWorker::Vertex::operator=(const Vertex& o) -> NMWorker::Vertex& = default;
 
 auto NMWorker::Vertex::operator<(const Vertex& o) const -> bool {
   return score<o.score;

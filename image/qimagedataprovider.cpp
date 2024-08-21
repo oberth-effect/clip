@@ -41,7 +41,7 @@ QImageDataProvider::QImageDataProvider(const QImage& img, bool mono, QObject* _p
 {
 }
 
-QImageDataProvider::~QImageDataProvider() {}
+QImageDataProvider::~QImageDataProvider() = default;
 
 auto QImageDataProvider::Factory::fileFormatFilters() -> QStringList {
   QStringList formats;

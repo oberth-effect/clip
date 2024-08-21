@@ -37,18 +37,7 @@ Solution::Solution(const Solution &s) {
   *this = s;
 }
 
-auto Solution::operator=(const Solution& s) -> Solution& {
-  bestRotation = s.bestRotation;
-  indexDeviation = s.indexDeviation;
-  indexDeviationSq = s.indexDeviationSq;
-  indexMean = s.indexMean;
-  indexRMS = s.indexRMS;
-  solutionIndex = s.solutionIndex;
-  markerIdx = s.markerIdx;
-  markerRationalIdx = s.markerRationalIdx;
-
-  return *this;
-}
+auto Solution::operator=(const Solution& s) -> Solution& = default;
 
 auto Solution::hklDeviationSum() const -> double {
   if (indexDeviation<0) {

@@ -104,9 +104,7 @@ CropMarker::CropMarker(const QPointF& /*pCenter*/, double /*_dx*/, double /*_dy*
   ConfigStore::getInstance()->ensureColor(ConfigStore::CropMarkerInterior, this, SLOT(setInteriorColor(QColor)));
 }
 
-CropMarker::~CropMarker() {
-
-}
+CropMarker::~CropMarker() = default;
 
 void CropMarker::positionHandles() {
   double w = size.width()/2;

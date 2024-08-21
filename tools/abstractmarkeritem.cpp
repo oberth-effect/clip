@@ -33,7 +33,7 @@ AbstractMarkerItem::AbstractMarkerItem(MarkerType t):
   maxSearchIndex = 10;
 }
 
-AbstractMarkerItem::~AbstractMarkerItem() {}
+AbstractMarkerItem::~AbstractMarkerItem() = default;
 
 auto AbstractMarkerItem::getRationalIndex() -> Vec3D {
   if (indexDeviation<0) calcBestIndex();
