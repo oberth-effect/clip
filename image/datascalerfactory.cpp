@@ -26,20 +26,18 @@
 
 
 
-DataScalerFactory::DataScalerFactory() {
-}
+DataScalerFactory::DataScalerFactory() = default;
 
 DataScalerFactory::DataScalerFactory(const DataScalerFactory &) {};
 
-DataScalerFactory::~DataScalerFactory() {
-}
+DataScalerFactory::~DataScalerFactory() = default;
 
-DataScalerFactory& DataScalerFactory::getInstance() {
+auto DataScalerFactory::getInstance() -> DataScalerFactory& {
   static DataScalerFactory instance;
   return instance;
 }
 
-DataScaler* DataScalerFactory::getScaler(DataProvider* dp, QObject* _parent) {
+auto DataScalerFactory::getScaler(DataProvider* dp, QObject* _parent) -> DataScaler* {
   if (scalerGenerators.contains(dp->format())) {
     ScalerGenerator gen = scalerGenerators[dp->format()];
     return (*gen)(dp, _parent);
@@ -47,7 +45,7 @@ DataScaler* DataScalerFactory::getScaler(DataProvider* dp, QObject* _parent) {
   return nullptr;
 }
 
-bool DataScalerFactory::registerDataScaler(DataProvider::Format format, ScalerGenerator generator) {
+auto DataScalerFactory::registerDataScaler(DataProvider::Format format, ScalerGenerator generator) -> bool {
   DataScalerFactory::getInstance().scalerGenerators.insert(format, generator);
   return true;
 }

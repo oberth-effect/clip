@@ -87,8 +87,8 @@ LauePlaneProjector::LauePlaneProjector(QObject* _parent):
 
 };
 
-Projector& LauePlaneProjector::operator=(const Projector& _o) {
-  LauePlaneProjector const* o = dynamic_cast<LauePlaneProjector const*>(&_o);
+auto LauePlaneProjector::operator=(const Projector& _o) -> Projector& {
+  auto const* o = dynamic_cast<LauePlaneProjector const*>(&_o);
   if (o) {
     Projector::operator =(_o);
     setDetSize(o->dist(), o->width(), o->height());
@@ -98,11 +98,11 @@ Projector& LauePlaneProjector::operator=(const Projector& _o) {
   return *this;
 }
 
-Projector* LauePlaneProjector::getInstance() {
+auto LauePlaneProjector::getInstance() -> Projector* {
   return new LauePlaneProjector();
 }
 
-QPointF LauePlaneProjector::scattered2det(const Vec3D &v) const{
+auto LauePlaneProjector::scattered2det(const Vec3D &v) const -> QPointF{
   Vec3D w=localCoordinates*v;
   if (w.x()<=0.0) {
     return QPointF();
@@ -110,7 +110,7 @@ QPointF LauePlaneProjector::scattered2det(const Vec3D &v) const{
   return QPointF(SCENEBLOWUP(w.y()/w.x()+detDx), SCENEBLOWUP(w.z()/w.x()+detDy));
 }
 
-QPointF LauePlaneProjector::scattered2det(const Vec3D &v, bool& b) const{
+auto LauePlaneProjector::scattered2det(const Vec3D &v, bool& b) const -> QPointF{
   Vec3D w=localCoordinates*v;
   if (w.x()<=0.0) {
     b=false;
@@ -120,24 +120,24 @@ QPointF LauePlaneProjector::scattered2det(const Vec3D &v, bool& b) const{
   return QPointF(SCENEBLOWUP(w.y()/w.x()+detDx), SCENEBLOWUP(w.z()/w.x()+detDy));
 }
 
-Vec3D LauePlaneProjector::det2scattered(const QPointF& p) const{
+auto LauePlaneProjector::det2scattered(const QPointF& p) const -> Vec3D{
   Vec3D v(1.0 , SCENECOMPRESS(p.x())-detDx, SCENECOMPRESS(p.y())-detDy);
   v.normalize();
   return localCoordinates.transposed()*v;
 }
 
-Vec3D LauePlaneProjector::det2scattered(const QPointF& p, bool& b) const{
+auto LauePlaneProjector::det2scattered(const QPointF& p, bool& b) const -> Vec3D{
   Vec3D v(1.0 , SCENECOMPRESS(p.x())-detDx, SCENECOMPRESS(p.y())-detDy);
   v.normalize();
   b=true;
   return localCoordinates.transposed()*v;
 }
 
-QPointF LauePlaneProjector::normal2det(const Vec3D& n) const{
+auto LauePlaneProjector::normal2det(const Vec3D& n) const -> QPointF{
   return scattered2det(normal2scattered(n));
 }
 
-QPointF LauePlaneProjector::normal2det(const Vec3D& n, bool& b) const{
+auto LauePlaneProjector::normal2det(const Vec3D& n, bool& b) const -> QPointF{
   Vec3D v(normal2scattered(n, b));
   if (b) {
     return scattered2det(v,b);
@@ -146,11 +146,11 @@ QPointF LauePlaneProjector::normal2det(const Vec3D& n, bool& b) const{
   }
 }
 
-Vec3D LauePlaneProjector::det2normal(const QPointF& p)  const {
+auto LauePlaneProjector::det2normal(const QPointF& p)  const -> Vec3D {
   return scattered2normal(det2scattered(p));
 }
 
-Vec3D LauePlaneProjector::det2normal(const QPointF &p, bool &b)  const {
+auto LauePlaneProjector::det2normal(const QPointF &p, bool &b)  const -> Vec3D {
   Vec3D v(det2scattered(p, b));
   if (b) {
     return scattered2normal(v,b);
@@ -159,19 +159,18 @@ Vec3D LauePlaneProjector::det2normal(const QPointF &p, bool &b)  const {
   }
 }
 
-QPair<double, double> LauePlaneProjector::validOrderRange(double /*Q*/, double Qscatter) {
+auto LauePlaneProjector::validOrderRange(double /*Q*/, double Qscatter) -> QPair<double, double> {
   if (Qscatter<1e-5) return qMakePair(0.0, 0.0);
   return qMakePair(2.0*QminVal/Qscatter, 2.0*QmaxVal/Qscatter);
 }
 
-bool LauePlaneProjector::project(const Reflection &r, QPointF& p) {
+auto LauePlaneProjector::project(const Reflection &r, QPointF& p) -> bool {
   if (r.lowestDiffOrder==0)
     return false;
 
   QPair<double, double> limits = validOrderRange(r.Q, r.Qscatter);
   bool doesReflect=false;
-  for (int i=0; i<r.orders.size(); i++) {
-    int n=r.orders[i];
+  for (int n : r.orders) {
     if ((limits.first<=n) and (n<=limits.second)) {
       doesReflect=true;
       break;
@@ -283,7 +282,7 @@ void LauePlaneProjector::decorateScene() {
     delete item;
   }
 
-  CircleItem* center=new CircleItem(getSpotSize(), imageItemsPlane);
+  auto* center=new CircleItem(getSpotSize(), imageItemsPlane);
 
 
   ConfigStore::getInstance()->ensureColor(ConfigStore::PrimaryBeamMarker, center, SLOT(setColor(QColor)));
@@ -293,11 +292,11 @@ void LauePlaneProjector::decorateScene() {
   center->setTransform(QTransform::fromScale(det2img.m11(), det2img.m22()));
   center->setLineWidth(1.0);
 
-  CircleItem* marker=new CircleItem(0.1, center);
+  auto* marker=new CircleItem(0.1, center);
   ConfigStore::getInstance()->ensureColor(ConfigStore::PrimaryBeamMarker, marker, SLOT(setColor(QColor)));
   marker->setLineWidth(1.0);
 
-  CircleItem* handle=new CircleItem(getSpotSize(), center);
+  auto* handle=new CircleItem(getSpotSize(), center);
   ConfigStore::getInstance()->ensureColor(ConfigStore::PrimaryBeamMarker, handle, SLOT(setColor(QColor)));
   handle->setPos(0.05*scene.width(), 0);
   handle->setFlag(QGraphicsItem::ItemIsMovable, true);
@@ -326,8 +325,8 @@ void LauePlaneProjector::resizePBMarker() {
     return;
 
   //CircleItem* center=dynamic_cast<CircleItem*>(decorationItems[0]);
-  CircleItem* handle=dynamic_cast<CircleItem*>(decorationItems[1]);
-  CircleItem* marker=dynamic_cast<CircleItem*>(decorationItems[2]);
+  auto* handle=dynamic_cast<CircleItem*>(decorationItems[1]);
+  auto* marker=dynamic_cast<CircleItem*>(decorationItems[2]);
 
   QPointF p=handle->pos();
   double l=fasthypot(p.x(), p.y());
@@ -339,7 +338,7 @@ void LauePlaneProjector::movedPrimaryBeamMarker() {
   if ((decorationItems.size()<3) && !isProjectionEnabled())
     return;
 
-  CircleItem* center=dynamic_cast<CircleItem*>(decorationItems[0]);
+  auto* center=dynamic_cast<CircleItem*>(decorationItems[0]);
   QPointF p=img2det.map(center->pos());
 
   bool b=false;
@@ -364,31 +363,31 @@ void LauePlaneProjector::updatePrimaryBeamPos() {
       q=scattered2det(Vec3D(-1,0,0), b);
     }
     if (b) {
-      CircleItem* center=dynamic_cast<CircleItem*>(decorationItems[0]);
+      auto* center=dynamic_cast<CircleItem*>(decorationItems[0]);
       q = det2img.map((q));
       center->setPosNoSig(q);
     }
   }
 }
 
-QWidget* LauePlaneProjector::configWidget() {
+auto LauePlaneProjector::configWidget() -> QWidget* {
   return new LauePlaneCfg(this);
 }
 
-QString LauePlaneProjector::projectorName() const {
+auto LauePlaneProjector::projectorName() const -> QString {
   return QString("LauePlaneProjector");
 }
 
-QSize LauePlaneProjector::projectorSizeHint() const {
+auto LauePlaneProjector::projectorSizeHint() const -> QSize {
   QSettings settings;
   return settings.value(QString("%1/windowSize").arg(projectorName()), QSize(340, 375)).toSize();
 }
 
-QString LauePlaneProjector::displayName() {
+auto LauePlaneProjector::displayName() -> QString {
   return QString("Laue Plane");
 }
 
-QString LauePlaneProjector::fillInfoTable(const QString &_html) {
+auto LauePlaneProjector::fillInfoTable(const QString &_html) -> QString {
   QString html(_html);
   html.replace("<DIST/>", QString::number(dist(), 'f', 3));
   html.replace("<WIDTH/>", QString::number(width(), 'f', 3));
@@ -404,34 +403,34 @@ QString LauePlaneProjector::fillInfoTable(const QString &_html) {
 }
 
 
-double LauePlaneProjector::dist() const {
+auto LauePlaneProjector::dist() const -> double {
   return detDist;
 }
 
-double LauePlaneProjector::width() const {
+auto LauePlaneProjector::width() const -> double {
   return detWidth;
 }
 
-double LauePlaneProjector::height() const {
+auto LauePlaneProjector::height() const -> double {
   return detHeight;
 }
-double LauePlaneProjector::omega() const {
+auto LauePlaneProjector::omega() const -> double {
   return detOmega;
 }
 
-double LauePlaneProjector::chi() const {
+auto LauePlaneProjector::chi() const -> double {
   return detChi;
 }
 
-double LauePlaneProjector::phi() const {
+auto LauePlaneProjector::phi() const -> double {
   return detPhi;
 }
 
-double LauePlaneProjector::xOffset() const {
+auto LauePlaneProjector::xOffset() const -> double {
   return detDx*dist();
 }
 
-double LauePlaneProjector::yOffset() const {
+auto LauePlaneProjector::yOffset() const -> double {
   return detDy*dist();
 }
 
@@ -462,7 +461,7 @@ void LauePlaneProjector::loadParmetersFromImage(LaueImage *img) {
   setDetSize(d, w, h);
 }
 
-QDomElement LauePlaneProjector::saveToXML(QDomElement base) {
+auto LauePlaneProjector::saveToXML(QDomElement base) -> QDomElement {
   QDomDocument doc = base.ownerDocument();
   QDomElement projector = Projector::saveToXML(base);
 
@@ -482,7 +481,7 @@ QDomElement LauePlaneProjector::saveToXML(QDomElement base) {
   return projector;
 }
 
-bool LauePlaneProjector::parseXMLElement(QDomElement e) {
+auto LauePlaneProjector::parseXMLElement(QDomElement e) -> bool {
   bool ok=true;
   if (e.tagName()==XML_LPP_DetSize) {
     double detD = readDouble(e, XML_LPP_DetSize_dist, ok);
@@ -504,20 +503,20 @@ bool LauePlaneProjector::parseXMLElement(QDomElement e) {
   return ok;
 }
 
-double LauePlaneProjector::TTmax() const {
+auto LauePlaneProjector::TTmax() const -> double {
   Vec3D n(1.0, 0.0, 0.0);
   double mc=maxCos(n);
   return 180.0-180.0*acos(mc)/M_PI;
 }
 
-double LauePlaneProjector::TTmin() const {
+auto LauePlaneProjector::TTmin() const -> double {
   Vec3D n(-1.0, 0.0, 0.0);
   double mc=maxCos(n);
   return 180.0*acos(mc)/M_PI;
 }
 
 
-double LauePlaneProjector::maxCos(Vec3D n) const {
+auto LauePlaneProjector::maxCos(Vec3D n) const -> double {
   double dx = 0.5*width()/dist();
   double dy = 0.5*height()/dist();
 
@@ -569,7 +568,7 @@ LauePlaneProjector::DistGroup::DistGroup(LauePlaneProjector* p):
   addParameter("Distance");
 }
 
-double LauePlaneProjector::DistGroup::value(int /*member*/) const {
+auto LauePlaneProjector::DistGroup::value(int /*member*/) const -> double {
   return projector->dist();
 }
 
@@ -577,15 +576,15 @@ void LauePlaneProjector::DistGroup::doSetValue(QList<double> values) {
   projector->setDetSize(values.at(0), projector->width(), projector->height());
 }
 
-double LauePlaneProjector::DistGroup::epsilon(int /*member*/) const {
+auto LauePlaneProjector::DistGroup::epsilon(int /*member*/) const -> double {
   return 0.001;
 }
 
-double LauePlaneProjector::DistGroup::lowerBound(int /*member*/) const {
+auto LauePlaneProjector::DistGroup::lowerBound(int /*member*/) const -> double {
   return 5.0;
 }
 
-double LauePlaneProjector::DistGroup::upperBound(int /*member*/) const {
+auto LauePlaneProjector::DistGroup::upperBound(int /*member*/) const -> double {
   return 300.0;
 }
 
@@ -598,7 +597,7 @@ LauePlaneProjector::ShiftGroup::ShiftGroup(LauePlaneProjector* p):
   addParameter("Det_y");
 }
 
-double LauePlaneProjector::ShiftGroup::value(int member) const {
+auto LauePlaneProjector::ShiftGroup::value(int member) const -> double {
   if (member==0) {
     return projector->xOffset();
   } else if (member==1) {
@@ -611,15 +610,15 @@ void LauePlaneProjector::ShiftGroup::doSetValue(QList<double> values) {
   projector->setDetOffset(values.at(0), values.at(1));
 }
 
-double LauePlaneProjector::ShiftGroup::epsilon(int /*member*/) const {
+auto LauePlaneProjector::ShiftGroup::epsilon(int /*member*/) const -> double {
   return 0.0001;
 }
 
-double LauePlaneProjector::ShiftGroup::lowerBound(int /*member*/) const {
+auto LauePlaneProjector::ShiftGroup::lowerBound(int /*member*/) const -> double {
   return -20.0;
 }
 
-double LauePlaneProjector::ShiftGroup::upperBound(int /*member*/) const {
+auto LauePlaneProjector::ShiftGroup::upperBound(int /*member*/) const -> double {
   return 380;
 }
 
@@ -633,7 +632,7 @@ LauePlaneProjector::OrientationGroup::OrientationGroup(LauePlaneProjector* p):
   addParameter("Chi");
 }
 
-double LauePlaneProjector::OrientationGroup::value(int member) const {
+auto LauePlaneProjector::OrientationGroup::value(int member) const -> double {
   if (member==0) {
     return projector->omega();
   } else if (member==1) {
@@ -646,15 +645,15 @@ void LauePlaneProjector::OrientationGroup::doSetValue(QList<double> values) {
   projector->setDetOrientation(values.at(0), values.at(1), projector->phi());
 }
 
-double LauePlaneProjector::OrientationGroup::epsilon(int /*member*/) const {
+auto LauePlaneProjector::OrientationGroup::epsilon(int /*member*/) const -> double {
   return 0.0001;
 }
 
-double LauePlaneProjector::OrientationGroup::lowerBound(int /*member*/) const {
+auto LauePlaneProjector::OrientationGroup::lowerBound(int /*member*/) const -> double {
   return -20.0;
 }
 
-double LauePlaneProjector::OrientationGroup::upperBound(int /*member*/) const {
+auto LauePlaneProjector::OrientationGroup::upperBound(int /*member*/) const -> double {
   return 380;
 }
 

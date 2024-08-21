@@ -28,8 +28,7 @@
 
 
 DataProviderFactory::DataProviderFactory()
-{
-}
+= default;
 
 DataProviderFactory::DataProviderFactory(const DataProviderFactory &) {};
 
@@ -39,12 +38,12 @@ DataProviderFactory::~DataProviderFactory() {
   }
 }
 
-DataProviderFactory& DataProviderFactory::getInstance() {
+auto DataProviderFactory::getInstance() -> DataProviderFactory& {
   static DataProviderFactory instance;
   return instance;
 }
 
-DataProvider* DataProviderFactory::loadImage(const QString &filename, ImageDataStore* store, QObject* _parent) {
+auto DataProviderFactory::loadImage(const QString &filename, ImageDataStore* store, QObject* _parent) -> DataProvider* {
   foreach (int key, imageLoaders.uniqueKeys()) {
     foreach (auto loader, imageLoaders.values(key)) {
       DataProvider* dp = loader->getProvider(filename, store, _parent);
@@ -54,7 +53,7 @@ DataProvider* DataProviderFactory::loadImage(const QString &filename, ImageDataS
   return nullptr;
 }
 
-QStringList DataProviderFactory::registeredImageFormats() {
+auto DataProviderFactory::registeredImageFormats() -> QStringList {
   QStringList formats;
   foreach (int key, imageLoaders.uniqueKeys()) {
     foreach (auto loader, imageLoaders.values(key)) {
@@ -64,12 +63,12 @@ QStringList DataProviderFactory::registeredImageFormats() {
   return formats;
 }
 
-bool DataProviderFactory::registerImageLoader(int priority, DataProvider::ImageFactoryClass* loader) {
+auto DataProviderFactory::registerImageLoader(int priority, DataProvider::ImageFactoryClass* loader) -> bool {
   DataProviderFactory::getInstance().imageLoaders.insert(priority, loader);
   return true;
 }
 
-bool DataProviderFactory::registerDeviceOpener(int, DeviceOpener) {
+auto DataProviderFactory::registerDeviceOpener(int, DeviceOpener) -> bool {
 return true;
 }
 

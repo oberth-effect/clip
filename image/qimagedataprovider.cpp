@@ -26,6 +26,7 @@
 #include <QMap>
  
 #include <QImageReader>
+#include <utility>
 
 #include "image/dataproviderfactory.h"
 #include "image/imagedatastore.h"
@@ -34,16 +35,16 @@
 
 
 
-QImageDataProvider::QImageDataProvider(const QImage& img, bool mono, QObject* _parent) :
+QImageDataProvider::QImageDataProvider(QImage  img, bool mono, QObject* _parent) :
     DataProvider(_parent),
     mono(mono),
-    data(img)
+    data(std::move(img))
 {
 }
 
-QImageDataProvider::~QImageDataProvider() {}
+QImageDataProvider::~QImageDataProvider() = default;
 
-QStringList QImageDataProvider::Factory::fileFormatFilters() {
+auto QImageDataProvider::Factory::fileFormatFilters() -> QStringList {
   QStringList formats;
   foreach (QByteArray format, QImageReader::supportedImageFormats()) {
     formats += QString(format);
@@ -51,7 +52,7 @@ QStringList QImageDataProvider::Factory::fileFormatFilters() {
   return formats;
 }
 
-DataProvider* QImageDataProvider::Factory::getProvider(QString filename, ImageDataStore *store, QObject* _parent) {
+auto QImageDataProvider::Factory::getProvider(QString filename, ImageDataStore *store, QObject* _parent) -> DataProvider* {
   //QImage img(filename);
   QImageReader reader(filename);
   QImage img;
@@ -101,7 +102,7 @@ DataProvider* QImageDataProvider::Factory::getProvider(QString filename, ImageDa
     } else {
       img = img.convertToFormat(QImage::Format_ARGB32_Premultiplied);
     }
-    QImageDataProvider* provider = new QImageDataProvider(img, ismono, _parent);
+    auto* provider = new QImageDataProvider(img, ismono, _parent);
     
     
     provider->insertFileInformation(filename);
@@ -111,23 +112,23 @@ DataProvider* QImageDataProvider::Factory::getProvider(QString filename, ImageDa
   return nullptr;
 }
 
-const void* QImageDataProvider::getData() {
+auto QImageDataProvider::getData() -> const void* {
   return data.bits();
 }
 
-QSize QImageDataProvider::size() {
+auto QImageDataProvider::size() -> QSize {
   return data.size();
 }
 
-int QImageDataProvider::bytesCount() {
+auto QImageDataProvider::bytesCount() -> int {
   return data.sizeInBytes();
 }
 
-int QImageDataProvider::pixelCount() {
+auto QImageDataProvider::pixelCount() -> int {
   return data.width()*data.height();
 }
 
-DataProvider::Format QImageDataProvider::format() {
+auto QImageDataProvider::format() -> DataProvider::Format {
   if (mono)
     return UInt16;
   else

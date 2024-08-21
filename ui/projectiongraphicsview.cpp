@@ -29,7 +29,7 @@
  
 
 
-QPolygonF rectToPoly(const QRectF& r);
+auto rectToPoly(const QRectF& r) -> QPolygonF;
 
 ProjectionGraphicsView::ProjectionGraphicsView(QWidget* _parent) :
     QGraphicsView(_parent) {
@@ -79,7 +79,7 @@ void ProjectionGraphicsView::setImage(LaueImage * img) {
 #include <QRectF>
 #include <tools/debug.h>
 
-QPolygonF rectToPoly(const QRectF& r) {
+auto rectToPoly(const QRectF& r) -> QPolygonF {
   QPolygonF poly;
   poly << r.topLeft() << r.topRight() << r.bottomRight() << r.bottomLeft();
   return poly;

@@ -35,7 +35,7 @@ DataScaler::DataScaler(DataProvider* dp, QObject* _parent) :
     provider(dp), cache(nullptr), sourceRect(), threads(new ThreadRunner())
 {
   for (int n=0; n<4; n++) {
-    BezierCurve* curve = new BezierCurve();
+    auto* curve = new BezierCurve();
     transferCurves << curve;
     connect(curve, SIGNAL(curveChanged()), this, SLOT(updateContrastMapping()));
   }
@@ -52,7 +52,7 @@ DataScaler::~DataScaler() {
 #include "tools/debug.h"
 
 
-QTransform DataScaler::initialTransform() {
+auto DataScaler::initialTransform() -> QTransform {
   QSize s = provider->size();
   return QTransform(s.width(), 0, 0, -s.height(), 0, s.height());
 }
@@ -72,7 +72,7 @@ void DataScaler::addTransform(const QTransform & t) {
 void DataScaler::updateContrastMapping() {
 }
 
-QImage DataScaler::getImage(const QSize &size, const QPolygonF &_sourceRect) {
+auto DataScaler::getImage(const QSize &size, const QPolygonF &_sourceRect) -> QImage {
   if ((cache==nullptr) || (size!=cache->size()) || (_sourceRect!=sourceRect)) {
     if (cache!=nullptr) delete cache;
     cache = new QImage(size, QImage::Format_ARGB32_Premultiplied);
@@ -121,7 +121,7 @@ void DataScaler::redrawCache() {
   threads->join();
 }
 
-QList<QWidget*> DataScaler::toolboxPages() {
+auto DataScaler::toolboxPages() -> QList<QWidget*> {
   return QList<QWidget*>();
 }
 

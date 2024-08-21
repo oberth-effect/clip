@@ -29,7 +29,7 @@
 
 #include "config/configstore.h"
 
-QDomDocument readXMLFile(QString filename) {
+auto readXMLFile(QString filename) -> QDomDocument {
   QDomDocument doc;
   QFile file(filename);
   if (!file.open(QIODevice::ReadOnly))
@@ -43,7 +43,7 @@ QDomDocument readXMLFile(QString filename) {
   return doc;
 }
 
-double readDouble(QDomElement element, QString name, bool& ok, double defaultValue) {
+auto readDouble(QDomElement element, QString name, bool& ok, double defaultValue) -> double {
   if (element.hasAttribute(name)) {
     bool _ok;
     double value = element.attribute(name).toDouble(&_ok);
@@ -54,7 +54,7 @@ double readDouble(QDomElement element, QString name, bool& ok, double defaultVal
   return defaultValue;
 }
 
-int readInt(QDomElement element, QString name, bool &ok, int defaultValue) {
+auto readInt(QDomElement element, QString name, bool &ok, int defaultValue) -> int {
   if (element.hasAttribute(name)) {
     bool _ok;
     int value = element.attribute(name).toInt(&_ok);
@@ -81,7 +81,7 @@ template void RectToTag(QDomElement base, QString name, QRectF rect);
 
 
 
-QRectF TagToRect(QDomElement element, QRectF defaultValue, bool* _ok) {
+auto TagToRect(QDomElement element, QRectF defaultValue, bool* _ok) -> QRectF {
   bool ok = true;
   double x = readDouble(element, "x", ok, defaultValue.x());
   double y = readDouble(element, "y", ok, defaultValue.y());
@@ -91,7 +91,7 @@ QRectF TagToRect(QDomElement element, QRectF defaultValue, bool* _ok) {
   return QRectF(x,y,w,h);
 }
 
-QRect TagToRect(QDomElement element, QRect defaultValue, bool obeyGeometryReadSettings, bool* _ok) {
+auto TagToRect(QDomElement element, QRect defaultValue, bool obeyGeometryReadSettings, bool* _ok) -> QRect {
   bool ok = true;
   int x = defaultValue.x();
   int y = defaultValue.y();
@@ -119,7 +119,7 @@ void PointToTag(QDomElement base, QString name, const QPointF& p) {
   e.setAttribute("y", p.y());
 }
 
-QPointF TagToPoint(QDomElement element, const QPointF& defaultValue, bool* _ok) {
+auto TagToPoint(QDomElement element, const QPointF& defaultValue, bool* _ok) -> QPointF {
   bool ok = true;
   double x = readDouble(element, "x", ok, defaultValue.x());
   double y = readDouble(element, "y", ok, defaultValue.y());
@@ -127,7 +127,7 @@ QPointF TagToPoint(QDomElement element, const QPointF& defaultValue, bool* _ok) 
   return QPointF(x,y);
 }
 
-QDomElement ensureElement(QDomElement base, QString name) {
+auto ensureElement(QDomElement base, QString name) -> QDomElement {
   if (base.tagName()==name) {
     return base;
   } else {

@@ -73,26 +73,26 @@ ThreadRunner::~ThreadRunner() {
   condition.notify_all();
 #endif
 
-  for (unsigned int n=0; n<threads.size(); n++) {
+  for (auto & thread : threads) {
 #if USE_QTHREADS
-    threads[n]->wait();
+    thread->wait();
 #else
     threads[n]->join();
 #endif
-    delete threads[n];
+    delete thread;
   }
 
   delete f;
 }
 
-ThreadRunner::BaseThreadFunctor* ThreadRunner::makeFunctor(void(*f)()) {
+auto ThreadRunner::makeFunctor(void(*f)()) -> ThreadRunner::BaseThreadFunctor* {
   return new ThreadFunctor<void(*)()>(static_cast<void(*&&)()>(f));
 }
 
 
 void ThreadRunner::workFunction(int id) {
 
-  while (1) {
+  while (true) {
 #if USE_SEMAPHORE_SYNC
     workerPermission.acquire();
     if (shouldStop) {

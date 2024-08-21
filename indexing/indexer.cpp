@@ -80,8 +80,7 @@ Indexer::Indexer(QList<AbstractMarkerItem*> crystalMarkers, const Mat3D& _MReal,
   connect(&candidates, SIGNAL(progessInfo(int)), this, SIGNAL(progressInfo(int)));
 }
 
-Indexer::~Indexer() {
-}
+Indexer::~Indexer() = default;
 
 void Indexer::run() {
   runningThreads.ref();
@@ -99,7 +98,7 @@ void Indexer::run() {
     int i = candidatePos.fetchAndAddOrdered(1);
     QList<CandidateGenerator::Candidate> cList = candidates.getCandidateList(i+1);
     CandidateGenerator::Candidate c1 = cList.takeLast();
-    for (int j=0; j<cList.size(); j++) {
+    for (auto c2 : cList) {
       if (shouldStop) {
         runningThreads.deref();
         return;
@@ -115,8 +114,6 @@ void Indexer::run() {
         }
         localData.solutionsPublishedInRateCycle = 0;
       }
-
-      CandidateGenerator::Candidate c2 = cList.at(j);
 
       checkPossibleAngles(c1.spot(), c2.spot(), spotSpotAngles, localData);
       checkPossibleAngles(c1.zone(), c2.zone(), zoneZoneAngles, localData);
@@ -214,7 +211,7 @@ void Indexer::checkGuess(const CandidateGenerator::Candidate& c1, const Candidat
   uniqLock.unlock();
 }
 
-bool Indexer::symmetryEquivalentSolutionPresent(const Mat3D &R, double hklDeviation, int &n) {
+auto Indexer::symmetryEquivalentSolutionPresent(const Mat3D &R, double hklDeviation, int &n) -> bool {
   for (; n<uniqSolutions.size(); n++) {
     if ((fabs(uniqSolutions.at(n).indexDeviation - hklDeviation) / hklDeviation)<1e-4) {;
       Mat3D T(R*uniqSolutions.at(n).bestRotation);
@@ -251,7 +248,7 @@ Indexer::AngleInfo::AngleInfo(int i1, int i2, const QList<Marker>& markers, doub
 }
 
 
-bool Indexer::AngleInfo::operator<(const AngleInfo& o) const {
+auto Indexer::AngleInfo::operator<(const AngleInfo& o) const -> bool {
   return cosAng<o.cosAng;
 }
 

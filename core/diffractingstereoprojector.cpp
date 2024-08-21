@@ -30,44 +30,44 @@ DiffractingStereoProjector::DiffractingStereoProjector(QObject* _parent) :
 {
 }
 
-Projector* DiffractingStereoProjector::getInstance() {
+auto DiffractingStereoProjector::getInstance() -> Projector* {
   return new DiffractingStereoProjector();
 }
 
-QString DiffractingStereoProjector::projectorName() const {
+auto DiffractingStereoProjector::projectorName() const -> QString {
   return QString("DiffractingStereoProjector");
 }
 
-QString DiffractingStereoProjector::displayName() {
+auto DiffractingStereoProjector::displayName() -> QString {
   return QString("Stereographic Projection");
 }
 
-QWidget* DiffractingStereoProjector::configWidget() {
+auto DiffractingStereoProjector::configWidget() -> QWidget* {
   return new StereoCfg(this);
 }
 
 
-QPointF DiffractingStereoProjector::scattered2det(const Vec3D& n) const {
+auto DiffractingStereoProjector::scattered2det(const Vec3D& n) const -> QPointF {
   Vec3D v=localCoordinates*n;
   double s=1.0+v.x();
   return (s>1e-5) ? QPointF(v.y()/s, v.z()/s) : QPointF();
 }
 
-QPointF DiffractingStereoProjector::scattered2det(const Vec3D& n, bool& b) const {
+auto DiffractingStereoProjector::scattered2det(const Vec3D& n, bool& b) const -> QPointF {
   Vec3D v=localCoordinates*n;
   double s=1.0+v.x();
   b = (s>1e-5);
   return (b) ? QPointF(v.y()/s, v.z()/s) : QPointF();
 }
 
-Vec3D DiffractingStereoProjector::det2scattered(const QPointF& p) const {
+auto DiffractingStereoProjector::det2scattered(const QPointF& p) const -> Vec3D {
   double x=p.x();
   double y=p.y();
   double n=1.0/(x*x+y*y+1.0);
   return localCoordinates.transposed()*Vec3D(n*(1.0-x*x-y*y), 2*x*n, 2*y*n);
 }
 
-Vec3D DiffractingStereoProjector::det2scattered(const QPointF& p, bool& b) const {
+auto DiffractingStereoProjector::det2scattered(const QPointF& p, bool& b) const -> Vec3D {
   double x=p.x();
   double y=p.y();
   double n=1.0/(x*x+y*y+1.0);
@@ -75,11 +75,11 @@ Vec3D DiffractingStereoProjector::det2scattered(const QPointF& p, bool& b) const
   return localCoordinates.transposed()*Vec3D(n*(1.0-x*x-y*y), 2*x*n, 2*y*n);
 }
 
-QPointF DiffractingStereoProjector::normal2det(const Vec3D& n) const {
+auto DiffractingStereoProjector::normal2det(const Vec3D& n) const -> QPointF {
   return scattered2det(normal2scattered(n));
 }
 
-QPointF DiffractingStereoProjector::normal2det(const Vec3D& n, bool& b) const {
+auto DiffractingStereoProjector::normal2det(const Vec3D& n, bool& b) const -> QPointF {
   Vec3D t(normal2scattered(n, b));
   if (b) {
     return scattered2det(t, b);
@@ -88,11 +88,11 @@ QPointF DiffractingStereoProjector::normal2det(const Vec3D& n, bool& b) const {
   }
 }
 
-Vec3D DiffractingStereoProjector::det2normal(const QPointF& p) const {
+auto DiffractingStereoProjector::det2normal(const QPointF& p) const -> Vec3D {
   return scattered2normal(det2scattered(p));
 }
 
-Vec3D DiffractingStereoProjector::det2normal(const QPointF& p, bool& b) const {
+auto DiffractingStereoProjector::det2normal(const QPointF& p, bool& b) const -> Vec3D {
   Vec3D t(det2scattered(p, b));
   if (b) {
     return scattered2normal(t, b);
@@ -101,11 +101,10 @@ Vec3D DiffractingStereoProjector::det2normal(const QPointF& p, bool& b) const {
   }
 }
 
-bool DiffractingStereoProjector::project(const Reflection &r, QPointF &p) {
+auto DiffractingStereoProjector::project(const Reflection &r, QPointF &p) -> bool {
   bool reflectionInRange=false;
   QPair<double, double> limits = validOrderRange(r.Q, r.Qscatter);
-  for (int i=0; i<r.orders.size(); i++) {
-    int n=r.orders[i];
+  for (int n : r.orders) {
     if ((limits.first<=n) and (n<=limits.second)) {
       reflectionInRange=true;
       break;

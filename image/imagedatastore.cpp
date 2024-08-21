@@ -29,11 +29,11 @@ ImageDataStore::ImageDataStore(QObject* _parent) :
 }
 
 
-bool ImageDataStore::hasData(DataType d) const {
+auto ImageDataStore::hasData(DataType d) const -> bool {
   return dataStore.contains(d);
 }
 
-QVariant ImageDataStore::getData(DataType d) const {
+auto ImageDataStore::getData(DataType d) const -> QVariant {
   return dataStore.value(d, 0.0);
 }
 
@@ -49,7 +49,7 @@ void ImageDataStore::addTransform(const QTransform &t) {
   emit transformChanged();
 }
 
-QSizeF ImageDataStore::getTransformedSizeData(DataType d) const {
+auto ImageDataStore::getTransformedSizeData(DataType d) const -> QSizeF {
   if (hasData(d)) {
     return transformSize(getData(d).toSizeF(), imageTransform);
   } else {

@@ -47,16 +47,15 @@ MWDataProvider::MWDataProvider(QObject* _parent) :
 {
 }
 
-MWDataProvider::~MWDataProvider() {
-}
+MWDataProvider::~MWDataProvider() = default;
 
 
-QStringList MWDataProvider::Factory::fileFormatFilters() {
+auto MWDataProvider::Factory::fileFormatFilters() -> QStringList {
   //return QStringList() << "hs2" << "his"; //hs2 is 16-bit, his is 8-bit
   return QStringList() << "hs2";
 }
 
-DataProvider* MWDataProvider::Factory::getProvider(QString filename, ImageDataStore *store, QObject* _parent) {
+auto MWDataProvider::Factory::getProvider(QString filename, ImageDataStore *store, QObject* _parent) -> DataProvider* {
   //load in information about the file
   QFileInfo info(filename);
 
@@ -96,8 +95,8 @@ DataProvider* MWDataProvider::Factory::getProvider(QString filename, ImageDataSt
   }
 
   // set overflowed pixels to only slightly brighter than second highest value
-  for (int i=0; i<overflowPixelPosition.size(); i++) {
-    pixelData[overflowPixelPosition[i]] = log(2.0+maxValue);
+  for (int i : overflowPixelPosition) {
+    pixelData[i] = log(2.0+maxValue);
   }
 
 
@@ -157,30 +156,30 @@ DataProvider* MWDataProvider::Factory::getProvider(QString filename, ImageDataSt
   headerData.insert("Sample-Detector distance", QString("%1 mm").arg(10.0*dist, 0, 'f', 1));
   headerData.insert("Cell", QString("%1 %2 %3 %4 %5 %6").arg(aLat).arg(bLat).arg(cLat).arg(alpha).arg(beta).arg(gamma));
 
-  MWDataProvider* provider = new MWDataProvider(_parent);
+  auto* provider = new MWDataProvider(_parent);
   provider->insertFileInformation(filename);
   provider->providerInformation.unite(headerData);
   provider->pixelData = pixelData;
   return provider;
 }
 
-const void* MWDataProvider::getData() {
+auto MWDataProvider::getData() -> const void* {
   return (void*)pixelData.data();
 }
 
-QSize MWDataProvider::size() {
+auto MWDataProvider::size() -> QSize {
   return QSize(256, 256);
 }
 
-int MWDataProvider::bytesCount() {
+auto MWDataProvider::bytesCount() -> int {
   return pixelData.size()*sizeof(float);
 }
 
-int MWDataProvider::pixelCount() {
+auto MWDataProvider::pixelCount() -> int {
   return pixelData.size();
 }
 
-DataProvider::Format MWDataProvider::format() {
+auto MWDataProvider::format() -> DataProvider::Format {
   return Float32;
 }
 

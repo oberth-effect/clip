@@ -53,7 +53,7 @@ CropMarker::CropMarker(const QPointF& /*pCenter*/, double /*_dx*/, double /*_dy*
 
   QPen pen(Qt::NoPen);
   for (int i=0; i<9; i++) {
-    QGraphicsRectItem* handle = new QGraphicsRectItem(this);
+    auto* handle = new QGraphicsRectItem(this);
     handle->setPen(pen);
     handles << handle;
   }
@@ -104,9 +104,7 @@ CropMarker::CropMarker(const QPointF& /*pCenter*/, double /*_dx*/, double /*_dy*
   ConfigStore::getInstance()->ensureColor(ConfigStore::CropMarkerInterior, this, SLOT(setInteriorColor(QColor)));
 }
 
-CropMarker::~CropMarker() {
-
-}
+CropMarker::~CropMarker() = default;
 
 void CropMarker::positionHandles() {
   double w = size.width()/2;
@@ -142,7 +140,7 @@ void CropMarker::setCursors() {
   handles.at(1)->setCursor(newCursor);
 }
 
-QPolygonF CropMarker::getRect() {
+auto CropMarker::getRect() -> QPolygonF {
   QPolygonF rect;
 
   return rect;
@@ -180,11 +178,11 @@ void CropMarker::paint(QPainter *painter, const QStyleOptionGraphicsItem* /*opti
   painter->drawLine(QPointF(w-d,  -h), QPointF(w-d,    h));
 }
 
-QRectF CropMarker::boundingRect() const {
+auto CropMarker::boundingRect() const -> QRectF {
   return QRectF (-size.width()/2, -size.height()/2, size.width(), size.height()).normalized();
 }
 
-QPainterPath CropMarker::shape() const {
+auto CropMarker::shape() const -> QPainterPath {
   QPainterPath path;
   path.addRect(boundingRect());
   return path;

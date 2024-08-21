@@ -48,7 +48,7 @@ void LaueImage::startOpenFile(QString filename, QDomElement base) {
   watcher.setFuture(QtConcurrent::run(this, &LaueImage::doOpenFile, filename, base));
 }
 
-QPair<DataProvider*, DataScaler*> LaueImage::doOpenFile(QString filename, QDomElement base) {
+auto LaueImage::doOpenFile(QString filename, QDomElement base) -> QPair<DataProvider*, DataScaler*> {
   DataProvider* dp = DataProviderFactory::getInstance().loadImage(filename, &dataStore);
   DataScaler* ds = dp ? DataScalerFactory::getInstance().getScaler(dp) : nullptr;
   if (ds && dp) {
@@ -88,12 +88,12 @@ LaueImage::~LaueImage() {
   if (provider!=nullptr) delete provider;
 }
 
-QImage LaueImage::getScaledImage(const QSize& requestedSize, const QPolygonF& r) {
+auto LaueImage::getScaledImage(const QSize& requestedSize, const QPolygonF& r) -> QImage {
   return scaler->getImage(requestedSize, r);
 }
 
 
-QList<BezierCurve*> LaueImage::getTransferCurves() {
+auto LaueImage::getTransferCurves() -> QList<BezierCurve*> {
   return scaler->getTransferCurves();
 }
 
@@ -106,24 +106,24 @@ void LaueImage::resetAllTransforms() {
   scaler->resetAllTransforms();
 }
 
-QString LaueImage::name() {
+auto LaueImage::name() -> QString {
   return provider->name();
 }
 
-QList<QString> LaueImage::infoKeys() {
+auto LaueImage::infoKeys() -> QList<QString> {
   return provider->getProviderInfoKeys();
 }
 
-bool LaueImage::hasInfo(const QString& key) {
+auto LaueImage::hasInfo(const QString& key) -> bool {
   return !provider->getProviderInfo(key).isNull();
 }
 
-QVariant LaueImage::getInfo(const QString& key) {
+auto LaueImage::getInfo(const QString& key) -> QVariant {
   return provider->getProviderInfo(key);
 }
 
 
-QList<QWidget*> LaueImage::toolboxPages() {
+auto LaueImage::toolboxPages() -> QList<QWidget*> {
   QList<QWidget*> pages;
   pages << provider->toolboxPages();
   pages << scaler->toolboxPages();

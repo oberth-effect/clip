@@ -43,16 +43,15 @@ template <typename T> SimpleMonochromScaler<T>::SimpleMonochromScaler(DataProvid
   makeValueIndex();
 }
 
-template <typename T> SimpleMonochromScaler<T>::SimpleMonochromScaler(const SimpleMonochromScaler &): AbstractMonoScaler(0)  {}
+template <typename T> SimpleMonochromScaler<T>::SimpleMonochromScaler(const SimpleMonochromScaler &): AbstractMonoScaler(nullptr)  {}
 
-template <typename T> SimpleMonochromScaler<T>::~SimpleMonochromScaler() {
-}
+template <typename T> SimpleMonochromScaler<T>::~SimpleMonochromScaler() = default;
 
-template <typename T> DataScaler* SimpleMonochromScaler<T>::getScaler(DataProvider *dp, QObject* _parent) {
+template <typename T> auto SimpleMonochromScaler<T>::getScaler(DataProvider *dp, QObject* _parent) -> DataScaler* {
   return new SimpleMonochromScaler(dp, _parent);
 }
 
-template <typename T> QRgb SimpleMonochromScaler<T>::getRGB(const QPointF &p) {
+template <typename T> auto SimpleMonochromScaler<T>::getRGB(const QPointF &p) -> QRgb {
   int x = static_cast<int>(std::floor(p.x()));
   int y = static_cast<int>(std::floor(p.y()));
   if (x<0 || x>=datawidth || y<0 || y>=dataheight) {
@@ -93,7 +92,7 @@ template <typename T> void SimpleMonochromScaler<T>::makeValueIndex() {
   valueCount.resize(indexSet.size());
   imagePosToPixelValue.resize(provider->pixelCount());
 
-  float minPixelValue = static_cast<float>(indexSet.begin()->key);
+  auto minPixelValue = static_cast<float>(indexSet.begin()->key);
   float pixelValueRange = static_cast<float>(indexSet.rbegin()->key) - minPixelValue;
   float logRange = log(pixelValueRange+0.5f)-log(0.5f);
 
@@ -140,10 +139,10 @@ template <typename T> void SimpleMonochromScaler<T>::updateContrastMapping() {
 #include <QFormLayout>
 #include <QWidget>
 #include <QCheckBox>
-template <typename T> QList<QWidget*> SimpleMonochromScaler<T>::toolboxPages() {
+template <typename T> auto SimpleMonochromScaler<T>::toolboxPages() -> QList<QWidget*> {
   QList<QWidget*> pages;
 
-  MonoScalerCfg* cfg = new MonoScalerCfg(histogramEqualisation, logarithmicMapping);
+  auto* cfg = new MonoScalerCfg(histogramEqualisation, logarithmicMapping);
   connect(cfg, SIGNAL(histogramEq(bool)), this, SLOT(setHistogramEqualisation(bool)));
   connect(cfg, SIGNAL(logMapping(bool)), this, SLOT(setLogarithmicMapping(bool)));
   pages << cfg;

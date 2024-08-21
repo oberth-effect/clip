@@ -60,15 +60,14 @@ BasDataProvider::BasDataProvider(QObject* _parent) :
 {
 }
 
-BasDataProvider::~BasDataProvider() {
-}
+BasDataProvider::~BasDataProvider() = default;
 
 
-QStringList BasDataProvider::Factory::fileFormatFilters() {
+auto BasDataProvider::Factory::fileFormatFilters() -> QStringList {
   return QStringList() << IMG_Suffix << INF_Suffix;
 }
 
-DataProvider* BasDataProvider::Factory::getProvider(QString filename, ImageDataStore* store, QObject* _parent) {
+auto BasDataProvider::Factory::getProvider(QString filename, ImageDataStore* store, QObject* _parent) -> DataProvider* {
   QFileInfo info(filename);
 
   // Return if file does not exist
@@ -190,7 +189,7 @@ DataProvider* BasDataProvider::Factory::getProvider(QString filename, ImageDataS
   headerData.remove(Info_XPixelSize);
   headerData.remove(Info_YPixelSize);
 
-  BasDataProvider* provider = new BasDataProvider(_parent);
+  auto* provider = new BasDataProvider(_parent);
   provider->insertFileInformation(filename);
   provider->providerInformation.unite(headerData);
   provider->pixelData = pixelData;
@@ -198,23 +197,23 @@ DataProvider* BasDataProvider::Factory::getProvider(QString filename, ImageDataS
   return provider;
 }
 
-const void* BasDataProvider::getData() {
+auto BasDataProvider::getData() -> const void* {
   return (void*)pixelData.data();
 }
 
-QSize BasDataProvider::size() {
+auto BasDataProvider::size() -> QSize {
   return dataSize;
 }
 
-int BasDataProvider::bytesCount() {
+auto BasDataProvider::bytesCount() -> int {
   return pixelData.size()*sizeof(float);
 }
 
-int BasDataProvider::pixelCount() {
+auto BasDataProvider::pixelCount() -> int {
   return pixelData.size();
 }
 
-DataProvider::Format BasDataProvider::format() {
+auto BasDataProvider::format() -> DataProvider::Format {
   return Float32;
 }
 

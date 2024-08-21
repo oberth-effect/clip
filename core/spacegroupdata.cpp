@@ -22,7 +22,7 @@
 
 #include "core/spacegroup.h"
 
-QList<Spacegroup::SpacegroupSymbolInfo> Spacegroup::static_init() {
+auto Spacegroup::static_init() -> QList<Spacegroup::SpacegroupSymbolInfo> {
   // List of all possible Space group symbols from http://cci.lbl.gov/sginfo/hall_symbols.html
   // plus the following points
   // All centering symbols for  P1 and P-1, e.g. I1

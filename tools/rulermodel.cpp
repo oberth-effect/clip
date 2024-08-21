@@ -43,15 +43,15 @@ RulerModel::RulerModel(ItemStore<RulerItem>& r, LaueImage* img, QObject* _parent
   connect(&rulers, SIGNAL(itemRemoved(int)), this, SLOT(rulerRemoved(int)));
 }
 
-int RulerModel::rowCount(const QModelIndex& /*_parent*/ ) const {
+auto RulerModel::rowCount(const QModelIndex& /*_parent*/ ) const -> int {
   return rulers.size();
 }
 
-int RulerModel::columnCount(const QModelIndex& /*_parent*/  ) const {
+auto RulerModel::columnCount(const QModelIndex& /*_parent*/  ) const -> int {
   return 5;
 }
 
-QVariant RulerModel::data ( const QModelIndex & index, int role	) const {
+auto RulerModel::data ( const QModelIndex & index, int role	) const -> QVariant {
   if (role==Qt::DisplayRole) {
     RulerItem* r = rulers.at(index.row());
     double dx = fabs(r->getStart().x()-r->getEnd().x());
@@ -88,7 +88,7 @@ QVariant RulerModel::data ( const QModelIndex & index, int role	) const {
   return QVariant();
 }
 
-QVariant RulerModel::headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const {
+auto RulerModel::headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const -> QVariant {
   QStringList l;
   l << "dx" << "dy" << "Pixel Len" << "Length" << "Calc Length";
   if (role==Qt::DisplayRole && orientation==Qt::Horizontal and section<l.size()) {
@@ -97,14 +97,14 @@ QVariant RulerModel::headerData ( int section, Qt::Orientation orientation, int 
   return QVariant();
 }
 
-Qt::ItemFlags RulerModel::flags(const QModelIndex &index) const {
+auto RulerModel::flags(const QModelIndex &index) const -> Qt::ItemFlags {
   if (index.column()==3) {
     return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;
   }
   return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
 
-bool RulerModel::setData(const QModelIndex &index, const QVariant &value, int /*role*/) {
+auto RulerModel::setData(const QModelIndex &index, const QVariant &value, int /*role*/) -> bool {
   bool b;
   double val = value.toDouble(&b);
   if (b) {

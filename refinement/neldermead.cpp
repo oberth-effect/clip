@@ -61,12 +61,12 @@ void NelderMead::stop() {
   threadWatcher.waitForFinished();
 }
 
-bool NelderMead::isRunning() {
+auto NelderMead::isRunning() -> bool {
   return threadWatcher.isRunning();
 }
 
 void NelderMead::run() {
-  NMWorker* worker = new NMWorker(liveCrystal);
+  auto* worker = new NMWorker(liveCrystal);
   if (worker->valid()) {
     int loops = 0;
     int noImprovmentLoops=0;

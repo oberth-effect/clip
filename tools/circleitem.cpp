@@ -40,8 +40,7 @@ CircleItem::CircleItem(double r, QGraphicsItem *_parent) :
   lineWidth = 1.0;
 }
 
-CircleItem::~CircleItem() {
-}
+CircleItem::~CircleItem() = default;
 
 void CircleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem* /*option*/, QWidget* /*widget*/) {
   //PDF-Export via QPrinter::setOutputFormat(PdfFormat) has a Bug concerning
@@ -59,22 +58,22 @@ void CircleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem* /*opti
   painter->setTransform(t);
 }
 
-QRectF CircleItem::boundingRect() const {
+auto CircleItem::boundingRect() const -> QRectF {
   return QRectF(-radius, -radius, 2*radius, 2*radius);
 }
 
-QPainterPath CircleItem::shape() const {
+auto CircleItem::shape() const -> QPainterPath {
   QPainterPath path;
   path.addEllipse(QPointF(0,0), radius, radius);
   return path;
 }
 
-bool CircleItem::contains(const QPointF &point) const {
+auto CircleItem::contains(const QPointF &point) const -> bool {
   double r = fasthypot(point.x(), point.y());
   return r<radius;
 }
 
-QVariant CircleItem::itemChange(GraphicsItemChange change, const QVariant & value ) {
+auto CircleItem::itemChange(GraphicsItemChange change, const QVariant & value ) -> QVariant {
   if (change==ItemPositionHasChanged) {
     if (not skipNextPosChange) {
       emit positionChanged();

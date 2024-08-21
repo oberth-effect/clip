@@ -31,8 +31,8 @@ IndexParser::IndexParser(QString s) {
   valid = false;
   integral = false;
 
-  QRegExp compactIndex("\\s*(\\d)(\\d)(\\d)\\s*");
-  QRegExp normalIndex("\\s*(-?\\d+(?:\\.\\d+)?)\\s+(-?\\d+(?:\\.\\d+)?)\\s+(-?\\d+(?:\\.\\d+)?)\\s*");
+  QRegExp compactIndex(R"(\s*(\d)(\d)(\d)\s*)");
+  QRegExp normalIndex(R"(\s*(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s*)");
   if (compactIndex.exactMatch(s)) {
     valid = true;
     integral = true;
@@ -49,7 +49,7 @@ IndexParser::IndexParser(QString s) {
   }
 }
 
-QString IndexParser::formatIndex(const Vec3D &index, int precision) {
+auto IndexParser::formatIndex(const Vec3D &index, int precision) -> QString {
   if (precision>0) {
     int minPrec=precision;
     for (int i=0; i<3; i++) {
@@ -68,14 +68,14 @@ QString IndexParser::formatIndex(const Vec3D &index, int precision) {
   return l.join(" ");
 }
 
-Vec3D IndexParser::index() {
+auto IndexParser::index() -> Vec3D {
   return indexVector;
 }
 
-bool IndexParser::isValid() {
+auto IndexParser::isValid() -> bool {
   return valid;
 }
 
-bool IndexParser::isIntegral() {
+auto IndexParser::isIntegral() -> bool {
   return integral;
 }

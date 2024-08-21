@@ -42,7 +42,7 @@ SpotItem::SpotItem(Projector *p, double r, QGraphicsItem *_parent):
 }
 
 
-Vec3D SpotItem::getMarkerNormal() const {
+auto SpotItem::getMarkerNormal() const -> Vec3D {
   return projector->det2normal(projector->img2det.map(pos()));
 }
 
@@ -78,7 +78,7 @@ void SpotItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
   }
 }
 
-QRectF SpotItem::boundingRect() const {
+auto SpotItem::boundingRect() const -> QRectF {
   if (isHighlighted) {
     return QRectF(-2*radius, -2*radius, 4*radius, 4*radius);
   } else {
@@ -86,7 +86,7 @@ QRectF SpotItem::boundingRect() const {
   }
 }
 
-QPainterPath SpotItem::shape() const {
+auto SpotItem::shape() const -> QPainterPath {
   if (isHighlighted) {
     QPainterPath path;
     path.addEllipse(QPointF(0,0), 2*radius, 2*radius);

@@ -28,7 +28,7 @@ NumberEdit::NumberEdit(QWidget* _parent, bool _emptyValid) :
 }
 
 
-QValidator::State NumberEdit::validate( QString & text, int & pos ) const {
+auto NumberEdit::validate( QString & text, int & pos ) const -> QValidator::State {
   if (emptyValid && text.isEmpty()) return QValidator::Acceptable;
   QValidator::State state = QDoubleSpinBox::validate(text, pos);
   QChar decimalPoint = QLocale().decimalPoint();

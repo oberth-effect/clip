@@ -51,20 +51,18 @@ RulerItem::RulerItem(const QPointF& p1, const QPointF& p2, double r, QGraphicsIt
   ConfigStore::getInstance()->ensureColor(ConfigStore::Ruler, this, SLOT(setColor(QColor)));
 }
 
-RulerItem::~RulerItem() {
-
-}
+RulerItem::~RulerItem() = default;
 
 void RulerItem::setColor(const QColor &c) {
   rulerColor = c;
   update();
 }
 
-QRectF RulerItem::boundingRect() const {
+auto RulerItem::boundingRect() const -> QRectF {
   return childrenBoundingRect();
 }
 
-QPainterPath RulerItem::shape() const {
+auto RulerItem::shape() const -> QPainterPath {
   QPainterPath path;
   foreach (QGraphicsItem* i, childItems()) {
     QPointF p = i->pos();
@@ -119,11 +117,11 @@ void RulerItem::setEnd(const QPointF& p) {
   endHandle->setPos(p);
 }
 
-QPointF RulerItem::getStart() {
+auto RulerItem::getStart() -> QPointF {
   return startHandle->pos();
 }
 
-QPointF RulerItem::getEnd() {
+auto RulerItem::getEnd() -> QPointF {
   return endHandle->pos();
 }
 
@@ -132,7 +130,7 @@ void RulerItem::highlight(bool h) {
   update();
 }
 
-bool RulerItem::isHighlighted() {
+auto RulerItem::isHighlighted() -> bool {
   return highlighted;
 }
 

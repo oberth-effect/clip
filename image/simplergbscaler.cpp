@@ -33,16 +33,15 @@ SimpleRGBScaler::SimpleRGBScaler(DataProvider* dp, QObject* _parent) :
   dataheight = dp->size().height();
 }
 
-SimpleRGBScaler::SimpleRGBScaler(const SimpleRGBScaler &): DataScaler(0)  {}
+SimpleRGBScaler::SimpleRGBScaler(const SimpleRGBScaler &): DataScaler(nullptr)  {}
 
-SimpleRGBScaler::~SimpleRGBScaler() {
-}
+SimpleRGBScaler::~SimpleRGBScaler() = default;
 
-DataScaler* SimpleRGBScaler::getScaler(DataProvider *dp, QObject* _parent) {
+auto SimpleRGBScaler::getScaler(DataProvider *dp, QObject* _parent) -> DataScaler* {
   return new SimpleRGBScaler(dp, _parent);
 }
 #include <cmath>
-QRgb SimpleRGBScaler::getRGB(const QPointF &p) {
+auto SimpleRGBScaler::getRGB(const QPointF &p) -> QRgb {
   int x = static_cast<int>(std::floor(p.x()));
   int y = static_cast<int>(std::floor(p.y()));
   if (x<0 || x>=datawidth || y<0 || y>=dataheight) {

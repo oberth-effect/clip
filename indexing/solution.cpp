@@ -37,20 +37,9 @@ Solution::Solution(const Solution &s) {
   *this = s;
 }
 
-Solution& Solution::operator=(const Solution& s) {
-  bestRotation = s.bestRotation;
-  indexDeviation = s.indexDeviation;
-  indexDeviationSq = s.indexDeviationSq;
-  indexMean = s.indexMean;
-  indexRMS = s.indexRMS;
-  solutionIndex = s.solutionIndex;
-  markerIdx = s.markerIdx;
-  markerRationalIdx = s.markerRationalIdx;
+auto Solution::operator=(const Solution& s) -> Solution& = default;
 
-  return *this;
-}
-
-double Solution::hklDeviationSum() const {
+auto Solution::hklDeviationSum() const -> double {
   if (indexDeviation<0) {
     double tmpIndexDeviation = 0.0;
     for (int n=0; n<markerIdx.size(); n++) {
@@ -63,7 +52,7 @@ double Solution::hklDeviationSum() const {
   return indexDeviation;
 }
 
-double Solution::hklDeviationSqSum() const {
+auto Solution::hklDeviationSqSum() const -> double {
   if (indexDeviationSq<0) {
     double tmpIndexDeviation = 0.0;
     for (int n=0; n<markerIdx.size(); n++) {
@@ -76,7 +65,7 @@ double Solution::hklDeviationSqSum() const {
   return indexDeviationSq;
 }
 
-double Solution::allIndexMean() const {
+auto Solution::allIndexMean() const -> double {
   if (indexMean<0) {
     double tmpIndexMean = 0.0;
     foreach (Vec3D idx, markerRationalIdx) {
@@ -87,7 +76,7 @@ double Solution::allIndexMean() const {
   }
   return indexMean;
 }
-double Solution::allIndexRMS() const {
+auto Solution::allIndexRMS() const -> double {
   if (indexRMS<0) {
     double tmpIndexRMS= 0.0;
     foreach (Vec3D idx, markerRationalIdx) {

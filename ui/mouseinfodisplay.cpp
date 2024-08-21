@@ -45,7 +45,7 @@ public:
     QColor gridColor = static_cast<QRgb>(gridHint);
     _gridPen = QPen(gridColor, 0, _parent->gridStyle());
   }
-  virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override {
 
     if (index.row()!=2 || index.column()>1) {
       QStyledItemDelegate::paint(painter, option, index);
@@ -105,7 +105,7 @@ MouseInfoDisplay::~MouseInfoDisplay()
   delete ui;
 }
 
-QSize MouseInfoDisplay::sizeHint() const {
+auto MouseInfoDisplay::sizeHint() const -> QSize {
   return minimumSizeHint();
 }
 
@@ -227,7 +227,7 @@ void MouseInfoDisplay::cursorTableVisiblyToggled(bool b) {
   }
 }
 
-bool MouseInfoDisplay::eventFilter(QObject *o, QEvent *e) {
+auto MouseInfoDisplay::eventFilter(QObject *o, QEvent *e) -> bool {
   if (e->type()==QEvent::WindowStateChange) {
     if (parentWidget() && (parentWidget()->windowState() & Qt::WindowMaximized)) {
       parentWidget()->showNormal();

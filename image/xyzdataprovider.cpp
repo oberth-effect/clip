@@ -36,15 +36,14 @@ XYZDataProvider::XYZDataProvider(QObject* _parent) :
 {
 }
 
-XYZDataProvider::~XYZDataProvider() {
-}
+XYZDataProvider::~XYZDataProvider() = default;
 
 
-QStringList XYZDataProvider::Factory::fileFormatFilters() {
+auto XYZDataProvider::Factory::fileFormatFilters() -> QStringList {
   return QStringList() << "raw" << "xyz";
 }
 
-DataProvider* XYZDataProvider::Factory::getProvider(QString filename, ImageDataStore *store, QObject* _parent) {
+auto XYZDataProvider::Factory::getProvider(QString filename, ImageDataStore *store, QObject* _parent) -> DataProvider* {
   QFile imgFile(filename);
 
   if (!imgFile.open(QFile::ReadOnly)) return nullptr;
@@ -71,7 +70,7 @@ DataProvider* XYZDataProvider::Factory::getProvider(QString filename, ImageDataS
 
   store->setData(ImageDataStore::PixelSize, QSizeF(width, height));
 
-  XYZDataProvider* provider = new XYZDataProvider(_parent);
+  auto* provider = new XYZDataProvider(_parent);
   provider->pixelData = pixelData;
   provider->imgWidth = width;
   provider->imgHeight = height;
@@ -82,23 +81,23 @@ DataProvider* XYZDataProvider::Factory::getProvider(QString filename, ImageDataS
 }
 
 
-const void* XYZDataProvider::getData() {
+auto XYZDataProvider::getData() -> const void* {
   return (void*)pixelData.data();
 }
 
-QSize XYZDataProvider::size() {
+auto XYZDataProvider::size() -> QSize {
   return QSize(imgWidth, imgHeight);
 }
 
-int XYZDataProvider::bytesCount() {
+auto XYZDataProvider::bytesCount() -> int {
   return pixelData.size()*sizeof(float);
 }
 
-int XYZDataProvider::pixelCount() {
+auto XYZDataProvider::pixelCount() -> int {
   return pixelData.size();
 }
 
-DataProvider::Format XYZDataProvider::format() {
+auto XYZDataProvider::format() -> DataProvider::Format {
   return Float32;
 }
 

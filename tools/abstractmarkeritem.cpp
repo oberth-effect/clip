@@ -33,29 +33,29 @@ AbstractMarkerItem::AbstractMarkerItem(MarkerType t):
   maxSearchIndex = 10;
 }
 
-AbstractMarkerItem::~AbstractMarkerItem() {}
+AbstractMarkerItem::~AbstractMarkerItem() = default;
 
-Vec3D AbstractMarkerItem::getRationalIndex() {
+auto AbstractMarkerItem::getRationalIndex() -> Vec3D {
   if (indexDeviation<0) calcBestIndex();
   return rationalIndex;
 }
 
-TVec3D<int> AbstractMarkerItem::getIntegerIndex() {
+auto AbstractMarkerItem::getIntegerIndex() -> TVec3D<int> {
   if (indexDeviation<0) calcBestIndex();
   return integerIndex;
 }
 
-double AbstractMarkerItem::getIndexDeviationScore() {
+auto AbstractMarkerItem::getIndexDeviationScore() -> double {
   if (indexDeviation<0) calcBestIndex();
   return indexDeviation;
 }
 
-double AbstractMarkerItem::getDetectorPositionScore() {
+auto AbstractMarkerItem::getDetectorPositionScore() -> double {
   if (detectorPositionDeviation<0) calcDetectorDeviation();
   return detectorPositionDeviation;
 }
 
-double AbstractMarkerItem::getAngularDeviation() {
+auto AbstractMarkerItem::getAngularDeviation() -> double {
   if (angularDeviation<0) calcAngularDeviation();
   return angularDeviation;
 }
@@ -123,7 +123,7 @@ AbstractProjectorMarkerItem::AbstractProjectorMarkerItem(Projector *p, MarkerTyp
 
 AbstractProjectorMarkerItem::~AbstractProjectorMarkerItem() = default;
 
-Vec3D AbstractProjectorMarkerItem::normalToIndex(const Vec3D &v) {
+auto AbstractProjectorMarkerItem::normalToIndex(const Vec3D &v) -> Vec3D {
   Vec3D n = projector->getCrystal()->getRotationMatrix().transposed() * v;
   if (markerType==SpotMarker) {
     // v = Rot * MRezi * hkl  => hkl = MRezi.inv * Rot.trans * v

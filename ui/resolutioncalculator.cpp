@@ -42,8 +42,8 @@
 class NumberEditDelegate: public QStyledItemDelegate {
 public:
   NumberEditDelegate(QObject* _parent = nullptr): QStyledItemDelegate(_parent) {}
-  virtual QWidget* createEditor(QWidget* _parent, const QStyleOptionViewItem& /*option*/, const QModelIndex& /*index*/) const {
-    NumberEdit* n = new NumberEdit(_parent, true);
+  auto createEditor(QWidget* _parent, const QStyleOptionViewItem& /*option*/, const QModelIndex& /*index*/) const -> QWidget* override {
+    auto* n = new NumberEdit(_parent, true);
     n->setButtonSymbols(QAbstractSpinBox::NoButtons);
     n->setMinimum(0.0);
     n->setMaximum(1000.0);
@@ -86,7 +86,7 @@ ResolutionCalculator::~ResolutionCalculator()
   delete model;
 }
 
-QSize ResolutionCalculator::sizeHint() const {
+auto ResolutionCalculator::sizeHint() const -> QSize {
   return minimumSizeHint();
 }
 

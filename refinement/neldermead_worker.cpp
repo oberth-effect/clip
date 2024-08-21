@@ -46,7 +46,7 @@ NMWorker::~NMWorker() {
   foreach (FitObject* o, copiedFitObjects) delete o;
 }
 
-double NMWorker::score() {
+auto NMWorker::score() -> double {
   foreach (FitParameter* p, parameters) {
     p->setValue();
   }
@@ -62,43 +62,43 @@ double NMWorker::score() {
   return score;
 }
 
-double NMWorker::score(Vertex &v) {
+auto NMWorker::score(Vertex &v) -> double {
   v.score = score_c(v);
   return v.score;
 }
 
-double NMWorker::score_c(const Vertex &v) {
+auto NMWorker::score_c(const Vertex &v) -> double {
   for (int n=0; n<v.size(); n++)
     parameters.at(n)->prepareValue(v.at(n));
   return score();
 }
 
-double NMWorker::bestScore() {
+auto NMWorker::bestScore() -> double {
   return simplex.first().score;
 }
 
-double NMWorker::worstScore() {
+auto NMWorker::worstScore() -> double {
   return simplex.last().score;
 }
 
-bool NMWorker::valid() const {
+auto NMWorker::valid() const -> bool {
   return parameterCount()>0 && markerCount()>0;
 }
 
-int NMWorker::parameterCount() const {
+auto NMWorker::parameterCount() const -> int {
   return parameters.size();
 }
 
-int NMWorker::markerCount() const {
+auto NMWorker::markerCount() const -> int {
   return markers.size();
 }
 
 
-QList<double> NMWorker::bestSolution() {
+auto NMWorker::bestSolution() -> QList<double> {
   return simplex.first().coordinates.toList();
 }
 
-QList<double> NMWorker::parameterDelta() {
+auto NMWorker::parameterDelta() -> QList<double> {
   QList<double> delta;
   for (int m=0; m<parameters.size(); m++) {
     double minP=simplex.at(0).at(m);
@@ -116,7 +116,7 @@ QList<double> NMWorker::parameterDelta() {
   return delta;
 }
 
-QList<double> NMWorker::parameterRelativeDelta() {
+auto NMWorker::parameterRelativeDelta() -> QList<double> {
   QList<double> list = parameterDelta();
   for (int n=0; n<list.size(); n++) {
     list[n] /= parameters.at(n)->epsilon();
@@ -124,7 +124,7 @@ QList<double> NMWorker::parameterRelativeDelta() {
   return list;
 }
 
-QString NMWorker::parameterName(int n) {
+auto NMWorker::parameterName(int n) -> QString {
   if (n>=0 && n<parameters.size()) {
     return parameters.at(n)->name();
   }
@@ -141,7 +141,7 @@ void NMWorker::restart() {
 }
 
 void NMWorker::initParameter() {
-  Crystal* fitCrystal = new Crystal();
+  auto* fitCrystal = new Crystal();
   *fitCrystal = *liveCrystal;
   fitCrystal->enableUpdate(false);
   fitCrystal->prepareForFit();
@@ -189,8 +189,8 @@ void NMWorker::initSimplex() {
   }
 
   // Score all Elements in the Simplex
-  for (int i=0; i<simplex.size(); i++)
-    score(simplex[i]);
+  for (auto & i : simplex)
+    score(i);
 
   // And sort the Simplex...
   std::sort(simplex.begin(), simplex.end());
@@ -206,8 +206,8 @@ void NMWorker::doOneIteration() {
 
   // Calculate center of Gravity (CoG) without the worst element
   Vertex CoG;
-  for (int n=0; n<simplex.size(); n++)
-    CoG += simplex[n];
+  for (auto & n : simplex)
+    CoG += n;
   CoG *= 1.0/simplex.size();
 
 
@@ -251,7 +251,7 @@ void NMWorker::doOneIteration() {
   calcDeviation();
 }
 
-CLIP_EIGEN_STACK_ALIGN QList<double> NMWorker::calcDeviation() {
+CLIP_EIGEN_STACK_ALIGN auto NMWorker::calcDeviation() -> QList<double> {
 
   const int N = parameters.size();
 
@@ -314,7 +314,7 @@ CLIP_EIGEN_STACK_ALIGN QList<double> NMWorker::calcDeviation() {
 
 
 void NMWorker::updateTransformationMatrices() {
-  Crystal* fitCrystal = dynamic_cast<Crystal*>(copiedFitObjects.first());
+  auto* fitCrystal = dynamic_cast<Crystal*>(copiedFitObjects.first());
   spotTransferMatrix = fitCrystal->getRealOrientationMatrix().transposed() * fitCrystal->getRotationMatrix().transposed();
   zoneTransferMatrix = fitCrystal->getReziprocalOrientationMatrix().transposed() * fitCrystal->getRotationMatrix().transposed();
 }
@@ -328,7 +328,7 @@ NMWorker::MarkerInfo::MarkerInfo(AbstractMarkerItem *item):
 {
 }
 
-double NMWorker::MarkerInfo::score(const Mat3D& spotTransfer, const Mat3D& zoneTransfer) const {
+auto NMWorker::MarkerInfo::score(const Mat3D& spotTransfer, const Mat3D& zoneTransfer) const -> double {
   Vec3D n = marker->getMarkerNormal();
   if (marker->getType()==AbstractMarkerItem::SpotMarker) {
     n = spotTransfer * n;
@@ -355,60 +355,56 @@ NMWorker::Vertex::Vertex(const Vertex& o) {
   coordinates = o.coordinates;
 }
 
-NMWorker::Vertex& NMWorker::Vertex::operator=(const Vertex& o) {
-  score = o.score;
-  coordinates = o.coordinates;
-  return *this;
-}
+auto NMWorker::Vertex::operator=(const Vertex& o) -> NMWorker::Vertex& = default;
 
-bool NMWorker::Vertex::operator<(const Vertex& o) const {
+auto NMWorker::Vertex::operator<(const Vertex& o) const -> bool {
   return score<o.score;
 }
 
-NMWorker::Vertex& NMWorker::Vertex::operator+=(const Vertex& o) {
+auto NMWorker::Vertex::operator+=(const Vertex& o) -> NMWorker::Vertex& {
   if (coordinates.empty()) coordinates.resize(o.coordinates.size());
   score = -1;
   for (int n=0; n<coordinates.size(); n++) coordinates[n] += o.coordinates.at(n);
   return *this;
 }
 
-NMWorker::Vertex& NMWorker::Vertex::operator-=(const Vertex& o) {
+auto NMWorker::Vertex::operator-=(const Vertex& o) -> NMWorker::Vertex& {
   if (coordinates.empty()) coordinates.resize(o.coordinates.size());
   score = -1;
   for (int n=0; n<coordinates.size(); n++) coordinates[n] -= o.coordinates.at(n);
   return *this;
 }
 
-NMWorker::Vertex& NMWorker::Vertex::operator*=(double scale) {
+auto NMWorker::Vertex::operator*=(double scale) -> NMWorker::Vertex& {
   score = -1;
-  for (int n=0; n<coordinates.size(); n++) coordinates[n] *= scale;
+  for (double & coordinate : coordinates) coordinate *= scale;
   return *this;
 }
 
-NMWorker::Vertex NMWorker::Vertex::operator+(const Vertex& o) {
+auto NMWorker::Vertex::operator+(const Vertex& o) -> NMWorker::Vertex {
   if (coordinates.empty()) coordinates.resize(o.coordinates.size());
   Vertex tmp(*this);
   tmp += o;
   return tmp;
 }
 
-NMWorker::Vertex NMWorker::Vertex::operator-(const Vertex& o) {
+auto NMWorker::Vertex::operator-(const Vertex& o) -> NMWorker::Vertex {
   if (coordinates.empty()) coordinates.resize(o.coordinates.size());
   Vertex tmp(*this);
   tmp -= o;
   return tmp;
 }
 
-NMWorker::Vertex NMWorker::Vertex::operator*(double scale) const {
+auto NMWorker::Vertex::operator*(double scale) const -> NMWorker::Vertex {
   Vertex tmp(*this);
   tmp *= scale;
   return tmp;
 }
 
-double NMWorker::Vertex::at(int n) const {
+auto NMWorker::Vertex::at(int n) const -> double {
   return coordinates.at(n);
 }
 
-int NMWorker::Vertex::size() const {
+auto NMWorker::Vertex::size() const -> int {
   return coordinates.size();
 }

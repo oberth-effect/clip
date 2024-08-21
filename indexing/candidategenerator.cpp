@@ -45,14 +45,14 @@ CandidateGenerator::CandidateGenerator(const Mat3D& _MReal, const Mat3D& _MRecip
 void CandidateGenerator::addToGroup(const TMat3D<int> &e) {
   if (!group.contains(e)) {
     group << e;
-    for (int i=0; i<group.size(); i++) {
-      addToGroup(group.at(i)*e);
-      addToGroup(e*group.at(i));
+    for (const auto & i : group) {
+      addToGroup(i*e);
+      addToGroup(e*i);
     }
   }
 }
 
-CandidateGenerator::Candidate CandidateGenerator::getCandidate(int n) {
+auto CandidateGenerator::getCandidate(int n) -> CandidateGenerator::Candidate {
   locker.lockForRead();
   if (n>=candidates.size()) {
     locker.unlock();
@@ -68,7 +68,7 @@ CandidateGenerator::Candidate CandidateGenerator::getCandidate(int n) {
   return c;
 }
 
-QList<CandidateGenerator::Candidate> CandidateGenerator::getCandidateList(int n) {
+auto CandidateGenerator::getCandidateList(int n) -> QList<CandidateGenerator::Candidate> {
   locker.lockForRead();
   if (n>=candidates.size()) {
     locker.unlock();
@@ -96,7 +96,7 @@ void CandidateGenerator::reset() {
 
 class Vec3DOrder {
 public:
-  bool operator()(const TVec3D<int>& v1, const TVec3D<int>& v2) const {
+  auto operator()(const TVec3D<int>& v1, const TVec3D<int>& v2) const -> bool {
     for (int i=0; i<3; i++) {
       if (v1(i)<v2(i)) return true;
       if (v1(i)>v2(i)) return false;

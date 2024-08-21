@@ -24,12 +24,12 @@
 
 ObjectStore::ObjectStore(QObject* _parent): QObject(_parent), set() {
 }
-int ObjectStore::size() {
+auto ObjectStore::size() -> int {
     return set.size();
 }
 
 
-QObject* ObjectStore::at(int i) {
+auto ObjectStore::at(int i) -> QObject* {
     if (i<size()) 
         return set[i];
     else

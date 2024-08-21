@@ -69,14 +69,13 @@ ZoneItem::ZoneItem(const QPointF& p1, const QPointF& p2, Projector* p, QGraphics
 }
 
 
-ZoneItem::~ZoneItem() {
-}
+ZoneItem::~ZoneItem() = default;
 
-QRectF ZoneItem::boundingRect() const {
+auto ZoneItem::boundingRect() const -> QRectF {
   return tightBoundingRect;
 }
 
-QPainterPath ZoneItem::shape() const {
+auto ZoneItem::shape() const -> QPainterPath {
   QPainterPath path;
   foreach (QPolygonF poly, zonePolys)
     path.addPolygon(poly);
@@ -225,7 +224,7 @@ void ZoneItem::updateOptimalZone() {
   }
 }
 
-QList<QPolygonF> ZoneItem::generatePolygon(const Vec3D& n, const Vec3D& _v) {
+auto ZoneItem::generatePolygon(const Vec3D& n, const Vec3D& _v) -> QList<QPolygonF> {
   QList<QLineF> imgBorders;
   imgBorders << QLineF(imgRect.topLeft(), imgRect.topRight());
   imgBorders << QLineF(imgRect.topRight(), imgRect.bottomRight());
@@ -282,15 +281,15 @@ void ZoneItem::setEnd(const QPointF& p) {
   endHandle->setPos(p);
 }
 
-QPointF ZoneItem::getStart() {
+auto ZoneItem::getStart() -> QPointF {
   return startHandle->pos();
 }
 
-QPointF ZoneItem::getEnd() {
+auto ZoneItem::getEnd() -> QPointF {
   return endHandle->pos();
 }
 
-Vec3D ZoneItem::getMarkerNormal() const {
+auto ZoneItem::getMarkerNormal() const -> Vec3D {
   return zoneNormal;
 }
 

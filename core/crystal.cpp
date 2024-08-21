@@ -49,13 +49,13 @@ class IntIterator {
 public:
   IntIterator(int _pos): pos(_pos) {}
   int pos;
-  typedef std::random_access_iterator_tag iterator_category;
-  typedef int value_type;
-  typedef int difference_type;
-  typedef void pointer;
-  typedef void reference;
+  using iterator_category = std::random_access_iterator_tag;
+  using value_type = int;
+  using difference_type = int;
+  using pointer = void;
+  using reference = void;
 
-  bool operator !=(const IntIterator& o) {
+  auto operator !=(const IntIterator& o) -> bool {
     return pos != o.pos;
   }
 
@@ -67,11 +67,11 @@ public:
     pos +=n;
   }
 
-  int operator *() {
+  auto operator *() -> int {
     return pos;
   }
 
-  int operator-(IntIterator& o) {
+  auto operator-(IntIterator& o) -> int {
     return pos-o.pos;
   }
 
@@ -150,7 +150,7 @@ Crystal::Crystal(QObject* _parent):
   connect(this, SIGNAL(orientationChanged()), &orientationGroup, SLOT(groupDataChanged()));
 }
 
-Crystal& Crystal::operator=(const Crystal& o) {
+auto Crystal::operator=(const Crystal& o) -> Crystal& {
   synchronUpdate();
   spaceGroup.setGroupSymbol(o.spaceGroup.groupSymbol());
   internalSetCell(o.a,o.b,o.c,o.alpha,o.beta,o.gamma);
@@ -168,7 +168,7 @@ Crystal::~Crystal() {
   delete reflectionsUpdater;
 }
 
-QString Crystal::FitObjectName() {
+auto Crystal::FitObjectName() -> QString {
   return Settings_Group;
 }
 
@@ -300,7 +300,7 @@ Crystal::GenerationParameters::GenerationParameters(Crystal* c):
 
 }
 
-QPair<QVector<Reflection>, double> Crystal::doGeneration(const GenerationParameters& parameters) {
+auto Crystal::doGeneration(const GenerationParameters& parameters) -> QPair<QVector<Reflection>, double> {
 
   Vec3D savedAstar(parameters.MReziprocal(0));
   Vec3D savedBstar(parameters.MReziprocal(1));
@@ -370,7 +370,7 @@ QPair<QVector<Reflection>, double> Crystal::doGeneration(const GenerationParamet
 }
 
 
-Reflection Crystal::makeReflection(const TVec3D<int> &_hkl) const {
+auto Crystal::makeReflection(const TVec3D<int> &_hkl) const -> Reflection {
   int _ggt = ggt(_hkl.x(), ggt(_hkl.y(), _hkl.z()));
   if (_ggt<=1) _ggt = 1;
 
@@ -464,12 +464,12 @@ void Crystal::updateRotation() {
   emit reflectionsUpdate();
 }
 
-int Crystal::reflectionCount() {
+auto Crystal::reflectionCount() -> int {
   QVector<Reflection> r = getReflectionList();
   return r.size();
 }
 
-Reflection Crystal::getReflection(int i) {
+auto Crystal::getReflection(int i) -> Reflection {
   QVector<Reflection> r = getReflectionList();
   if (i<r.size()) {
     return r[i];
@@ -478,7 +478,7 @@ Reflection Crystal::getReflection(int i) {
   }
 }
 
-Reflection Crystal::getClosestReflection(const Vec3D& normal) {
+auto Crystal::getClosestReflection(const Vec3D& normal) -> Reflection {
   QVector<Reflection> r = getReflectionList();
   int minIdx=-1;
   double minDist=0;
@@ -497,37 +497,37 @@ Reflection Crystal::getClosestReflection(const Vec3D& normal) {
 }
 
 
-QVector<Reflection> Crystal::getReflectionList() {
+auto Crystal::getReflectionList() -> QVector<Reflection> {
   return reflections;
 }
 
-Vec3D Crystal::uvw2Real(const Vec3D& v) {
+auto Crystal::uvw2Real(const Vec3D& v) -> Vec3D {
   return MRot*MReal*v;
 }
 
-Vec3D Crystal::uvw2Real(const int u, const int v, const int w) {
+auto Crystal::uvw2Real(const int u, const int v, const int w) -> Vec3D {
   return uvw2Real(Vec3D(u,v,w));
 }
 
 
-Vec3D Crystal::hkl2Reziprocal(const Vec3D& v) {
+auto Crystal::hkl2Reziprocal(const Vec3D& v) -> Vec3D {
   return MRot*MReziprocal*v;
 }
 
-Vec3D Crystal::hkl2Reziprocal(const int h, const int k, const int l) {
+auto Crystal::hkl2Reziprocal(const int h, const int k, const int l) -> Vec3D {
   return hkl2Reziprocal(Vec3D(h,k,l));
 }
 
 
-Mat3D Crystal::getRealOrientationMatrix() const {
+auto Crystal::getRealOrientationMatrix() const -> Mat3D {
   return MReal;
 }
 
-Mat3D Crystal::getReziprocalOrientationMatrix() const {
+auto Crystal::getReziprocalOrientationMatrix() const -> Mat3D {
   return MReziprocal;
 }
 
-Mat3D Crystal::getRotationMatrix() const {
+auto Crystal::getRotationMatrix() const -> Mat3D {
   return MRot;
 }
 
@@ -562,7 +562,7 @@ void Crystal::updateWavevectorsFromProjectors() {
   double hi=0.0;
   double lo=0.0;
   for (int i=0; i<connectedProjectors.size(); i++) {
-    Projector* p=dynamic_cast<Projector*>(connectedProjectors.at(i));
+    auto* p=dynamic_cast<Projector*>(connectedProjectors.at(i));
     if ((i==0) or (p->Qmin()<lo))
       lo=p->Qmin();
     if ((i==0) or (p->Qmax()*sin(M_PI/360.0*p->TTmax())>hi))
@@ -571,14 +571,14 @@ void Crystal::updateWavevectorsFromProjectors() {
   setWavevectors(lo,hi);
 }
 
-QList<Projector*> Crystal::getConnectedProjectors() {
+auto Crystal::getConnectedProjectors() -> QList<Projector*> {
   QList<Projector*> list;
   for (int i=0; i<connectedProjectors.size(); i++)
     list << dynamic_cast<Projector*>(connectedProjectors.at(i));
   return list;
 }
 
-QList<FitObject*> Crystal::getFitObjects() {
+auto Crystal::getFitObjects() -> QList<FitObject*> {
   QList<FitObject*> list;
   list << this;
   foreach (Projector* p, getConnectedProjectors()) {
@@ -587,7 +587,7 @@ QList<FitObject*> Crystal::getFitObjects() {
   return list;
 }
 
-QList<AbstractMarkerItem*> Crystal::getMarkers() {
+auto Crystal::getMarkers() -> QList<AbstractMarkerItem*> {
   QList<AbstractMarkerItem*> list;
   foreach (Projector* p, getConnectedProjectors())
     list += p->getAllMarkers();
@@ -602,11 +602,11 @@ void Crystal::setRotationAxis(const Vec3D& axis, RotationAxisType type) {
   }
 }
 
-Vec3D Crystal::getRotationAxis() const {
+auto Crystal::getRotationAxis() const -> Vec3D {
   return rotationAxis;
 }
 
-Vec3D Crystal::getLabSystemRotationAxis() const {
+auto Crystal::getLabSystemRotationAxis() const -> Vec3D {
   if (axisType==ReziprocalSpace) {
     Vec3D v(MRot*MReziprocal*rotationAxis);
     v.normalize();
@@ -619,17 +619,17 @@ Vec3D Crystal::getLabSystemRotationAxis() const {
   return rotationAxis.normalized();
 }
 
-Crystal::RotationAxisType Crystal::getRotationAxisType() const {
+auto Crystal::getRotationAxisType() const -> Crystal::RotationAxisType {
   return axisType;
 }
 
-QList<double> Crystal::getCell() {
+auto Crystal::getCell() -> QList<double> {
   QList<double> cell;
   cell << a << b << c << alpha << beta << gamma;
   return cell;
 }
 
-Spacegroup* Crystal::getSpacegroup() {
+auto Crystal::getSpacegroup() -> Spacegroup* {
   return &spaceGroup;
 }
 
@@ -643,7 +643,7 @@ void Crystal::synchronUpdate(bool value) {
   updateIsSynchron=value;
 }
 
-QList<double> Crystal::calcEulerAngles(bool inDegrees) {
+auto Crystal::calcEulerAngles(bool inDegrees) -> QList<double> {
   double omega, chi, phi;
   omega=-atan2(MRot(0,1),MRot(1,1));
   //chi=asin(MRot[2][1]);
@@ -760,7 +760,7 @@ void Crystal::saveToXML(QDomElement base) {
 
 }
 
-bool Crystal::loadFromXML(QDomElement base) {
+auto Crystal::loadFromXML(QDomElement base) -> bool {
   QDomElement crystalElement = base;
   if (crystalElement.tagName()!=Settings_Group)
     crystalElement = base.elementsByTagName(Settings_Group).at(0).toElement();
@@ -808,7 +808,7 @@ Crystal::CellGroup::CellGroup(Crystal* c):
 
 }
 
-double Crystal::CellGroup::value(int member) const {
+auto Crystal::CellGroup::value(int member) const -> double {
   if (member==0) {
     return crystal->a;
   } else if (member==1) {
@@ -834,17 +834,17 @@ void Crystal::CellGroup::doSetValue(QList<double> values) {
                            values.at(5));
 }
 
-double Crystal::CellGroup::epsilon(int member) const {
+auto Crystal::CellGroup::epsilon(int member) const -> double {
   if (member<3) return 0.0001;
   return 0.001;
 }
 
-double Crystal::CellGroup::lowerBound(int member) const {
+auto Crystal::CellGroup::lowerBound(int member) const -> double {
   if (member<3) return 0.5;
   return 10;
 }
 
-double Crystal::CellGroup::upperBound(int member) const {
+auto Crystal::CellGroup::upperBound(int member) const -> double {
   if (member<3) return 25.0;
   return 170;
 }
@@ -893,7 +893,7 @@ void Crystal::OrientationGroup::setBaseRotation(const Mat3D &R) {
   omega = chi = phi = 0.0;
 }
 
-double Crystal::OrientationGroup::value(int member) const {
+auto Crystal::OrientationGroup::value(int member) const -> double {
   if (member==0) {
     return omega;
   } else if (member==1) {
@@ -916,15 +916,15 @@ void Crystal::OrientationGroup::doSetValue(QList<double> values) {
   crystal->setRotation(M);
 }
 
-double Crystal::OrientationGroup::epsilon(int /* member*/) const {
+auto Crystal::OrientationGroup::epsilon(int /* member*/) const -> double {
   return 0.0001;
 }
 
-double Crystal::OrientationGroup::lowerBound(int /*member*/) const {
+auto Crystal::OrientationGroup::lowerBound(int /*member*/) const -> double {
   return -10;
 }
 
-double Crystal::OrientationGroup::upperBound(int /*member*/) const {
+auto Crystal::OrientationGroup::upperBound(int /*member*/) const -> double {
   return 10;
 }
 

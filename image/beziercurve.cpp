@@ -35,7 +35,7 @@ BezierCurve::BezierCurve(): params() {
   setPoints(p);
 };
 
-bool BezierCurve::setPoints(const QList<QPointF>& p) {
+auto BezierCurve::setPoints(const QList<QPointF>& p) -> bool {
   points=p;
   // this ist stolen from GIMP. Hale the GPL!!!
   // File: GIMP/app/base/curves.c
@@ -102,11 +102,11 @@ bool BezierCurve::setPoints(const QList<QPointF>& p) {
   return true;
 }
 
-QList<QPointF> BezierCurve::getPoints() {
+auto BezierCurve::getPoints() -> QList<QPointF> {
   return points;
 }
 
-float BezierCurve::operator()(float x) {
+auto BezierCurve::operator()(float x) -> float {
   if (params.empty())
     return 0.0;
 
@@ -114,14 +114,14 @@ float BezierCurve::operator()(float x) {
   return params[p].calc(x);
 }
 
-float BezierCurve::operator()(float x, int& hint) {
+auto BezierCurve::operator()(float x, int& hint) -> float {
   while (params[hint].Xmax<x) hint++;
   while (params[hint].Xmin>x) hint--;
   return params[hint].calc(x);
 }
 
 
-QList<float> BezierCurve::range(float x0, float dx, int N) {
+auto BezierCurve::range(float x0, float dx, int N) -> QList<float> {
   QList<float> r;
   float x=x0;
   int p=getCurveParamIdx(x);
@@ -138,7 +138,7 @@ QList<float> BezierCurve::range(float x0, float dx, int N) {
   return r;
 }
 
-QList<QPointF> BezierCurve::pointRange(float x0, float dx, int N) {
+auto BezierCurve::pointRange(float x0, float dx, int N) -> QList<QPointF> {
   QList<QPointF> r;
   float x=x0;
   int p=getCurveParamIdx(x);
@@ -156,7 +156,7 @@ QList<QPointF> BezierCurve::pointRange(float x0, float dx, int N) {
 }
 
 
-QList<float> BezierCurve::map(QList<float> X) {
+auto BezierCurve::map(QList<float> X) -> QList<float> {
   QList<float> r;
   for (int n=X.size(); n--; ) {
     float x=X[n];
@@ -168,7 +168,7 @@ QList<float> BezierCurve::map(QList<float> X) {
 
 
 
-QList<float> BezierCurve::mapSorted(QList<float> X, QList<int> Idx) {
+auto BezierCurve::mapSorted(QList<float> X, QList<int> Idx) -> QList<float> {
   QList<float> r(X);
   int p=getCurveParamIdx(X[Idx[0]]);
   int n=X.size();
@@ -186,7 +186,7 @@ QList<float> BezierCurve::mapSorted(QList<float> X, QList<int> Idx) {
 
 }
 
-int BezierCurve::getCurveParamIdx(float x) {
+auto BezierCurve::getCurveParamIdx(float x) -> int {
   CurveParams cp(0,0,0,0,0,x);
   QList<CurveParams>::const_iterator iter=std::lower_bound(params.constBegin(), params.constEnd(), cp);
   if (iter==params.constEnd())
@@ -194,7 +194,7 @@ int BezierCurve::getCurveParamIdx(float x) {
   return qMax(0,iter-params.constBegin());
 }
 
-BezierCurve::CurveParams BezierCurve::getCurveParam(float x) {
+auto BezierCurve::getCurveParam(float x) -> BezierCurve::CurveParams {
   int p=getCurveParamIdx(x);
   return params[p];
 }

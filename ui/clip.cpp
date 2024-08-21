@@ -82,7 +82,7 @@ Clip::~Clip(){
 
 Clip* Clip::instance = nullptr;
 
-Clip* Clip::getInstance() {
+auto Clip::getInstance() -> Clip* {
   if (instance==nullptr)
     instance = new Clip();
   return instance;
@@ -99,7 +99,7 @@ void Clip::clearInstance() {
 
 
 void Clip::on_newCrystal_triggered() {
-  CrystalDisplay* crystalDisplay = new CrystalDisplay();
+  auto* crystalDisplay = new CrystalDisplay();
   addMdiWindow(crystalDisplay)->systemMenu()->addAction("Save as Default", crystalDisplay->getCrystal(), SLOT(saveParametersAsDefault()));
 }
 
@@ -118,9 +118,9 @@ void Clip::on_newDiffStereo_triggered()
 }
 
 
-ProjectionPlane* Clip::addProjector(Projector* p) {
-  if (!p) return 0;
-  ProjectionPlane* pp = new ProjectionPlane(connectToLastCrystal(p), this);
+auto Clip::addProjector(Projector* p) -> ProjectionPlane* {
+  if (!p) return nullptr;
+  auto* pp = new ProjectionPlane(connectToLastCrystal(p), this);
   connect(pp, SIGNAL(rotationFromProjector(double)), this, SIGNAL(projectorRotation(double)));
   connect(pp, SIGNAL(mousePositionInfo(MousePositionInfo)), this, SIGNAL(mousePositionInfo(MousePositionInfo)));
   connect(this, SIGNAL(highlightMarker(Vec3D)), p, SLOT(setSpotHighlighting(Vec3D)));
@@ -128,13 +128,13 @@ ProjectionPlane* Clip::addProjector(Projector* p) {
   return pp;
 }
 
-Projector* Clip::connectToLastCrystal(Projector *p) {
+auto Clip::connectToLastCrystal(Projector *p) -> Projector* {
   Crystal* c = getMostRecentCrystal(false);
   if (c) p->connectToCrystal(c);
   return p;
 }
 
-Crystal* Clip::getMostRecentCrystal(bool checkProjectors) {
+auto Clip::getMostRecentCrystal(bool checkProjectors) -> Crystal* {
   QList<QMdiSubWindow*> mdiWindows = ui->mdiArea->subWindowList(QMdiArea::StackingOrder);
   while (!mdiWindows.empty()) {
     QMdiSubWindow* mdiWindow = mdiWindows.takeLast();
@@ -150,7 +150,7 @@ Crystal* Clip::getMostRecentCrystal(bool checkProjectors) {
   return nullptr;
 }
 
-Projector* Clip::getMostRecentProjector(bool withCrystal) {
+auto Clip::getMostRecentProjector(bool withCrystal) -> Projector* {
   QList<QMdiSubWindow*> mdiWindows = ui->mdiArea->subWindowList(QMdiArea::StackingOrder);
   while (!mdiWindows.empty()) {
     QMdiSubWindow* mdiWindow = mdiWindows.takeLast();
@@ -162,7 +162,7 @@ Projector* Clip::getMostRecentProjector(bool withCrystal) {
   return nullptr;
 }
 
-QMdiSubWindow* Clip::addMdiWindow(QWidget* w, bool deleteOnClose) {
+auto Clip::addMdiWindow(QWidget* w, bool deleteOnClose) -> QMdiSubWindow* {
   QMdiSubWindow* m = ui->mdiArea->addSubWindow(w);
   m->setAttribute(Qt::WA_DeleteOnClose, deleteOnClose);
   m->setWindowIcon(w->windowIcon());
@@ -295,7 +295,7 @@ void Clip::on_actionReorientation_triggered() {
   raiseOrCreateToolWindow<Reorient>();
 }
 
-template <class T> T* Clip::raiseOrCreateToolWindow() {
+template <class T> auto Clip::raiseOrCreateToolWindow() -> T* {
   foreach (QMdiSubWindow* mdi, ui->mdiArea->subWindowList()) {
     if (dynamic_cast<T*>(mdi->widget())) {
       mdi->raise();
@@ -332,7 +332,7 @@ const char XML_Clip_CrystalConnection[] = "CrystalConnection";
 const char XML_Clip_ConnectedCrystal[] = "ConnectedCrystal";
 const char XML_Clip_ConnectedProjectors[] = "ConnectedProjectors";
 
-bool Clip::loadWorkspaceFile(QString filename) {
+auto Clip::loadWorkspaceFile(QString filename) -> bool {
   QDomDocument doc("ClipWorkspace");
   QFile file(filename);
   if (!file.open(QIODevice::ReadOnly))

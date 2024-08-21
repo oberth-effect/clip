@@ -27,10 +27,10 @@
 #include "tools/vec3D.h"
 
 #include <cmath>
-#include <stdio.h>
+#include <cstdio>
  
-#include <string.h>
 #include <algorithm>
+#include <cstring>
 #include <type_traits>
 
 #include "tools/tools.h"
@@ -110,7 +110,7 @@ template <typename T> void TMat3D<T>::zero() {
 }
 
 
-template <typename T> TMat3D<T> TMat3D<T>::operator+(const TMat3D<T>& m) const {
+template <typename T> auto TMat3D<T>::operator+(const TMat3D<T>& m) const -> TMat3D<T> {
   TMat3D<T> r(TMat3D<T>::NoInit);
   for (int i=0; i<3; i++)
     for (int j=0; j<3; j++)
@@ -118,7 +118,7 @@ template <typename T> TMat3D<T> TMat3D<T>::operator+(const TMat3D<T>& m) const {
   return r;
 }
 
-template <typename T> TMat3D<T> TMat3D<T>::operator-(const TMat3D<T>& m) const {
+template <typename T> auto TMat3D<T>::operator-(const TMat3D<T>& m) const -> TMat3D<T> {
   TMat3D<T> r(TMat3D<T>::NoInit);
   for (int i=0; i<3; i++)
     for (int j=0; j<3; j++)
@@ -126,7 +126,7 @@ template <typename T> TMat3D<T> TMat3D<T>::operator-(const TMat3D<T>& m) const {
   return r;
 }
 
-template <typename T> TMat3D<T> TMat3D<T>::operator*(T a) const {
+template <typename T> auto TMat3D<T>::operator*(T a) const -> TMat3D<T> {
   TMat3D<T> r(TMat3D<T>::NoInit);
   for (int i=0; i<3; i++)
     for (int j=0; j<3; j++)
@@ -134,7 +134,7 @@ template <typename T> TMat3D<T> TMat3D<T>::operator*(T a) const {
   return r;
 }
 
-template <typename T> template <typename U> TVec3D<T> TMat3D<T>::operator*(const TVec3D<U>& v) const {
+template <typename T> template <typename U> auto TMat3D<T>::operator*(const TVec3D<U>& v) const -> TVec3D<T> {
   TVec3D<T> r(TVec3D<T>::NoInit);
   for (int i=0; i<3; i++) {
     T tmp = (*this)(i,0)*v(0);
@@ -145,7 +145,7 @@ template <typename T> template <typename U> TVec3D<T> TMat3D<T>::operator*(const
   return r;
 }
 
-template <typename T> TMat3D<T> TMat3D<T>::operator*(const TMat3D<T>& m) const {
+template <typename T> auto TMat3D<T>::operator*(const TMat3D<T>& m) const -> TMat3D<T> {
   TMat3D<T> r(TMat3D<T>::NoInit);
   for (int j=0; j<3; j++) {
     for (int i=0; i<3; i++) {
@@ -159,7 +159,7 @@ template <typename T> TMat3D<T> TMat3D<T>::operator*(const TMat3D<T>& m) const {
 }
 
 
-template <typename T> TMat3D<T>& TMat3D<T>::operator*=(const TMat3D<T>& m) {
+template <typename T> auto TMat3D<T>::operator*=(const TMat3D<T>& m) -> TMat3D<T>& {
   TMat3D tmp(*this);
   for (int j=0; j<3; j++) {
     for (int i=0; i<3; i++) {
@@ -172,7 +172,7 @@ template <typename T> TMat3D<T>& TMat3D<T>::operator*=(const TMat3D<T>& m) {
   return *this;
 }
 
-template <typename T> TMat3D<T>& TMat3D<T>::lmult(const TMat3D<T>& m) {
+template <typename T> auto TMat3D<T>::lmult(const TMat3D<T>& m) -> TMat3D<T>& {
   TMat3D tmp(*this);
   for (int j=0; j<3; j++) {
     for (int i=0; i<3; i++) {
@@ -185,21 +185,21 @@ template <typename T> TMat3D<T>& TMat3D<T>::lmult(const TMat3D<T>& m) {
   return *this;
 }
 
-template <typename T> TMat3D<T>& TMat3D<T>::operator+=(const TMat3D<T>& m) {
+template <typename T> auto TMat3D<T>::operator+=(const TMat3D<T>& m) -> TMat3D<T>& {
   for (int i=0; i<3; i++)
     for (int j=0; j<3; j++)
       (*this)(i,j)+=m(i,j);
   return *this;
 }
 
-template <typename T> TMat3D<T>& TMat3D<T>::operator-=(const TMat3D<T>& m) {
+template <typename T> auto TMat3D<T>::operator-=(const TMat3D<T>& m) -> TMat3D<T>& {
   for (int i=0; i<3; i++)
     for (int j=0; j<3; j++)
       (*this)(i,j)-=m(i,j);
   return *this;
 }
 
-template <typename T> TMat3D<T>& TMat3D<T>::operator*=(T a) {
+template <typename T> auto TMat3D<T>::operator*=(T a) -> TMat3D<T>& {
   for (int i=0; i<3; i++)
     for (int j=0; j<3; j++)
       (*this)(i,j)*=a;
@@ -207,7 +207,7 @@ template <typename T> TMat3D<T>& TMat3D<T>::operator*=(T a) {
 }
 
 
-template <typename T> bool TMat3D<T>::operator==(const TMat3D<T>& m) const {
+template <typename T> auto TMat3D<T>::operator==(const TMat3D<T>& m) const -> bool {
   for (int i=0; i<3; i++) {
     for (int j=0; j<3; j++) {
       if (!((*this)(i,j)==m(i,j)))
@@ -217,20 +217,20 @@ template <typename T> bool TMat3D<T>::operator==(const TMat3D<T>& m) const {
   return true;
 }
 
-template <typename T> TVec3D<T> TMat3D<T>::operator()(int i) const {
+template <typename T> auto TMat3D<T>::operator()(int i) const -> TVec3D<T> {
   if (i<3) 
     return TVec3D<T>((*this)(i,0), (*this)(i,1), (*this)(i,2));
   return TVec3D<T>();
 }
 
 
-template <typename T> T TMat3D<T>::at(int i, int j) const {
+template <typename T> auto TMat3D<T>::at(int i, int j) const -> T {
   if ((i<3) && (j<3)) 
     return (*this)(i,j);
   return InitatorValues<T>::One();
 }
 
-template <typename T> TMat3D<T> TMat3D<T>::orthogonalize() const {
+template <typename T> auto TMat3D<T>::orthogonalize() const -> TMat3D<T> {
   TMat3D C=(TMat3D()*3.0-((*this)*transposed()))*0.5;
   return C*(*this);
 }
@@ -243,7 +243,7 @@ template <typename T> void TMat3D<T>::transpose() {
 }
 
 
-template <typename T> TMat3D<T> TMat3D<T>::transposed() const {
+template <typename T> auto TMat3D<T>::transposed() const -> TMat3D<T> {
   TMat3D<T> r(TMat3D<T>::NoInit);
   for (int i=0; i<3; i++) {
     for (int j=0; j<3; j++) {
@@ -253,7 +253,7 @@ template <typename T> TMat3D<T> TMat3D<T>::transposed() const {
   return r;
 }
 
-template <typename T> TMat3D<T> TMat3D<T>::inverse() const {
+template <typename T> auto TMat3D<T>::inverse() const -> TMat3D<T> {
   TMat3D<T> r(TMat3D<T>::NoInit);
   T d=this->det();
   if (d!=InitatorValues<T>::Zero()) {
@@ -272,7 +272,7 @@ template <typename T> TMat3D<T> TMat3D<T>::inverse() const {
 }
 
 
-template <typename T> T TMat3D<T>::sqSum() const {
+template <typename T> auto TMat3D<T>::sqSum() const -> T {
   T s=InitatorValues<T>::Zero();
   for (int i=0; i<3; i++)
     for (int j=0; j<3; j++)
@@ -280,7 +280,7 @@ template <typename T> T TMat3D<T>::sqSum() const {
   return s;
 }
 
-template <typename T> T TMat3D<T>::det() const {
+template <typename T> auto TMat3D<T>::det() const -> T {
   T d=(*this)(0,0)*(*this)(1,1)*(*this)(2,2);
   d+=(*this)(1,0)*(*this)(2,1)*(*this)(0,2);
   d+=(*this)(2,0)*(*this)(0,1)*(*this)(1,2);
@@ -290,7 +290,7 @@ template <typename T> T TMat3D<T>::det() const {
   return d;
 }
 
-template <typename T> TMat3D<T> TMat3D<T>::QR() {
+template <typename T> auto TMat3D<T>::QR() -> TMat3D<T> {
   TMat3D<T> Q;
   for (int n=0; n<2; n++) {
     TVec3D<T> u;
@@ -306,7 +306,7 @@ template <typename T> TMat3D<T> TMat3D<T>::QR() {
   return Q;
 }
 
-template <typename T> TMat3D<T> TMat3D<T>::QL() {
+template <typename T> auto TMat3D<T>::QL() -> TMat3D<T> {
   TMat3D<T> Q;
   for (int n=0; n<2; n++) {
     TVec3D<T> u;
@@ -389,7 +389,7 @@ template <typename T> void MACRO(T& a, T& b, T& c, T& s) {
 }
 
 
-template <typename T> int TMat3D<T>::fastsvd(TMat3D<T>& L, TMat3D<T>& R) {
+template <typename T> auto TMat3D<T>::fastsvd(TMat3D<T>& L, TMat3D<T>& R) -> int {
 
   upperBidiagonal(L,R);
 
@@ -457,8 +457,8 @@ template <typename T> int TMat3D<T>::fastsvd(TMat3D<T>& L, TMat3D<T>& R) {
 
     sumDiag=0.0;
     sumOffdiag=0.0;
-    for (int i=0; i<3; i++) sumDiag+=fabs((*this)(i,i));
-    for (int i=0; i<2; i++) sumOffdiag+=fabs((*this)(i,i+1));
+    for (int i=0; i<3; i++) sumDiag+=std::abs((*this)(i,i));
+    for (int i=0; i<2; i++) sumOffdiag+=std::abs((*this)(i,i+1));
 
   } while (maxLoops-- and sumDiag<1e20*sumOffdiag);
   return maxLoops;
@@ -466,7 +466,7 @@ template <typename T> int TMat3D<T>::fastsvd(TMat3D<T>& L, TMat3D<T>& R) {
 
 
 
-template <typename T> int TMat3D<T>::svd(TMat3D<T>& L, TMat3D<T>& R) {
+template <typename T> auto TMat3D<T>::svd(TMat3D<T>& L, TMat3D<T>& R) -> int {
   upperBidiagonal(L,R);
   L.transpose();
 
@@ -507,8 +507,8 @@ template <typename T> int TMat3D<T>::svd(TMat3D<T>& L, TMat3D<T>& R) {
 
     sumDiag=0.0;
     sumOffdiag=0.0;
-    for (int i=0; i<3; i++) sumDiag+=fabs((*this)(i,i));
-    for (int i=0; i<2; i++) sumOffdiag+=fabs((*this)(i,i+1));
+    for (int i=0; i<3; i++) sumDiag+=std::abs((*this)(i,i));
+    for (int i=0; i<2; i++) sumOffdiag+=std::abs((*this)(i,i+1));
 
   } while (maxLoops-- and sumDiag<1e20*sumOffdiag);
   L.transpose();
@@ -516,7 +516,7 @@ template <typename T> int TMat3D<T>::svd(TMat3D<T>& L, TMat3D<T>& R) {
   return maxLoops;
 };    
 
-template <typename T> template <typename U> TMat3D<U> TMat3D<T>::toType() {
+template <typename T> template <typename U> auto TMat3D<T>::toType() -> TMat3D<U> {
   return TMat3D<U>(static_cast<U>((*this)(0,0)),
               static_cast<U>((*this)(0,1)),
               static_cast<U>((*this)(0,2)),

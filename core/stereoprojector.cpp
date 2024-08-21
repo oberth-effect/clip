@@ -68,15 +68,15 @@ StereoProjector::StereoProjector(QObject* _parent):
   connect(this, SIGNAL(textSizeChanged(double)), this, SLOT(decorateScene()));
 }
 
-Projector* StereoProjector::getInstance() {
+auto StereoProjector::getInstance() -> Projector* {
   return new StereoProjector();
 }
 
-QPointF StereoProjector::scattered2det(const Vec3D &v) const {
+auto StereoProjector::scattered2det(const Vec3D &v) const -> QPointF {
   return normal2det(scattered2normal(v));
 }
 
-QPointF StereoProjector::scattered2det(const Vec3D& v, bool& b) const {
+auto StereoProjector::scattered2det(const Vec3D& v, bool& b) const -> QPointF {
   Vec3D t(scattered2normal(v,b));
   if (b) {
     return normal2det(t,b);
@@ -85,11 +85,11 @@ QPointF StereoProjector::scattered2det(const Vec3D& v, bool& b) const {
   }
 }
 
-Vec3D StereoProjector::det2scattered(const QPointF& p) const {
+auto StereoProjector::det2scattered(const QPointF& p) const -> Vec3D {
   return normal2scattered(det2normal(p));
 }
 
-Vec3D StereoProjector::det2scattered(const QPointF& p, bool& b) const {
+auto StereoProjector::det2scattered(const QPointF& p, bool& b) const -> Vec3D {
   Vec3D t(det2normal(p,b));
   if (b) {
     return normal2scattered(t,b);
@@ -98,27 +98,27 @@ Vec3D StereoProjector::det2scattered(const QPointF& p, bool& b) const {
   }
 }
 
-QPointF StereoProjector::normal2det(const Vec3D& n) const {
+auto StereoProjector::normal2det(const Vec3D& n) const -> QPointF {
   Vec3D v=localCoordinates*n;
   double s=1.0+v.x();
   return (s>1e-5) ? QPointF(SCENEBLOWUP(v.y()/s), SCENEBLOWUP(v.z()/s)) : QPointF();
 }
 
-QPointF StereoProjector::normal2det(const Vec3D& n, bool& b) const {
+auto StereoProjector::normal2det(const Vec3D& n, bool& b) const -> QPointF {
   Vec3D v=localCoordinates*n;
   double s=1.0+v.x();
   b = (s>1e-5);
   return (b) ? QPointF(SCENEBLOWUP(v.y()/s), SCENEBLOWUP(v.z()/s)) : QPointF();
 }
 
-Vec3D StereoProjector::det2normal(const QPointF& p) const {
+auto StereoProjector::det2normal(const QPointF& p) const -> Vec3D {
   double x=SCENECOMPRESS(p.x());
   double y=SCENECOMPRESS(p.y());
   double n=1.0/(x*x+y*y+1.0);
   return localCoordinates.transposed()*Vec3D(n*(1.0-x*x-y*y), 2*x*n, 2*y*n);
 }
 
-Vec3D StereoProjector::det2normal(const QPointF& p, bool& b) const {
+auto StereoProjector::det2normal(const QPointF& p, bool& b) const -> Vec3D {
   double x=SCENECOMPRESS(p.x());
   double y=SCENECOMPRESS(p.y());
   double n=1.0/(x*x+y*y+1.0);
@@ -126,17 +126,16 @@ Vec3D StereoProjector::det2normal(const QPointF& p, bool& b) const {
   return localCoordinates.transposed()*Vec3D(n*(1.0-x*x-y*y), 2*x*n, 2*y*n);
 }
 
-QPair<double, double> StereoProjector::validOrderRange(double Q, double Qscatter) {
+auto StereoProjector::validOrderRange(double Q, double Qscatter) -> QPair<double, double> {
   double q = displayNonscatteringReflections ? Q : Qscatter;
   if (q<1e-5) return qMakePair(0.0, 0.0);
   return qMakePair(2.0*QminVal/q, 2.0*QmaxVal/q);
 }
 
-bool StereoProjector::project(const Reflection &r, QPointF &p) {
+auto StereoProjector::project(const Reflection &r, QPointF &p) -> bool {
   bool reflectionInRange=false;
   QPair<double, double> limits = validOrderRange(r.Q, r.Qscatter);
-  for (int i=0; i<r.orders.size(); i++) {
-    int n=r.orders[i];
+  for (int n : r.orders) {
     if ((limits.first<=n) and (n<=limits.second)) {
       reflectionInRange=true;
       break;
@@ -189,7 +188,7 @@ void StereoProjector::decorateScene() {
     } else {
      s = QString("%1 %2 %3").arg(c.x()).arg(c.y()).arg(c.z());
     }
-    QGraphicsTextItem* ti = new QGraphicsTextItem();
+    auto* ti = new QGraphicsTextItem();
     ti->setTransform(QTransform(1,0,0,-1,0,0));
     ti->setHtml(s);
 
@@ -209,19 +208,19 @@ void StereoProjector::decorateScene() {
 
 }
 
-QWidget* StereoProjector::configWidget() {
+auto StereoProjector::configWidget() -> QWidget* {
   return new StereoCfg(this);
 }
 
-QString StereoProjector::projectorName() const {
+auto StereoProjector::projectorName() const -> QString {
   return QString("StereoProjector");
 }
 
-QString StereoProjector::displayName() {
+auto StereoProjector::displayName() -> QString {
   return QString("Stereographic Projection");
 }
 
-QSize StereoProjector::projectorSizeHint() const {
+auto StereoProjector::projectorSizeHint() const -> QSize {
   QSettings settings;
   return settings.value(QString("%1/windowSize").arg(projectorName()), QSize(200, 250)).toSize();
 }
@@ -232,7 +231,7 @@ void StereoProjector::setDetOrientation(const Mat3D& M) {
   emit projectionParamsChanged();
 }
 
-Mat3D StereoProjector::getDetOrientation() {
+auto StereoProjector::getDetOrientation() -> Mat3D {
   return localCoordinates;
 }
 
@@ -241,11 +240,11 @@ void StereoProjector::setDisplayNonscatteringReflections(bool b) {
   emit projectionParamsChanged();
 }
 
-bool StereoProjector::displaysNonscatteringReflections() {
+auto StereoProjector::displaysNonscatteringReflections() -> bool {
   return displayNonscatteringReflections;
 }
 
-QDomElement StereoProjector::saveToXML(QDomElement base) {
+auto StereoProjector::saveToXML(QDomElement base) -> QDomElement {
   QDomElement projector = Projector::saveToXML(base);
   QDomElement e = projector.appendChild(projector.ownerDocument().createElement(XML_Stereo_Frame)).toElement();
   for (int i=0; i<3;  i++) {
@@ -258,7 +257,7 @@ QDomElement StereoProjector::saveToXML(QDomElement base) {
   return projector;
 }
 
-bool StereoProjector::parseXMLElement(QDomElement e) {
+auto StereoProjector::parseXMLElement(QDomElement e) -> bool {
   bool ok=true;
   if (e.tagName()==XML_Stereo_Frame) {
     Mat3D M;

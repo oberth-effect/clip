@@ -26,21 +26,21 @@
 Marker::Marker(const Vec3D &n, MarkerType t, int _maxSearchIndex):
     AbstractMarkerItem(t),
     markerNormal(n),
-    normalToIndexMatrix(0)
+    normalToIndexMatrix(nullptr)
 {
   setMaxSearchIndex(_maxSearchIndex);
 }
 
 
-Vec3D Marker::getMarkerNormal() const {
+auto Marker::getMarkerNormal() const -> Vec3D {
   return markerNormal;
 }
 
-Vec3D Marker::normalToIndex(const Vec3D &n) {
+auto Marker::normalToIndex(const Vec3D &n) -> Vec3D {
   return *normalToIndexMatrix * n;
 }
 
-Vec3D Marker::getIndexNormal() {
+auto Marker::getIndexNormal() -> Vec3D {
   Vec3D v = getIntegerIndex().toType<double>();
   v = *indexToNormalMatrix * v;
   v.normalize();

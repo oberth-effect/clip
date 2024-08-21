@@ -77,7 +77,7 @@ ConfigStore::~ConfigStore() {
 
 ConfigStore* ConfigStore::instance = nullptr;
 
-ConfigStore* ConfigStore::getInstance() {
+auto ConfigStore::getInstance() -> ConfigStore* {
   if (instance==nullptr) {
     instance = new ConfigStore();
   }
@@ -91,15 +91,15 @@ void ConfigStore::clearInstance() {
   }
 }
 
-int ConfigStore::colorCount() const {
+auto ConfigStore::colorCount() const -> int {
   return colors.size();
 }
 
-QColor ConfigStore::color(int t) const {
+auto ConfigStore::color(int t) const -> QColor {
   return colors.at(t)->color();
 }
 
-QString ConfigStore::colorName(int t) const {
+auto ConfigStore::colorName(int t) const -> QString {
   return colors.at(t)->name();
 }
 
@@ -107,7 +107,7 @@ void ConfigStore::setColor(int t, const QColor& color) {
   colors.at(t)->setColor(color);
 }
 
-QByteArray sig2Name(const char* method) {
+auto sig2Name(const char* method) -> QByteArray {
   // Normalize name and convert the char* to a QByteArray
   QByteArray name = QMetaObject::normalizedSignature(method);
   // Remove the trailing digit
@@ -117,7 +117,7 @@ QByteArray sig2Name(const char* method) {
   return name;
 }
 
-QByteArray sig2Args(const char* method) {
+auto sig2Args(const char* method) -> QByteArray {
   // Normalize name and convert the char* to a QByteArray
   QByteArray args = QMetaObject::normalizedSignature(method);
   // Remove the trailing digit, the name and the opening "("
@@ -149,7 +149,7 @@ void ConfigStore::setZoneMarkerWidth(double v) {
   emit zoneMarkerWidthChanged(v);
 }
 
-double ConfigStore::getZoneMarkerWidth() const {
+auto ConfigStore::getZoneMarkerWidth() const -> double {
   return zoneMarkerWidth;
 }
 
@@ -157,7 +157,7 @@ void ConfigStore::setLoadPositionFromWorkspace(bool b) {
   loadPositionFromCWS = b;
 }
 
-bool ConfigStore::loadPositionFromWorkspace() {
+auto ConfigStore::loadPositionFromWorkspace() -> bool {
   return loadPositionFromCWS;
 }
 
@@ -165,7 +165,7 @@ void ConfigStore::setLoadSizeFromWorkspace(bool b) {
   loadSizeFromCWS = b;
 }
 
-bool ConfigStore::loadSizeFromWorkspace() {
+auto ConfigStore::loadSizeFromWorkspace() -> bool {
   return loadSizeFromCWS;
 }
 
@@ -173,6 +173,6 @@ void ConfigStore::setInitialWorkspaceFile(QString s) {
   initialCWSFile = s;
 }
 
-QString ConfigStore::initialWorkspaceFile() {
+auto ConfigStore::initialWorkspaceFile() -> QString {
   return initialCWSFile;
 }

@@ -65,7 +65,7 @@ RotateCrystal::~RotateCrystal()
   delete ui;
 }
 
-QSize RotateCrystal::sizeHint() const {
+auto RotateCrystal::sizeHint() const -> QSize {
   return minimumSizeHint();
 }
 

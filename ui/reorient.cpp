@@ -59,11 +59,11 @@ void Reorient::windowChanged() {
   updateDisplay();
 }
 
-QSize Reorient::sizeHint() const {
+auto Reorient::sizeHint() const -> QSize {
   return minimumSizeHint();
 }
 
-Vec3D Reorient::fromNormal() {
+auto Reorient::fromNormal() -> Vec3D {
   Crystal* c;
   if (!fromIndex.isNull() && (c = Clip::getInstance()->getMostRecentCrystal(true))) {
     if (ui->RezicheckBox->isChecked()) {
@@ -75,7 +75,7 @@ Vec3D Reorient::fromNormal() {
   return Vec3D();
 }
 
-Vec3D Reorient::toNormal() {
+auto Reorient::toNormal() -> Vec3D {
   int index=ui->toCombo->currentIndex();
   if (index>2) {
     Crystal* c;
@@ -106,7 +106,7 @@ void Reorient::updateDisplay() {
 }
 
 // For the description of the algorithm, see manual.tex
-bool Reorient::calcRotationAngles(double &angle1, double &angle2) {
+auto Reorient::calcRotationAngles(double &angle1, double &angle2) -> bool {
   if (gonioAxis.at(0).isNull() || gonioAxis.at(1).isNull()) return false;
   Vec3D nfrom = fromNormal();
   if (nfrom.isNull()) return false;
@@ -136,7 +136,7 @@ bool Reorient::calcRotationAngles(double &angle1, double &angle2) {
 }
 
 
-bool Reorient::calcLine(const Vec3D& nfrom, const Vec3D& nto, Vec3D& u1, Vec3D& u2) {
+auto Reorient::calcLine(const Vec3D& nfrom, const Vec3D& nto, Vec3D& u1, Vec3D& u2) -> bool {
   u2 = gonioAxis.at(0) % gonioAxis.at(1);
   if (u2.norm()<1e-6) return false;
   u2.normalize();
@@ -156,7 +156,7 @@ bool Reorient::calcLine(const Vec3D& nfrom, const Vec3D& nto, Vec3D& u1, Vec3D& 
   return true;
 }
 
-QList<Vec3D> Reorient::calcPossibleIntermediatePositions(const Vec3D& u1, const Vec3D& u2) {
+auto Reorient::calcPossibleIntermediatePositions(const Vec3D& u1, const Vec3D& u2) -> QList<Vec3D> {
   QList<Vec3D> r;
   double l=u1.norm_sq();
   if (l==1.0) {
@@ -168,7 +168,7 @@ QList<Vec3D> Reorient::calcPossibleIntermediatePositions(const Vec3D& u1, const 
   return r;
 }
 
-double Reorient::calcRotationAngle(const Vec3D& from, const Vec3D& to, const Vec3D &axis) {
+auto Reorient::calcRotationAngle(const Vec3D& from, const Vec3D& to, const Vec3D &axis) -> double {
   Vec3D v1(from-axis*(from*axis));
   v1.normalize();
 

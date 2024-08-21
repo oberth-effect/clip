@@ -22,8 +22,10 @@
 
 #include "fitparameter.h"
 
+#include <utility>
+
 FitParameter::FitParameter(QString n, int id, FitParameterGroup &g):
-    _name(n),
+    _name(std::move(n)),
     memberId(id),
     group(g)
 {
@@ -42,7 +44,7 @@ void FitParameter::prepareValue(double v) {
   }
 }
 
-double FitParameter::getCachedValue() const {
+auto FitParameter::getCachedValue() const -> double {
   if (hasCachedValue) {
     return cachedValue;
   } else {
