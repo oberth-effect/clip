@@ -1,10 +1,26 @@
-name: Try build M1
+name: Check Build
 
 on:
   workflow_dispatch: # allows manual triggering
 
 jobs:
-  dbuild:
+  build-x86_64-linux:
+    runs-on: ubuntu-latest
+    steps:      
+      - uses: actions/checkout@v3
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - run: nix build .
+
+  build-x86_64-darwin:
+    runs-on: macos-13
+    steps:      
+      - uses: actions/checkout@v3
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - run: nix build .
+
+  build-aarch64-darwin:
     runs-on: macos-14
     steps:      
       - uses: actions/checkout@v3
