@@ -23,8 +23,8 @@
 #include "simplemonochromscaler.h"
 
 #include <set>
-#include <tr1/unordered_set>
-#include <tr1/unordered_map>
+#include <unordered_set>
+#include <unordered_map>
  
 #include <cmath>
 #include <cstdint>
@@ -73,7 +73,7 @@ template <typename T> void SimpleMonochromScaler<T>::makeValueIndex() {
   // Generates a hashed Tree with the distinct pixel values in the image.
   // store the index of each pixel for every pixel value
   std::set<UniqueHelper> indexSet;
-  std::tr1::unordered_set<UniqueHelper, hash> uniqueSet;
+  std::unordered_set<UniqueHelper, hash> uniqueSet;
   // loop over all pixel
   for (int i=0; i<provider->pixelCount(); i++) {
     // Try to insert pixel, res containes an iterator to the element and
