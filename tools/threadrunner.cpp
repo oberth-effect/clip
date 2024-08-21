@@ -92,7 +92,7 @@ auto ThreadRunner::makeFunctor(void(*f)()) -> ThreadRunner::BaseThreadFunctor* {
 
 void ThreadRunner::workFunction(int id) {
 
-  while (1) {
+  while (true) {
 #if USE_SEMAPHORE_SYNC
     workerPermission.acquire();
     if (shouldStop) {
