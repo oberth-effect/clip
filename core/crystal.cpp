@@ -49,11 +49,11 @@ class IntIterator {
 public:
   IntIterator(int _pos): pos(_pos) {}
   int pos;
-  typedef std::random_access_iterator_tag iterator_category;
-  typedef int value_type;
-  typedef int difference_type;
-  typedef void pointer;
-  typedef void reference;
+  using iterator_category = std::random_access_iterator_tag;
+  using value_type = int;
+  using difference_type = int;
+  using pointer = void;
+  using reference = void;
 
   auto operator !=(const IntIterator& o) -> bool {
     return pos != o.pos;
