@@ -42,7 +42,7 @@ void FitParameter::prepareValue(double v) {
   }
 }
 
-double FitParameter::getCachedValue() const {
+auto FitParameter::getCachedValue() const -> double {
   if (hasCachedValue) {
     return cachedValue;
   } else {

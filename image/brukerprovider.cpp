@@ -36,8 +36,8 @@
 #include "image/imagedatastore.h"
 
 
-QVector<unsigned int> readArrayFromSfrm(QFile& f, int len, int bytes);
-int padTo(int value, int pad);
+auto readArrayFromSfrm(QFile& f, int len, int bytes) -> QVector<unsigned int>;
+auto padTo(int value, int pad) -> int;
 
 const char BrukerProvider::Info_Format[] = "FORMAT";
 
@@ -50,12 +50,12 @@ BrukerProvider::~BrukerProvider() {
 }
 
 
-QStringList BrukerProvider::Factory::fileFormatFilters() {
+auto BrukerProvider::Factory::fileFormatFilters() -> QStringList {
   return QStringList() << "sfrm";
 }
 
 
-template <typename T> QVector<unsigned int> readArrayFromSfrmTmpl(QFile& f, int len) {
+template <typename T> auto readArrayFromSfrmTmpl(QFile& f, int len) -> QVector<unsigned int> {
   T val;
   QVector<unsigned int> data;
   data.reserve(len);
@@ -70,7 +70,7 @@ template <typename T> QVector<unsigned int> readArrayFromSfrmTmpl(QFile& f, int 
   return data;
 }
 
-QVector<unsigned int> readArrayFromSfrm(QFile& f, int len, int bytes) {
+auto readArrayFromSfrm(QFile& f, int len, int bytes) -> QVector<unsigned int> {
   if (bytes==1) {
     return readArrayFromSfrmTmpl<quint8>(f, len);
   } else if (bytes==2) {
@@ -81,14 +81,14 @@ QVector<unsigned int> readArrayFromSfrm(QFile& f, int len, int bytes) {
   return QVector<unsigned int>();
 }
 
-int padTo(int value, int pad) {
+auto padTo(int value, int pad) -> int {
   int v = value%pad;
   if (v!=0)
     value += pad - v;
   return value;
 }
 
-template <typename DATA, typename TABLE, typename VALUE, typename F> bool replaceSpecialDataWithTableValue(DATA& data, const TABLE& table, VALUE specialValue, F f) {
+template <typename DATA, typename TABLE, typename VALUE, typename F> auto replaceSpecialDataWithTableValue(DATA& data, const TABLE& table, VALUE specialValue, F f) -> bool {
   decltype(table.size()) tablePos=0;
 
   for (decltype(data.size()) n=0; n<data.size(); n++) {
@@ -102,12 +102,12 @@ template <typename DATA, typename TABLE, typename VALUE, typename F> bool replac
   return tablePos==table.size();
 }
 
-template <typename DATA, typename TABLE, typename VALUE> bool replaceSpecialDataWithTableValue(DATA& data, const TABLE& table, VALUE specialValue) {
+template <typename DATA, typename TABLE, typename VALUE> auto replaceSpecialDataWithTableValue(DATA& data, const TABLE& table, VALUE specialValue) -> bool {
   return replaceSpecialDataWithTableValue(data, table, specialValue, [](VALUE){});
 }
 
 
-DataProvider* BrukerProvider::Factory::getProvider(QString filename, ImageDataStore *store, QObject* _parent) {
+auto BrukerProvider::Factory::getProvider(QString filename, ImageDataStore *store, QObject* _parent) -> DataProvider* {
   QFile imgFile(filename);
 
   if (!imgFile.open(QFile::ReadOnly)) return nullptr;
@@ -342,23 +342,23 @@ DataProvider* BrukerProvider::Factory::getProvider(QString filename, ImageDataSt
   return provider;
 }
 
-const void* BrukerProvider::getData() {
+auto BrukerProvider::getData() -> const void* {
   return (void*)pixelData.data();
 }
 
-QSize BrukerProvider::size() {
+auto BrukerProvider::size() -> QSize {
   return QSize(providerInformation.values("NCOLS").first().toInt(), providerInformation.values("NROWS").first().toInt());
 }
 
-int BrukerProvider::bytesCount() {
+auto BrukerProvider::bytesCount() -> int {
   return pixelData.size()*sizeof(int);
 }
 
-int BrukerProvider::pixelCount() {
+auto BrukerProvider::pixelCount() -> int {
   return pixelData.size();
 }
 
-DataProvider::Format BrukerProvider::format() {
+auto BrukerProvider::format() -> DataProvider::Format {
   return UInt32;
 }
 

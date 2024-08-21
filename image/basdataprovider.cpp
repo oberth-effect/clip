@@ -64,11 +64,11 @@ BasDataProvider::~BasDataProvider() {
 }
 
 
-QStringList BasDataProvider::Factory::fileFormatFilters() {
+auto BasDataProvider::Factory::fileFormatFilters() -> QStringList {
   return QStringList() << IMG_Suffix << INF_Suffix;
 }
 
-DataProvider* BasDataProvider::Factory::getProvider(QString filename, ImageDataStore* store, QObject* _parent) {
+auto BasDataProvider::Factory::getProvider(QString filename, ImageDataStore* store, QObject* _parent) -> DataProvider* {
   QFileInfo info(filename);
 
   // Return if file does not exist
@@ -198,23 +198,23 @@ DataProvider* BasDataProvider::Factory::getProvider(QString filename, ImageDataS
   return provider;
 }
 
-const void* BasDataProvider::getData() {
+auto BasDataProvider::getData() -> const void* {
   return (void*)pixelData.data();
 }
 
-QSize BasDataProvider::size() {
+auto BasDataProvider::size() -> QSize {
   return dataSize;
 }
 
-int BasDataProvider::bytesCount() {
+auto BasDataProvider::bytesCount() -> int {
   return pixelData.size()*sizeof(float);
 }
 
-int BasDataProvider::pixelCount() {
+auto BasDataProvider::pixelCount() -> int {
   return pixelData.size();
 }
 
-DataProvider::Format BasDataProvider::format() {
+auto BasDataProvider::format() -> DataProvider::Format {
   return Float32;
 }
 

@@ -48,11 +48,11 @@ template <typename T> SimpleMonochromScaler<T>::SimpleMonochromScaler(const Simp
 template <typename T> SimpleMonochromScaler<T>::~SimpleMonochromScaler() {
 }
 
-template <typename T> DataScaler* SimpleMonochromScaler<T>::getScaler(DataProvider *dp, QObject* _parent) {
+template <typename T> auto SimpleMonochromScaler<T>::getScaler(DataProvider *dp, QObject* _parent) -> DataScaler* {
   return new SimpleMonochromScaler(dp, _parent);
 }
 
-template <typename T> QRgb SimpleMonochromScaler<T>::getRGB(const QPointF &p) {
+template <typename T> auto SimpleMonochromScaler<T>::getRGB(const QPointF &p) -> QRgb {
   int x = static_cast<int>(std::floor(p.x()));
   int y = static_cast<int>(std::floor(p.y()));
   if (x<0 || x>=datawidth || y<0 || y>=dataheight) {
@@ -140,7 +140,7 @@ template <typename T> void SimpleMonochromScaler<T>::updateContrastMapping() {
 #include <QFormLayout>
 #include <QWidget>
 #include <QCheckBox>
-template <typename T> QList<QWidget*> SimpleMonochromScaler<T>::toolboxPages() {
+template <typename T> auto SimpleMonochromScaler<T>::toolboxPages() -> QList<QWidget*> {
   QList<QWidget*> pages;
 
   MonoScalerCfg* cfg = new MonoScalerCfg(histogramEqualisation, logarithmicMapping);

@@ -214,7 +214,7 @@ void Indexer::checkGuess(const CandidateGenerator::Candidate& c1, const Candidat
   uniqLock.unlock();
 }
 
-bool Indexer::symmetryEquivalentSolutionPresent(const Mat3D &R, double hklDeviation, int &n) {
+auto Indexer::symmetryEquivalentSolutionPresent(const Mat3D &R, double hklDeviation, int &n) -> bool {
   for (; n<uniqSolutions.size(); n++) {
     if ((fabs(uniqSolutions.at(n).indexDeviation - hklDeviation) / hklDeviation)<1e-4) {;
       Mat3D T(R*uniqSolutions.at(n).bestRotation);
@@ -251,7 +251,7 @@ Indexer::AngleInfo::AngleInfo(int i1, int i2, const QList<Marker>& markers, doub
 }
 
 
-bool Indexer::AngleInfo::operator<(const AngleInfo& o) const {
+auto Indexer::AngleInfo::operator<(const AngleInfo& o) const -> bool {
   return cosAng<o.cosAng;
 }
 

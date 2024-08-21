@@ -85,7 +85,7 @@ ContrastCurves::~ContrastCurves()
   delete ui;
 }
 
-QSize ContrastCurves::sizeHint() const {
+auto ContrastCurves::sizeHint() const -> QSize {
   return minimumSizeHint();
 }
 
@@ -234,11 +234,11 @@ ContrastCurves::BoundedEllipse::BoundedEllipse(QGraphicsItem *_parent): CircleIt
 }
 
 
-bool ContrastCurves::BoundedEllipse::operator<(const BoundedEllipse& o) {
+auto ContrastCurves::BoundedEllipse::operator<(const BoundedEllipse& o) -> bool {
   return x()<o.x();
 }
 
-QVariant ContrastCurves::BoundedEllipse::itemChange(GraphicsItemChange change, const QVariant &value) {
+auto ContrastCurves::BoundedEllipse::itemChange(GraphicsItemChange change, const QVariant &value) -> QVariant {
   if ((change==ItemPositionChange) && !bbox.isNull()) {
     QPointF p=value.toPointF();
     if (p.x()>bbox.right()) {

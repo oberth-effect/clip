@@ -37,7 +37,7 @@ void OptimalRotation::addVectorPair(const Vec3D &from, const Vec3D &to) {
   valid=false;
 }
 
-Mat3D OptimalRotation::getOptimalRotation() {
+auto OptimalRotation::getOptimalRotation() -> Mat3D {
   if (!valid) {
     optRot = stack;
     Mat3D L,R;
@@ -51,7 +51,7 @@ Mat3D OptimalRotation::getOptimalRotation() {
 
 
 
-Mat3D VectorPairRotation(const Vec3D& from1, const Vec3D& from2, const Vec3D& to1, const Vec3D& to2) {
+auto VectorPairRotation(const Vec3D& from1, const Vec3D& from2, const Vec3D& to1, const Vec3D& to2) -> Mat3D {
   Vec3D from_x = (from1.normalized()+from2.normalized()).normalized();
   Vec3D from_y = (from1.normalized()-from2.normalized()).normalized();
   Mat3D Mfrom(from_x, from_y, from_x%from_y);

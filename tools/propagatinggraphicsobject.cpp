@@ -36,7 +36,7 @@ PropagatingGraphicsObject::PropagatingGraphicsObject(QGraphicsItem *_parent) :
 
 }
 
-QVariant PropagatingGraphicsObject::itemChange(GraphicsItemChange change, const QVariant &value) {
+auto PropagatingGraphicsObject::itemChange(GraphicsItemChange change, const QVariant &value) -> QVariant {
   if (propagateTransformChange  && (change == ItemTransformChange)) {
     propagatedTransform = value.value<QTransform>();
     foreach (QGraphicsItem* item, childItems())

@@ -124,16 +124,16 @@ void LiveMarkerModel::rescore() {
   sort(sortColumn, sortOrder);
 }
 
-int LiveMarkerModel::rowCount(const QModelIndex& /*_parent*/) const {
+auto LiveMarkerModel::rowCount(const QModelIndex& /*_parent*/) const -> int {
   // Has markers.size() rows for the individual markers plus one for the sum
   return markers.size()+1;
 }
 
-int LiveMarkerModel::columnCount(const QModelIndex& /*_parent*/) const {
+auto LiveMarkerModel::columnCount(const QModelIndex& /*_parent*/) const -> int {
   return 10;
 }
 
-QVariant LiveMarkerModel::data(const QModelIndex &index, int role) const {
+auto LiveMarkerModel::data(const QModelIndex &index, int role) const -> QVariant {
   if (index.row()==markers.size()) {
     return sumRowData(index, role);
   } else if (role==Qt::DisplayRole) {
@@ -163,13 +163,13 @@ QVariant LiveMarkerModel::data(const QModelIndex &index, int role) const {
   return QVariant();
 }
 
-Qt::ItemFlags LiveMarkerModel::flags(const QModelIndex &index) const {
+auto LiveMarkerModel::flags(const QModelIndex &index) const -> Qt::ItemFlags {
   if (index.row()==markers.size())
       return {};
   return QAbstractTableModel::flags(index);
 }
 
-QVariant LiveMarkerModel::sumRowData(const QModelIndex &index, int role) const {
+auto LiveMarkerModel::sumRowData(const QModelIndex &index, int role) const -> QVariant {
   if (role==Qt::DisplayRole) {
     int col = index.column();
     if (col==0) {
@@ -195,7 +195,7 @@ QVariant LiveMarkerModel::sumRowData(const QModelIndex &index, int role) const {
   return QVariant();
 }
 
-QVariant LiveMarkerModel::headerData(int section, Qt::Orientation orientation, int role) const {
+auto LiveMarkerModel::headerData(int section, Qt::Orientation orientation, int role) const -> QVariant {
   if ((role==Qt::DisplayRole) && (orientation==Qt::Horizontal)) {
     const char* data[] = {"T", "h", "k", "l", "h", "k", "l", "Angular", "Spatial", "HKL"};
     return QVariant(QString(data[section]));
@@ -203,7 +203,7 @@ QVariant LiveMarkerModel::headerData(int section, Qt::Orientation orientation, i
   return QVariant();
 }
 
-QList<double> LiveMarkerModel::getSortDataList() {
+auto LiveMarkerModel::getSortDataList() -> QList<double> {
   QList<double> list;
   for (int row=0; row<markers.size(); row++) {
     list << getSortData(markers.at(row));
@@ -211,10 +211,10 @@ QList<double> LiveMarkerModel::getSortDataList() {
   return list;
 }
 
-double LiveMarkerModel::getSortData(AbstractMarkerItem* m) {
+auto LiveMarkerModel::getSortData(AbstractMarkerItem* m) -> double {
   double sign = (sortOrder==Qt::AscendingOrder) ? 1.0 : -1.0;
   if (sortColumn==0) {
-    return sign*(m->getType()==AbstractMarkerItem::SpotMarker)?1:2;
+    return (sign*(m->getType()==AbstractMarkerItem::SpotMarker))?1:2;
   } else if (sortColumn==1 || sortColumn==2 || sortColumn==3) {
     TVec3D<int> n = m->getIntegerIndex();
     return sign*n(sortColumn-1);
@@ -233,7 +233,7 @@ double LiveMarkerModel::getSortData(AbstractMarkerItem* m) {
 
 struct SortFunctor {
   SortFunctor(double v, int i): value(v), id(i) {}
-  bool operator<(const SortFunctor& o) const { return value<o.value; }
+  auto operator<(const SortFunctor& o) const -> bool { return value<o.value; }
   double value;
   int id;
 };

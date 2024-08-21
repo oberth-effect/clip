@@ -109,7 +109,7 @@ ProjectionPlane::~ProjectionPlane() {
   delete ui;
 }
 
-QSize ProjectionPlane::sizeHint() const {
+auto ProjectionPlane::sizeHint() const -> QSize {
   return projector->projectorSizeHint();
 }
 
@@ -134,7 +134,7 @@ void ProjectionPlane::setupToolbar() {
 }
 
 
-QRectF ProjectionPlane::zoomSceneRect() {
+auto ProjectionPlane::zoomSceneRect() -> QRectF {
   if (!zoomSteps.empty()) {
     return zoomSteps.last();
   }
@@ -552,7 +552,7 @@ void ProjectionPlane::saveToXML(QDomElement base) {
   projector->saveToXML(plane);
 }
 
-bool ProjectionPlane::loadFromXML(QDomElement base) {
+auto ProjectionPlane::loadFromXML(QDomElement base) -> bool {
   bool ok;
   zoomSteps.clear();
   QDomElement element = base;

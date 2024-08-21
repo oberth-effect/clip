@@ -105,7 +105,7 @@ MouseInfoDisplay::~MouseInfoDisplay()
   delete ui;
 }
 
-QSize MouseInfoDisplay::sizeHint() const {
+auto MouseInfoDisplay::sizeHint() const -> QSize {
   return minimumSizeHint();
 }
 
@@ -227,7 +227,7 @@ void MouseInfoDisplay::cursorTableVisiblyToggled(bool b) {
   }
 }
 
-bool MouseInfoDisplay::eventFilter(QObject *o, QEvent *e) {
+auto MouseInfoDisplay::eventFilter(QObject *o, QEvent *e) -> bool {
   if (e->type()==QEvent::WindowStateChange) {
     if (parentWidget() && (parentWidget()->windowState() & Qt::WindowMaximized)) {
       parentWidget()->showNormal();

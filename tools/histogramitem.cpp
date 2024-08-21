@@ -34,7 +34,7 @@ HistogramItem::HistogramItem(QGraphicsItem *_parent) :
 }
 
 
-QRectF HistogramItem::boundingRect() const {
+auto HistogramItem::boundingRect() const -> QRectF {
   return QRectF(0,0,SCENEBLOWUP(1),SCENEBLOWUP(1));
 }
 

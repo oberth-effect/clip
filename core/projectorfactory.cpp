@@ -33,19 +33,19 @@ ProjectorFactory::ProjectorFactory(const ProjectorFactory &) {
 ProjectorFactory::~ProjectorFactory() {
 }
 
-ProjectorFactory& ProjectorFactory::getInstance() {
+auto ProjectorFactory::getInstance() -> ProjectorFactory& {
   static ProjectorFactory instance;
   return instance;
 }
 
-Projector* ProjectorFactory::getProjector(QString key) {
+auto ProjectorFactory::getProjector(QString key) -> Projector* {
   if (providers.contains(key)) {
     return providers[key]();
   }
   return nullptr;
 }
 
-bool ProjectorFactory::registerProjector(QString key, Provider provider) {
+auto ProjectorFactory::registerProjector(QString key, Provider provider) -> bool {
   ProjectorFactory::getInstance().providers.insert(key, provider);
   return true;
 }

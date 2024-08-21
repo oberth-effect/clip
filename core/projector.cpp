@@ -131,15 +131,15 @@ Projector::~Projector() {
     crystal->removeProjector(this);
 }
 
-QString Projector::FitObjectName() {
+auto Projector::FitObjectName() -> QString {
   return displayName();
 }
 
-QString Projector::fillInfoTable(const QString &) {
+auto Projector::fillInfoTable(const QString &) -> QString {
   return QString();
 }
 
-Projector& Projector::operator=(const Projector& o) {
+auto Projector::operator=(const Projector& o) -> Projector& {
   det2img = o.det2img;
   img2det = o.img2det;
 
@@ -177,19 +177,19 @@ void Projector::connectToCrystal(Crystal *c) {
   emit projectionParamsChanged();
 }
 
-double Projector::Qmin() const {
+auto Projector::Qmin() const -> double {
   return QminVal;
 }
 
-double Projector::Qmax() const {
+auto Projector::Qmax() const -> double {
   return QmaxVal;
 }
 
-double Projector::TTmax() const {
+auto Projector::TTmax() const -> double {
   return 180.0;
 }
 
-double Projector::TTmin() const {
+auto Projector::TTmin() const -> double {
   return 0.0;
 }
 
@@ -228,7 +228,7 @@ void Projector::addInfoItem(const QString& text, const QPointF& p) {
   infoStore.addItem(bg);
 }
 
-ItemStore<QGraphicsRectItem>& Projector::infoItems() {
+auto Projector::infoItems() -> ItemStore<QGraphicsRectItem>& {
   return infoStore;
 }
 
@@ -283,7 +283,7 @@ void Projector::doProjection() {
   emit projectedPointsUpdated();
 }
 
-QString Projector::diffractionOrders(const Vec3D &hkl) {
+auto Projector::diffractionOrders(const Vec3D &hkl) -> QString {
   if (crystal.isNull()) return QString();
 
   TVec3D<int> integralHKL = hkl.toType<int>();
@@ -314,7 +314,7 @@ QString Projector::diffractionOrders(const Vec3D &hkl) {
   return res.join(", ");
 }
 
-Vec3D Projector::normal2scattered(const Vec3D &v) {
+auto Projector::normal2scattered(const Vec3D &v) -> Vec3D {
   double x=v.x();
   if (x<=0.0)
     return Vec3D();
@@ -323,7 +323,7 @@ Vec3D Projector::normal2scattered(const Vec3D &v) {
   return Vec3D(2*x*x-1.0, 2.0*x*y, 2.0*x*z);
 }
 
-Vec3D Projector::normal2scattered(const Vec3D &v, bool& b) {
+auto Projector::normal2scattered(const Vec3D &v, bool& b) -> Vec3D {
   double x=v.x();
   b = (x>0.0);
   if (!b)
@@ -333,7 +333,7 @@ Vec3D Projector::normal2scattered(const Vec3D &v, bool& b) {
   return Vec3D(2*x*x-1.0, 2.0*x*y, 2.0*x*z);
 }
 
-Vec3D Projector::scattered2normal(const Vec3D& v) {
+auto Projector::scattered2normal(const Vec3D& v) -> Vec3D {
   double x=v.x();
   double y=v.y();
   double z=v.z();
@@ -345,7 +345,7 @@ Vec3D Projector::scattered2normal(const Vec3D& v) {
   return Vec3D(x, 0.5*y/x, 0.5*z/x);
 }
 
-Vec3D Projector::scattered2normal(const Vec3D& v, bool& b) {
+auto Projector::scattered2normal(const Vec3D& v, bool& b) -> Vec3D {
   double x=v.x();
   double y=v.y();
   double z=v.z();
@@ -357,7 +357,7 @@ Vec3D Projector::scattered2normal(const Vec3D& v, bool& b) {
   return Vec3D(x, 0.5*y/x, 0.5*z/x);
 }
 
-Reflection Projector::getClosestReflection(const Vec3D& normal) {
+auto Projector::getClosestReflection(const Vec3D& normal) -> Reflection {
   if (crystal.isNull())
     return Reflection();
   QVector<Reflection> r = crystal->getReflectionList();
@@ -380,7 +380,7 @@ Reflection Projector::getClosestReflection(const Vec3D& normal) {
   }
 }
 
-QList<Reflection> Projector::getProjectedReflections() {
+auto Projector::getProjectedReflections() -> QList<Reflection> {
   QList<Reflection> list;
   QVector<Reflection> r = crystal->getReflectionList();
   for (int n=0; n<r.size(); n++)
@@ -389,7 +389,7 @@ QList<Reflection> Projector::getProjectedReflections() {
   return list;
 }
 
-QList<Reflection> Projector::getProjectedReflectionsNormalToZone(const TVec3D<int>& uvw) {
+auto Projector::getProjectedReflectionsNormalToZone(const TVec3D<int>& uvw) -> QList<Reflection> {
   QList<Reflection> list;
   QVector<Reflection> r = crystal->getReflectionList();
   for (int n=0; n<r.size(); n++)
@@ -417,35 +417,35 @@ void Projector::invalidateMarkerCache() {
   foreach (AbstractMarkerItem* im, getAllMarkers()) im->invalidateCache();
 }
 
-QGraphicsScene* Projector::getScene() {
+auto Projector::getScene() -> QGraphicsScene* {
   return &scene;
 }
 
-LaueImage* Projector::getLaueImage() {
+auto Projector::getLaueImage() -> LaueImage* {
   return imageData;
 }
 
-Crystal* Projector::getCrystal() {
+auto Projector::getCrystal() -> Crystal* {
   return crystal;
 }
 
-int Projector::getMaxHklSqSum() const {
+auto Projector::getMaxHklSqSum() const -> int {
   return maxHklSqSum;
 }
 
-double Projector::getSpotSize() const {
+auto Projector::getSpotSize() const -> double {
   return spotSizeFraction*std::min(scene.sceneRect().width(), scene.sceneRect().height());
 }
 
-double Projector::getSpotSizeFraction() const {
+auto Projector::getSpotSizeFraction() const -> double {
   return 100.0*spotSizeFraction;
 }
 
-double Projector::getTextSize() const {
+auto Projector::getTextSize() const -> double {
   return textSizeFraction*std::min(scene.sceneRect().width(), scene.sceneRect().height());
 }
 
-double Projector::getTextSizeFraction() const {
+auto Projector::getTextSizeFraction() const -> double {
   return 100.0*textSizeFraction;
 }
 
@@ -469,7 +469,7 @@ void Projector::enableSpots(bool b) {
   emit projectionParamsChanged();
 }
 
-bool Projector::spotsEnabled() const {
+auto Projector::spotsEnabled() const -> bool {
   return spotIndicator->isVisible();
 }
 
@@ -480,7 +480,7 @@ void Projector::enableMarkers(bool b) {
   emit projectionParamsChanged();
 }
 
-bool Projector::markersEnabled() const {
+auto Projector::markersEnabled() const -> bool {
   return showMarkers;
 }
 
@@ -488,7 +488,7 @@ void Projector::enableProjection(bool b) {
   projectionEnabled=b;
 }
 
-bool Projector::isProjectionEnabled() const {
+auto Projector::isProjectionEnabled() const -> bool {
   return projectionEnabled;
 }
 
@@ -536,15 +536,15 @@ void Projector::addSpotMarker(const QPointF& p) {
   spotMarkers().addItem(item);
 }
 
-ItemStore<SpotItem>& Projector::spotMarkers() {
+auto Projector::spotMarkers() -> ItemStore<SpotItem>& {
   return spotMarkerStore;
 }
 
-QPointF Projector::getSpotMarkerDetPos(int n) {
+auto Projector::getSpotMarkerDetPos(int n) -> QPointF {
   return img2det.map(spotMarkers().at(n)->pos());
 }
 
-QList<Vec3D> Projector::getSpotMarkerNormals() {
+auto Projector::getSpotMarkerNormals() -> QList<Vec3D> {
   QList<Vec3D> r;
   foreach (SpotItem* si, spotMarkers())
     r << si->getMarkerNormal();
@@ -563,24 +563,24 @@ void Projector::addZoneMarker(const QPointF& p1, const QPointF& p2) {
   zoneMarkers().addItem(zoneMarker);
 }
 
-QList<Vec3D> Projector::getZoneMarkerNormals() {
+auto Projector::getZoneMarkerNormals() -> QList<Vec3D> {
   QList<Vec3D> r;
   foreach (ZoneItem* zi, zoneMarkers())
     r << zi->getMarkerNormal();
   return r;
 }
 
-ItemStore<ZoneItem>& Projector::zoneMarkers() {
+auto Projector::zoneMarkers() -> ItemStore<ZoneItem>& {
   return zoneMarkerStore;
 }
 
 // ---------------  General FitMarker Handling--------------------
 
-bool Projector::hasMarkers() {
+auto Projector::hasMarkers() -> bool {
   return (spotMarkers().size()>0) || (zoneMarkers().size()>0);
 }
 
-QList<AbstractMarkerItem*> Projector::getAllMarkers() {
+auto Projector::getAllMarkers() -> QList<AbstractMarkerItem*> {
   QList<AbstractMarkerItem*> list;
   foreach (SpotItem* si, spotMarkers()) list << si;
   foreach (ZoneItem* zi, zoneMarkers()) list << zi;
@@ -627,7 +627,7 @@ void Projector::deleteMarker(AbstractMarkerItem* item) {
 }
 
 // ---------------  Ruler handling ---------------------------
-ItemStore<RulerItem>& Projector::rulers() {
+auto Projector::rulers() -> ItemStore<RulerItem>& {
   return rulerStore;
 }
 
@@ -638,7 +638,7 @@ void Projector::addRuler(const QPointF& p1, const QPointF& p2) {
   rulers().addItem(ruler);
 }
 
-QPair<QPointF, QPointF> Projector::getRulerCoordinates(int n) {
+auto Projector::getRulerCoordinates(int n) -> QPair<QPointF, QPointF> {
   if (n<rulers().size()) {
     RulerItem* ruler = rulers().at(n);
     if (ruler)
@@ -680,7 +680,7 @@ void Projector::setCrop(QPolygonF rect) {
   }
 }
 
-CropMarker* Projector::getCropMarker() {
+auto Projector::getCropMarker() -> CropMarker* {
   return cropMarker;
 }
 
@@ -755,7 +755,7 @@ void Projector::doImgRotation(const QTransform& t) {
     imageData->addTransform(t.inverted());
 }
 
-QDomElement Projector::saveToXML(QDomElement base) {
+auto Projector::saveToXML(QDomElement base) -> QDomElement {
   QDomDocument doc = base.ownerDocument();
   QDomElement projector = ensureElement(base, XML_Projector_element);
 
@@ -790,7 +790,7 @@ QDomElement Projector::saveToXML(QDomElement base) {
   return projector;
 }
 
-bool Projector::loadFromXML(QDomElement base) {
+auto Projector::loadFromXML(QDomElement base) -> bool {
   QDomElement element = base.elementsByTagName(XML_Projector_element).at(0).toElement();
   if (element.isNull()) return false;
   for (QDomElement e=element.firstChildElement(); !e.isNull(); e=e.nextSiblingElement()) {
@@ -807,7 +807,7 @@ bool Projector::loadFromXML(QDomElement base) {
   return true;
 }
 
-bool Projector::parseXMLElement(QDomElement e) {
+auto Projector::parseXMLElement(QDomElement e) -> bool {
   bool ok=true;
   if (e.tagName()==XML_Projector_QRange) {
     double Qmin = readDouble(e, Settings_QRangeMin, ok);

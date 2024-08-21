@@ -51,12 +51,12 @@ MWDataProvider::~MWDataProvider() {
 }
 
 
-QStringList MWDataProvider::Factory::fileFormatFilters() {
+auto MWDataProvider::Factory::fileFormatFilters() -> QStringList {
   //return QStringList() << "hs2" << "his"; //hs2 is 16-bit, his is 8-bit
   return QStringList() << "hs2";
 }
 
-DataProvider* MWDataProvider::Factory::getProvider(QString filename, ImageDataStore *store, QObject* _parent) {
+auto MWDataProvider::Factory::getProvider(QString filename, ImageDataStore *store, QObject* _parent) -> DataProvider* {
   //load in information about the file
   QFileInfo info(filename);
 
@@ -164,23 +164,23 @@ DataProvider* MWDataProvider::Factory::getProvider(QString filename, ImageDataSt
   return provider;
 }
 
-const void* MWDataProvider::getData() {
+auto MWDataProvider::getData() -> const void* {
   return (void*)pixelData.data();
 }
 
-QSize MWDataProvider::size() {
+auto MWDataProvider::size() -> QSize {
   return QSize(256, 256);
 }
 
-int MWDataProvider::bytesCount() {
+auto MWDataProvider::bytesCount() -> int {
   return pixelData.size()*sizeof(float);
 }
 
-int MWDataProvider::pixelCount() {
+auto MWDataProvider::pixelCount() -> int {
   return pixelData.size();
 }
 
-DataProvider::Format MWDataProvider::format() {
+auto MWDataProvider::format() -> DataProvider::Format {
   return Float32;
 }
 

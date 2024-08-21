@@ -32,15 +32,15 @@ SolutionModel::SolutionModel(QObject* _parent):
 {
 }
 
-int SolutionModel::rowCount(const QModelIndex& /*_parent*/) const {
+auto SolutionModel::rowCount(const QModelIndex& /*_parent*/) const -> int {
   return solutions.count();
 }
 
-int SolutionModel::columnCount(const QModelIndex& /*_parent*/) const {
+auto SolutionModel::columnCount(const QModelIndex& /*_parent*/) const -> int {
   return 3;
 }
 
-double SolutionModel::columnDataFromSolution(const Solution& s, int column) {
+auto SolutionModel::columnDataFromSolution(const Solution& s, int column) -> double {
   if (column==0) {
     return 100.0*s.hklDeviationSqSum();
   } else if (column==1) {
@@ -51,7 +51,7 @@ double SolutionModel::columnDataFromSolution(const Solution& s, int column) {
   return 0.0;
 }
 
-QVariant SolutionModel::data(const QModelIndex & index, int role) const {
+auto SolutionModel::data(const QModelIndex & index, int role) const -> QVariant {
   if (role==Qt::DisplayRole) {
     return QVariant(QString::number(columnDataFromSolution(solutions.at(index.row()), index.column()), 'f', 2));
   } else if (role==Qt::TextAlignmentRole) {
@@ -60,7 +60,7 @@ QVariant SolutionModel::data(const QModelIndex & index, int role) const {
   return QVariant();
 }
 
-QVariant SolutionModel::headerData(int section, Qt::Orientation orientation, int role) const {
+auto SolutionModel::headerData(int section, Qt::Orientation orientation, int role) const -> QVariant {
   if (role==Qt::DisplayRole) {
     if (orientation==Qt::Horizontal) {
       if (section==0) {
@@ -136,7 +136,7 @@ void SolutionModel::clear() {
   revert();
 }
 
-Solution SolutionModel::getSolution(unsigned int n) {
+auto SolutionModel::getSolution(unsigned int n) -> Solution {
   return solutions[n];
 }
 
@@ -145,7 +145,7 @@ SolutionModel::SolutionCompare::SolutionCompare(int column, Qt::SortOrder order)
   sortOrder=order;
 };
 
-bool SolutionModel::SolutionCompare::operator()(const Solution& s1,const Solution& s2) {
+auto SolutionModel::SolutionCompare::operator()(const Solution& s1,const Solution& s2) -> bool {
   double v1 = SolutionModel::columnDataFromSolution(s1, sortColumn);
   double v2 = SolutionModel::columnDataFromSolution(s2, sortColumn);
   if (sortOrder==Qt::AscendingOrder)

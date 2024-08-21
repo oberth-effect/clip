@@ -121,7 +121,7 @@ void SpotIndicatorGraphicsItem::pointsUpdated() {
   prepareGeometryChange();
 }
 
-QRectF SpotIndicatorGraphicsItem::boundingRect() const {
+auto SpotIndicatorGraphicsItem::boundingRect() const -> QRectF {
   if (coordinates.size()>0) {
     QRectF r(coordinates.at(0), QSizeF(0,0));
     for (int i=1; i<coordinates.size(); i++) {

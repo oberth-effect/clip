@@ -42,7 +42,7 @@ Q_IMPORT_PLUGIN(qsvg)
 #include "config.h"
 
 
-int main(int argc, char *argv[]) {
+auto main(int argc, char *argv[]) -> int {
   QApplication a(argc, argv);
 
   a.setApplicationName("Clip");

@@ -28,15 +28,15 @@ QDNLnodes::QDNLnodes(QDomNodeList l):
 {
 }
 
-QDNLnodes::const_iterator QDNLnodes::begin() const {
+auto QDNLnodes::begin() const -> QDNLnodes::const_iterator {
   return const_iterator(0, *this);
 }
 
-QDNLnodes::const_iterator QDNLnodes::end() const {
+auto QDNLnodes::end() const -> QDNLnodes::const_iterator {
   return const_iterator(list.size(), *this);
 }
 
-QDomNode QDNLnodes::get(int pos) const {
+auto QDNLnodes::get(int pos) const -> QDomNode {
   return list.at(pos);
 }
 
@@ -53,14 +53,14 @@ QDNLelements::QDNLelements(QDomNodeList l):
   }
 }
 
-QDNLelements::const_iterator QDNLelements::begin() const {
+auto QDNLelements::begin() const -> QDNLelements::const_iterator {
   return const_iterator(0, *this);
 }
 
-QDNLelements::const_iterator QDNLelements::end() const {
+auto QDNLelements::end() const -> QDNLelements::const_iterator {
   return const_iterator(elements.size(), *this);
 }
 
-QDomElement QDNLelements::get(int pos) const {
+auto QDNLelements::get(int pos) const -> QDomElement {
   return list.at(elements.at(pos)).toElement();
 }

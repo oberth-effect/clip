@@ -39,11 +39,11 @@ DataProvider::DataProvider(QObject* _parent) :
 DataProvider::~DataProvider() {
 }
 
-DataProvider* DataProvider::openDevice() {
+auto DataProvider::openDevice() -> DataProvider* {
   return nullptr;
 }
 
-DataProvider* DataProvider::loadImage(const QString &) {
+auto DataProvider::loadImage(const QString &) -> DataProvider* {
   return nullptr;
 }
 
@@ -54,14 +54,14 @@ void DataProvider::insertFileInformation(const QString &filename) {
   providerInformation.insert(Info_ImageCreationDate, info.birthTime().toString(QLocale::system().dateTimeFormat()));
 }
 
-QString DataProvider::name() {
+auto DataProvider::name() -> QString {
   if (providerInformation.contains(Info_ImageFilename)) {
     return providerInformation.values(Info_ImageFilename).first().toString();
   }
   return QString();
 }
 
-QList<QWidget*> DataProvider::toolboxPages() {
+auto DataProvider::toolboxPages() -> QList<QWidget*> {
   QList<QWidget*> l;
 
   // ---------------- Info Table ---------------------------

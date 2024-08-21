@@ -37,11 +37,11 @@ ColorConfigItem::~ColorConfigItem() {
   settings.setValue(QString("colors/%1").arg(_name), _color);
 }
 
-QColor ColorConfigItem::color() const {
+auto ColorConfigItem::color() const -> QColor {
   return _color;
 }
 
-QString ColorConfigItem::name() const {
+auto ColorConfigItem::name() const -> QString {
   return _name;
 }
 

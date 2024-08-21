@@ -38,7 +38,7 @@ FitParameterTreeItem::FitParameterTreeItem(FitParameter *p, QTreeWidgetItem* _pa
   connect(p, SIGNAL(changeableStateChanged(FitParameter*,bool)), this, SLOT(changeableStateChanged(FitParameter*,bool)));
 }
 
-QVariant FitParameterTreeItem::data(int column, int role) const {
+auto FitParameterTreeItem::data(int column, int role) const -> QVariant {
   if (column==0) {
     if (role==Qt::DisplayRole) {
       return QVariant(parameter->name());

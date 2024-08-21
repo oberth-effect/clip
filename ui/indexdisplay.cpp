@@ -65,7 +65,7 @@ IndexDisplay::~IndexDisplay()
   delete threads;
 }
 
-int IndexDisplay::maxSearchIndex() {
+auto IndexDisplay::maxSearchIndex() -> int {
   return ui->maxIndex->value();
 }
 

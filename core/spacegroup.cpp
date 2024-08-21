@@ -40,7 +40,7 @@ Spacegroup::SpacegroupSymbolInfo::SpacegroupSymbolInfo(int _ITnr, QString _nrMod
   hallSymbol = _Hall;
 }
 
-bool Spacegroup::SpacegroupSymbolInfo::match(QString s) {
+auto Spacegroup::SpacegroupSymbolInfo::match(QString s) -> bool {
   if (s==QString::number(spacegroupNumber))
     return true;
   if (!spacegroupNumberModifier.isEmpty() && s==QString::number(spacegroupNumber)+":"+spacegroupNumberModifier)
@@ -56,15 +56,15 @@ bool Spacegroup::SpacegroupSymbolInfo::match(QString s) {
   return false;
 }
 
-QString Spacegroup::SpacegroupSymbolInfo::HerrmannMauguin() const {
+auto Spacegroup::SpacegroupSymbolInfo::HerrmannMauguin() const -> QString {
   return hermannMauguinSymbol;
 }
 
-QString Spacegroup::SpacegroupSymbolInfo::Hall() const {
+auto Spacegroup::SpacegroupSymbolInfo::Hall() const -> QString {
   return hallSymbol;
 }
 
-Spacegroup::System Spacegroup::SpacegroupSymbolInfo::system() const {
+auto Spacegroup::SpacegroupSymbolInfo::system() const -> Spacegroup::System {
   if (spacegroupNumber<=2) {
     return Spacegroup::triclinic;
   } else if (spacegroupNumber<=15) {
@@ -92,7 +92,7 @@ Spacegroup::Spacegroup(const Spacegroup &o): QObject(nullptr) {
   extinctionChecks = o.extinctionChecks;
 }
 
-bool Spacegroup::setGroupSymbol(QString s) {
+auto Spacegroup::setGroupSymbol(QString s) -> bool {
   QList<SpacegroupSymbolInfo>::iterator iter;
   for (iter=groupInfos.begin(); iter!=groupInfos.end(); ++iter) {
     if (iter->match(s)) {
@@ -124,23 +124,23 @@ bool Spacegroup::setGroupSymbol(QString s) {
   return false;
 }
 
-QString Spacegroup::groupSymbol() const {
+auto Spacegroup::groupSymbol() const -> QString {
   return symbol;
 }
 
-Spacegroup::System Spacegroup::crystalSystem() const {
+auto Spacegroup::crystalSystem() const -> Spacegroup::System {
   return crystalsystem;
 }
 
-QList<int> Spacegroup::getConstrains() const {
+auto Spacegroup::getConstrains() const -> QList<int> {
   return constrains;
 }
 
-QList< TMat3D<int> > Spacegroup::getPointgroup() const {
+auto Spacegroup::getPointgroup() const -> QList< TMat3D<int> > {
   return pointgroup;
 }
 
-QList< TMat3D<int> > Spacegroup::getLauegroup() const {
+auto Spacegroup::getLauegroup() const -> QList< TMat3D<int> > {
   return lauegroup;
 }
 
@@ -160,7 +160,7 @@ void Spacegroup::GroupElement::normalize() {
   }
 }
 
-QString Spacegroup::GroupElement::toString() const {
+auto Spacegroup::GroupElement::toString() const -> QString {
   QString result;
   QStringList l = QStringList() << "x" << "y" << "z";
   TMat3D<int> O(M);
@@ -190,16 +190,16 @@ QString Spacegroup::GroupElement::toString() const {
   return result;
 }
 
-Spacegroup::GroupElement Spacegroup::GroupElement::operator*(const Spacegroup::GroupElement& o) const {
+auto Spacegroup::GroupElement::operator*(const Spacegroup::GroupElement& o) const -> Spacegroup::GroupElement {
   return Spacegroup::GroupElement(M*o.M, M*o.t + t);
 }
 
-bool Spacegroup::GroupElement::operator==(const Spacegroup::GroupElement& o) const {
+auto Spacegroup::GroupElement::operator==(const Spacegroup::GroupElement& o) const -> bool {
   return ((M==o.M) && (t==o.t));
 }
 
 
-bool Spacegroup::isExtinct(const TVec3D<int>& reflection) const {
+auto Spacegroup::isExtinct(const TVec3D<int>& reflection) const -> bool {
   for (int i=0; i<extinctionChecks.size(); i++) {
     int s = (reflection*extinctionChecks.at(i).t)%GroupElement::MOD;
     if (s<0) s += GroupElement::MOD;
@@ -223,7 +223,7 @@ template <class T> void Spacegroup::addToGroup(QList<T> &_group, const T& e) {
 }
 
 
-bool Spacegroup::generateGroup(QString hall) {
+auto Spacegroup::generateGroup(QString hall) -> bool {
   QList<GroupElement> tmpGroup;
 
 

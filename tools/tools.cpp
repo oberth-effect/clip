@@ -36,7 +36,7 @@ void setPaletteForStatus(QWidget *widget, bool ok) {
   widget->setPalette(p);
 }
 
-QSizeF transformSize(const QSizeF& s, const QTransform& t) {
+auto transformSize(const QSizeF& s, const QTransform& t) -> QSizeF {
   // Map center and unit vectors
   QPointF c = t.map(QPointF(0,0));
   QPointF ex = t.map(QPointF(1,0));
@@ -51,6 +51,6 @@ QSizeF transformSize(const QSizeF& s, const QTransform& t) {
 
 Mean::Mean(): N(0), M1(0), M2(0) {};
 void Mean::add(double value) { N++; double oldM1 = M1; M1 += (value-M1)/N; M2 += (value-M1)*(value-oldM1); }
-double Mean::mean() { return M1; }
-double Mean::var() { return N>0 ? sqrt(M2/N) : 0.0; }
-double Mean::unbiasedVar() { return N>1 ? sqrt(M2/(N-1)) : 0.0 ; }
+auto Mean::mean() -> double { return M1; }
+auto Mean::var() -> double { return N>0 ? sqrt(M2/N) : 0.0; }
+auto Mean::unbiasedVar() -> double { return N>1 ? sqrt(M2/(N-1)) : 0.0 ; }

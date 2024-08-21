@@ -85,7 +85,7 @@ ThreadRunner::~ThreadRunner() {
   delete f;
 }
 
-ThreadRunner::BaseThreadFunctor* ThreadRunner::makeFunctor(void(*f)()) {
+auto ThreadRunner::makeFunctor(void(*f)()) -> ThreadRunner::BaseThreadFunctor* {
   return new ThreadFunctor<void(*)()>(static_cast<void(*&&)()>(f));
 }
 

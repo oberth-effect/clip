@@ -32,7 +32,7 @@ void FitObject::addParameterGroup(FitParameterGroup* g) {
   groups << g;
 }
 
-FitObject& FitObject::operator=(const FitObject& o) {
+auto FitObject::operator=(const FitObject& o) -> FitObject& {
   QList<FitParameter*> tP = allParameters();
   QList<FitParameter*> oP = o.allParameters();
   for (int n=0; n<tP.size(); n++) {
@@ -42,14 +42,14 @@ FitObject& FitObject::operator=(const FitObject& o) {
   return *this;
 }
 
-QList<FitParameter*> FitObject::allParameters() const {
+auto FitObject::allParameters() const -> QList<FitParameter*> {
   QList<FitParameter*>  list;
   foreach (FitParameterGroup* g, groups)
     list += g->parameters();
   return list;
 }
 
-QList<FitParameter*> FitObject::changeableParameters() const {
+auto FitObject::changeableParameters() const -> QList<FitParameter*> {
   QList<FitParameter*>  list;
   foreach (FitParameterGroup* g, groups)
     foreach (FitParameter* p, g->parameters())
@@ -58,7 +58,7 @@ QList<FitParameter*> FitObject::changeableParameters() const {
   return list;
 }
 
-QList<FitParameter*> FitObject::enabledParameters() const {
+auto FitObject::enabledParameters() const -> QList<FitParameter*> {
   QList<FitParameter*>  list;
   foreach (FitParameterGroup* g, groups)
     foreach (FitParameter* p, g->parameters())
@@ -67,6 +67,6 @@ QList<FitParameter*> FitObject::enabledParameters() const {
   return list;
 }
 
-QList<FitObject*> FitObject::getFitObjects() {
+auto FitObject::getFitObjects() -> QList<FitObject*> {
   return QList<FitObject*>() << this;
 }

@@ -61,7 +61,7 @@ void NelderMead::stop() {
   threadWatcher.waitForFinished();
 }
 
-bool NelderMead::isRunning() {
+auto NelderMead::isRunning() -> bool {
   return threadWatcher.isRunning();
 }
 
