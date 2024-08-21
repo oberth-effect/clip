@@ -41,7 +41,7 @@
 class NoEditDelegate: public QStyledItemDelegate {
 public:
   NoEditDelegate(QObject* _parent=nullptr): QStyledItemDelegate(_parent) {}
-  virtual auto createEditor(QWidget* /*_parent*/, const QStyleOptionViewItem& /*option*/, const QModelIndex& /*index*/) const -> QWidget* {
+  auto createEditor(QWidget* /*_parent*/, const QStyleOptionViewItem& /*option*/, const QModelIndex& /*index*/) const -> QWidget* override {
     return 0;
   }
 };

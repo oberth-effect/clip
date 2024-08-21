@@ -45,7 +45,7 @@ public:
     QColor gridColor = static_cast<QRgb>(gridHint);
     _gridPen = QPen(gridColor, 0, _parent->gridStyle());
   }
-  virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override {
 
     if (index.row()!=2 || index.column()>1) {
       QStyledItemDelegate::paint(painter, option, index);

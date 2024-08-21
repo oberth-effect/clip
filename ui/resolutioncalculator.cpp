@@ -42,7 +42,7 @@
 class NumberEditDelegate: public QStyledItemDelegate {
 public:
   NumberEditDelegate(QObject* _parent = nullptr): QStyledItemDelegate(_parent) {}
-  virtual auto createEditor(QWidget* _parent, const QStyleOptionViewItem& /*option*/, const QModelIndex& /*index*/) const -> QWidget* {
+  auto createEditor(QWidget* _parent, const QStyleOptionViewItem& /*option*/, const QModelIndex& /*index*/) const -> QWidget* override {
     auto* n = new NumberEdit(_parent, true);
     n->setButtonSymbols(QAbstractSpinBox::NoButtons);
     n->setMinimum(0.0);
