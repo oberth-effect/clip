@@ -26,6 +26,7 @@
 #include <QMap>
  
 #include <QImageReader>
+#include <utility>
 
 #include "image/dataproviderfactory.h"
 #include "image/imagedatastore.h"
@@ -34,10 +35,10 @@
 
 
 
-QImageDataProvider::QImageDataProvider(const QImage& img, bool mono, QObject* _parent) :
+QImageDataProvider::QImageDataProvider(QImage  img, bool mono, QObject* _parent) :
     DataProvider(_parent),
     mono(mono),
-    data(img)
+    data(std::move(img))
 {
 }
 

@@ -22,8 +22,10 @@
 
 #include "fitparameter.h"
 
+#include <utility>
+
 FitParameter::FitParameter(QString n, int id, FitParameterGroup &g):
-    _name(n),
+    _name(std::move(n)),
     memberId(id),
     group(g)
 {

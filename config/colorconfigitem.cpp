@@ -23,10 +23,11 @@
 #include "colorconfigitem.h"
 
 #include <QSettings>
+#include <utility>
 
 ColorConfigItem::ColorConfigItem(QString n, QColor defaultColor, QObject* _parent):
     QObject(_parent),
-    _name(n)
+    _name(std::move(n))
 {
   QSettings settings;
   setColor(settings.value(QString("colors/%1").arg(_name), defaultColor).value<QColor>());
