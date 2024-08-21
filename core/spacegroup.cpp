@@ -200,11 +200,11 @@ auto Spacegroup::GroupElement::operator==(const Spacegroup::GroupElement& o) con
 
 
 auto Spacegroup::isExtinct(const TVec3D<int>& reflection) const -> bool {
-  for (int i=0; i<extinctionChecks.size(); i++) {
-    int s = (reflection*extinctionChecks.at(i).t)%GroupElement::MOD;
+  for (const auto & extinctionCheck : extinctionChecks) {
+    int s = (reflection*extinctionCheck.t)%GroupElement::MOD;
     if (s<0) s += GroupElement::MOD;
     if (s!=0) {
-      if ((extinctionChecks.at(i).M*reflection).isNull()) {
+      if ((extinctionCheck.M*reflection).isNull()) {
         return true;
       }
     }
@@ -390,16 +390,16 @@ auto Spacegroup::generateGroup(QString hall) -> bool {
   lauegroup.clear();
 
 
-  for (int i=0; i<group.size(); i++) {
-    if (!pointgroup.contains(group.at(i).M))
-      pointgroup << group.at(i).M;
-    if (!lauegroup.contains(group.at(i).M))
-      lauegroup << group.at(i).M;
-    if (!group.at(i).t.isNull()) {
+  for (const auto & i : group) {
+    if (!pointgroup.contains(i.M))
+      pointgroup << i.M;
+    if (!lauegroup.contains(i.M))
+      lauegroup << i.M;
+    if (!i.t.isNull()) {
       ExtinctionElement e;
-      e.M=group.at(i).M-TMat3D<int>();
+      e.M=i.M-TMat3D<int>();
       e.M.transpose();
-      e.t=group.at(i).t;
+      e.t=i.t;
       extinctionChecks << e;
     }
   }

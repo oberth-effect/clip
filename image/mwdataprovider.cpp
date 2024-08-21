@@ -96,8 +96,8 @@ auto MWDataProvider::Factory::getProvider(QString filename, ImageDataStore *stor
   }
 
   // set overflowed pixels to only slightly brighter than second highest value
-  for (int i=0; i<overflowPixelPosition.size(); i++) {
-    pixelData[overflowPixelPosition[i]] = log(2.0+maxValue);
+  for (int i : overflowPixelPosition) {
+    pixelData[i] = log(2.0+maxValue);
   }
 
 

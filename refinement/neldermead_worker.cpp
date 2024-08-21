@@ -189,8 +189,8 @@ void NMWorker::initSimplex() {
   }
 
   // Score all Elements in the Simplex
-  for (int i=0; i<simplex.size(); i++)
-    score(simplex[i]);
+  for (auto & i : simplex)
+    score(i);
 
   // And sort the Simplex...
   std::sort(simplex.begin(), simplex.end());
@@ -206,8 +206,8 @@ void NMWorker::doOneIteration() {
 
   // Calculate center of Gravity (CoG) without the worst element
   Vertex CoG;
-  for (int n=0; n<simplex.size(); n++)
-    CoG += simplex[n];
+  for (auto & n : simplex)
+    CoG += n;
   CoG *= 1.0/simplex.size();
 
 
@@ -381,7 +381,7 @@ auto NMWorker::Vertex::operator-=(const Vertex& o) -> NMWorker::Vertex& {
 
 auto NMWorker::Vertex::operator*=(double scale) -> NMWorker::Vertex& {
   score = -1;
-  for (int n=0; n<coordinates.size(); n++) coordinates[n] *= scale;
+  for (double & coordinate : coordinates) coordinate *= scale;
   return *this;
 }
 

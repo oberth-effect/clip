@@ -99,7 +99,7 @@ void Indexer::run() {
     int i = candidatePos.fetchAndAddOrdered(1);
     QList<CandidateGenerator::Candidate> cList = candidates.getCandidateList(i+1);
     CandidateGenerator::Candidate c1 = cList.takeLast();
-    for (int j=0; j<cList.size(); j++) {
+    for (auto c2 : cList) {
       if (shouldStop) {
         runningThreads.deref();
         return;
@@ -115,8 +115,6 @@ void Indexer::run() {
         }
         localData.solutionsPublishedInRateCycle = 0;
       }
-
-      CandidateGenerator::Candidate c2 = cList.at(j);
 
       checkPossibleAngles(c1.spot(), c2.spot(), spotSpotAngles, localData);
       checkPossibleAngles(c1.zone(), c2.zone(), zoneZoneAngles, localData);

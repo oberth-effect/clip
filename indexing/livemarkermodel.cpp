@@ -205,8 +205,8 @@ auto LiveMarkerModel::headerData(int section, Qt::Orientation orientation, int r
 
 auto LiveMarkerModel::getSortDataList() -> QList<double> {
   QList<double> list;
-  for (int row=0; row<markers.size(); row++) {
-    list << getSortData(markers.at(row));
+  for (auto marker : markers) {
+    list << getSortData(marker);
   }
   return list;
 }

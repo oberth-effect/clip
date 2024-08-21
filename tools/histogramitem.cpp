@@ -87,9 +87,9 @@ void HistogramItem::setHistogram(QVector<int> r, QVector<int> g, QVector<int> b)
     }
     pathes[6].lineTo(xVal, std::min(vals[0], std::min(vals[1], vals[2])));
   }
-  for (int i=0; i<pathes.size(); i++) {
-    pathes[i].lineTo(1,0);
-    pathes[i].lineTo(0,0);
+  for (auto & pathe : pathes) {
+    pathe.lineTo(1,0);
+    pathe.lineTo(0,0);
   }
 
   update();

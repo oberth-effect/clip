@@ -104,8 +104,7 @@ auto DiffractingStereoProjector::det2normal(const QPointF& p, bool& b) const -> 
 auto DiffractingStereoProjector::project(const Reflection &r, QPointF &p) -> bool {
   bool reflectionInRange=false;
   QPair<double, double> limits = validOrderRange(r.Q, r.Qscatter);
-  for (int i=0; i<r.orders.size(); i++) {
-    int n=r.orders[i];
+  for (int n : r.orders) {
     if ((limits.first<=n) and (n<=limits.second)) {
       reflectionInRange=true;
       break;

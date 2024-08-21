@@ -73,13 +73,13 @@ ThreadRunner::~ThreadRunner() {
   condition.notify_all();
 #endif
 
-  for (unsigned int n=0; n<threads.size(); n++) {
+  for (auto & thread : threads) {
 #if USE_QTHREADS
-    threads[n]->wait();
+    thread->wait();
 #else
     threads[n]->join();
 #endif
-    delete threads[n];
+    delete thread;
   }
 
   delete f;

@@ -45,9 +45,9 @@ CandidateGenerator::CandidateGenerator(const Mat3D& _MReal, const Mat3D& _MRecip
 void CandidateGenerator::addToGroup(const TMat3D<int> &e) {
   if (!group.contains(e)) {
     group << e;
-    for (int i=0; i<group.size(); i++) {
-      addToGroup(group.at(i)*e);
-      addToGroup(e*group.at(i));
+    for (const auto & i : group) {
+      addToGroup(i*e);
+      addToGroup(e*i);
     }
   }
 }

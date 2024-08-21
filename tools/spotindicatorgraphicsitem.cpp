@@ -107,8 +107,8 @@ void SpotIndicatorGraphicsItem::paint(QPainter *p, const QStyleOptionGraphicsIte
     QPainterPath circle;
     circle.addEllipse(QPointF(0, 0), spotSize*t.m11(), spotSize*t.m22());
 
-    for (int i=0; i<coordinates.size(); i++) {
-      QPainterPath movedCircle = circle.translated(t.map(coordinates.at(i)));
+    for (auto coordinate : coordinates) {
+      QPainterPath movedCircle = circle.translated(t.map(coordinate));
       if (movedCircle.intersects(p->clipPath()))
         p->drawPath(movedCircle);
     }

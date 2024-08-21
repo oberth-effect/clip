@@ -328,8 +328,8 @@ auto BrukerProvider::Factory::getProvider(QString filename, ImageDataStore *stor
         return nullptr;
   }
 
-  for (int n=0; n<pixelData.size(); n++)
-    pixelData[n]+=overflowSpecialAdd;
+  for (unsigned int & n : pixelData)
+    n+=overflowSpecialAdd;
 
 
   store->setData(ImageDataStore::PixelSize, QSizeF(rows, cols));

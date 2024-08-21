@@ -170,8 +170,7 @@ auto LauePlaneProjector::project(const Reflection &r, QPointF& p) -> bool {
 
   QPair<double, double> limits = validOrderRange(r.Q, r.Qscatter);
   bool doesReflect=false;
-  for (int i=0; i<r.orders.size(); i++) {
-    int n=r.orders[i];
+  for (int n : r.orders) {
     if ((limits.first<=n) and (n<=limits.second)) {
       doesReflect=true;
       break;
