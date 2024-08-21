@@ -27,10 +27,10 @@
 #include "tools/vec3D.h"
 
 #include <cmath>
-#include <stdio.h>
+#include <cstdio>
  
-#include <string.h>
 #include <algorithm>
+#include <cstring>
 #include <type_traits>
 
 #include "tools/tools.h"
