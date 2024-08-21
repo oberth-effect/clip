@@ -101,7 +101,7 @@ auto QImageDataProvider::Factory::getProvider(QString filename, ImageDataStore *
     } else {
       img = img.convertToFormat(QImage::Format_ARGB32_Premultiplied);
     }
-    QImageDataProvider* provider = new QImageDataProvider(img, ismono, _parent);
+    auto* provider = new QImageDataProvider(img, ismono, _parent);
     
     
     provider->insertFileInformation(filename);

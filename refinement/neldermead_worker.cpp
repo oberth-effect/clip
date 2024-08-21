@@ -141,7 +141,7 @@ void NMWorker::restart() {
 }
 
 void NMWorker::initParameter() {
-  Crystal* fitCrystal = new Crystal();
+  auto* fitCrystal = new Crystal();
   *fitCrystal = *liveCrystal;
   fitCrystal->enableUpdate(false);
   fitCrystal->prepareForFit();
@@ -314,7 +314,7 @@ CLIP_EIGEN_STACK_ALIGN auto NMWorker::calcDeviation() -> QList<double> {
 
 
 void NMWorker::updateTransformationMatrices() {
-  Crystal* fitCrystal = dynamic_cast<Crystal*>(copiedFitObjects.first());
+  auto* fitCrystal = dynamic_cast<Crystal*>(copiedFitObjects.first());
   spotTransferMatrix = fitCrystal->getRealOrientationMatrix().transposed() * fitCrystal->getRotationMatrix().transposed();
   zoneTransferMatrix = fitCrystal->getReziprocalOrientationMatrix().transposed() * fitCrystal->getRotationMatrix().transposed();
 }

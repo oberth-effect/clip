@@ -66,7 +66,7 @@ auto NelderMead::isRunning() -> bool {
 }
 
 void NelderMead::run() {
-  NMWorker* worker = new NMWorker(liveCrystal);
+  auto* worker = new NMWorker(liveCrystal);
   if (worker->valid()) {
     int loops = 0;
     int noImprovmentLoops=0;

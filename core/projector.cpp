@@ -208,7 +208,7 @@ void Projector::internalSetWavevectors(double Qmin, double Qmax)  {
 }
 
 void Projector::addInfoItem(const QString& text, const QPointF& p) {
-  QGraphicsRectItem* bg=new QGraphicsRectItem();
+  auto* bg=new QGraphicsRectItem();
   bg->setTransform(QTransform(1,0,0,-1,0,0));
   bg->setPen(QPen(Qt::black));
   bg->setBrush(QBrush(QColor(0xF0,0xF0,0xF0)));
@@ -216,7 +216,7 @@ void Projector::addInfoItem(const QString& text, const QPointF& p) {
   bg->setFlag(QGraphicsItem::ItemIsMovable, true);
   bg->setCursor(QCursor(Qt::SizeAllCursor));
   bg->setZValue(1);
-  QGraphicsTextItem*  t = new QGraphicsTextItem(bg);
+  auto*  t = new QGraphicsTextItem(bg);
   t->setHtml(text);
   QRectF r=t->boundingRect();
   double s=getTextSize()/std::min(r.width(), r.height());
@@ -513,7 +513,7 @@ void Projector::updateSpotHighlightMarker() {
   // show might be changed above in normal2det()
   if (show) {
     if (spotHighlightItem==0) {
-      CircleItem* item = new CircleItem(1.1*getSpotSize());
+      auto* item = new CircleItem(1.1*getSpotSize());
       ConfigStore::getInstance()->ensureColor(ConfigStore::SpotIndicatorHighlight, item, SLOT(setColor(QColor)));
       item->setLineWidth(3);
       spotHighlightItem = item;
@@ -528,7 +528,7 @@ void Projector::updateSpotHighlightMarker() {
 
 // ----------------------- Handling of Spot Markers -------------
 void Projector::addSpotMarker(const QPointF& p) {
-  SpotItem* item = new SpotItem(this, getSpotSize(), imageItemsPlane);
+  auto* item = new SpotItem(this, getSpotSize(), imageItemsPlane);
   item->setVisible(showMarkers);
   connect(this, SIGNAL(spotSizeChanged(double)), item, SLOT(setRadius(double)));
   item->setPos(det2img.map(p));
@@ -554,7 +554,7 @@ auto Projector::getSpotMarkerNormals() -> QList<Vec3D> {
 // ----------------------- Handling of Zone Markers -------------
 
 void Projector::addZoneMarker(const QPointF& p1, const QPointF& p2) {
-  ZoneItem* zoneMarker = new ZoneItem(det2img.map(p1), det2img.map(p2), this, imageItemsPlane);
+  auto* zoneMarker = new ZoneItem(det2img.map(p1), det2img.map(p2), this, imageItemsPlane);
   zoneMarker->setTransform(QTransform::fromScale(det2img.m11(), det2img.m22()));
   zoneMarker->setVisible(showMarkers);
   connect(&spotMarkers(), SIGNAL(itemAdded(int)), zoneMarker, SLOT(updateOptimalZone()));
@@ -632,7 +632,7 @@ auto Projector::rulers() -> ItemStore<RulerItem>& {
 }
 
 void Projector::addRuler(const QPointF& p1, const QPointF& p2) {
-  RulerItem* ruler = new RulerItem(det2img.map(p1), det2img.map(p2), getSpotSize(), imageItemsPlane);
+  auto* ruler = new RulerItem(det2img.map(p1), det2img.map(p2), getSpotSize(), imageItemsPlane);
   ruler->setTransform(QTransform::fromScale(det2img.m11(), det2img.m22()));
   connect(this, SIGNAL(spotSizeChanged(double)), ruler, SLOT(setHandleSize(double)));
   rulers().addItem(ruler);
@@ -705,7 +705,7 @@ void Projector::updateImgTransformations() {
 }
 
 void Projector::loadImage(QString s) {
-  LaueImage* tmpImage = new LaueImage(this);
+  auto* tmpImage = new LaueImage(this);
   connect(tmpImage, SIGNAL(openFinished(LaueImage*)), this, SLOT(setImage(LaueImage*)));
   tmpImage->startOpenFile(s);
 }
@@ -799,7 +799,7 @@ auto Projector::loadFromXML(QDomElement base) -> bool {
     }
   }
 
-  LaueImage* tmpImageData = new LaueImage();
+  auto* tmpImageData = new LaueImage();
   connect(tmpImageData, SIGNAL(openFinished(LaueImage*)), this, SLOT(setImage(LaueImage*)));
   connect(tmpImageData, SIGNAL(openFailed(LaueImage*)), tmpImageData, SLOT(deleteLater()));
   tmpImageData->loadFromXML(base);

@@ -66,7 +66,7 @@ auto DataProvider::toolboxPages() -> QList<QWidget*> {
 
   // ---------------- Info Table ---------------------------
   QList<QString> keys = providerInformation.keys();
-  QTableWidget* table = new QTableWidget(keys.size(),2);
+  auto* table = new QTableWidget(keys.size(),2);
   for (int i=0; i<keys.size(); i++) {
     table->setItem(i, 0, new QTableWidgetItem(keys.at(i)));
     table->setItem(i, 1, new QTableWidgetItem(providerInformation.values(keys.at(i)).first().toString()));

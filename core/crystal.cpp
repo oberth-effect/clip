@@ -562,7 +562,7 @@ void Crystal::updateWavevectorsFromProjectors() {
   double hi=0.0;
   double lo=0.0;
   for (int i=0; i<connectedProjectors.size(); i++) {
-    Projector* p=dynamic_cast<Projector*>(connectedProjectors.at(i));
+    auto* p=dynamic_cast<Projector*>(connectedProjectors.at(i));
     if ((i==0) or (p->Qmin()<lo))
       lo=p->Qmin();
     if ((i==0) or (p->Qmax()*sin(M_PI/360.0*p->TTmax())>hi))

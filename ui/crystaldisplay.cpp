@@ -59,7 +59,7 @@ CrystalDisplay::CrystalDisplay(QWidget* _parent) :
   //connect(crystal, SIGNAL(info(QString)), this, SIGNAL(info(QString)));
   connect(crystal, SIGNAL(info(QString, int)), this, SIGNAL(info(QString, int)));
 
-  QWidget* spacer = new QWidget();
+  auto* spacer = new QWidget();
   spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   // toolBar is a pointer to an existing toolbar
   ui->toolBar->insertWidget(ui->actionDrag, spacer);
@@ -196,8 +196,8 @@ void CrystalDisplay::slotStartIndexing() {
 }
 
 void CrystalDisplay::on_actionDrag_hovered() {
-  QDrag* drag = new QDrag(this);
-  QMimeData* mime = new QMimeData;
+  auto* drag = new QDrag(this);
+  auto* mime = new QMimeData;
   mime->setData("application/CrystalPointer", "");
   mime->setImageData(QVariant::fromValue(crystal));
   drag->setMimeData(mime);
@@ -239,7 +239,7 @@ void CrystalDisplay::loadFromXML(QDomElement base) {
   if (element.isNull()) return;
   for (QDomElement e=element.firstChildElement(); !e.isNull(); e=e.nextSiblingElement()) {
     if (e.tagName()==XML_CrystalDisplay_Geometry) {
-      if (QWidget* p = dynamic_cast<QWidget*>(parent()))
+      if (auto* p = dynamic_cast<QWidget*>(parent()))
         p->setGeometry(TagToRect(e, p->geometry()));
     }
   }
@@ -248,7 +248,7 @@ void CrystalDisplay::loadFromXML(QDomElement base) {
 
 void CrystalDisplay::saveToXML(QDomElement base) {
   QDomElement cp = ensureElement(base, XML_CrystalDisplay_Element);
-  if (QWidget* p = dynamic_cast<QWidget*>(parent())) {
+  if (auto* p = dynamic_cast<QWidget*>(parent())) {
     RectToTag(cp, XML_CrystalDisplay_Geometry, p->geometry());
   }
   crystal->saveToXML(cp);

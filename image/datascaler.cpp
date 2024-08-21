@@ -35,7 +35,7 @@ DataScaler::DataScaler(DataProvider* dp, QObject* _parent) :
     provider(dp), cache(nullptr), sourceRect(), threads(new ThreadRunner())
 {
   for (int n=0; n<4; n++) {
-    BezierCurve* curve = new BezierCurve();
+    auto* curve = new BezierCurve();
     transferCurves << curve;
     connect(curve, SIGNAL(curveChanged()), this, SLOT(updateContrastMapping()));
   }

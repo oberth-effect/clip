@@ -88,7 +88,7 @@ LauePlaneProjector::LauePlaneProjector(QObject* _parent):
 };
 
 auto LauePlaneProjector::operator=(const Projector& _o) -> Projector& {
-  LauePlaneProjector const* o = dynamic_cast<LauePlaneProjector const*>(&_o);
+  auto const* o = dynamic_cast<LauePlaneProjector const*>(&_o);
   if (o) {
     Projector::operator =(_o);
     setDetSize(o->dist(), o->width(), o->height());
@@ -283,7 +283,7 @@ void LauePlaneProjector::decorateScene() {
     delete item;
   }
 
-  CircleItem* center=new CircleItem(getSpotSize(), imageItemsPlane);
+  auto* center=new CircleItem(getSpotSize(), imageItemsPlane);
 
 
   ConfigStore::getInstance()->ensureColor(ConfigStore::PrimaryBeamMarker, center, SLOT(setColor(QColor)));
@@ -293,11 +293,11 @@ void LauePlaneProjector::decorateScene() {
   center->setTransform(QTransform::fromScale(det2img.m11(), det2img.m22()));
   center->setLineWidth(1.0);
 
-  CircleItem* marker=new CircleItem(0.1, center);
+  auto* marker=new CircleItem(0.1, center);
   ConfigStore::getInstance()->ensureColor(ConfigStore::PrimaryBeamMarker, marker, SLOT(setColor(QColor)));
   marker->setLineWidth(1.0);
 
-  CircleItem* handle=new CircleItem(getSpotSize(), center);
+  auto* handle=new CircleItem(getSpotSize(), center);
   ConfigStore::getInstance()->ensureColor(ConfigStore::PrimaryBeamMarker, handle, SLOT(setColor(QColor)));
   handle->setPos(0.05*scene.width(), 0);
   handle->setFlag(QGraphicsItem::ItemIsMovable, true);
@@ -326,8 +326,8 @@ void LauePlaneProjector::resizePBMarker() {
     return;
 
   //CircleItem* center=dynamic_cast<CircleItem*>(decorationItems[0]);
-  CircleItem* handle=dynamic_cast<CircleItem*>(decorationItems[1]);
-  CircleItem* marker=dynamic_cast<CircleItem*>(decorationItems[2]);
+  auto* handle=dynamic_cast<CircleItem*>(decorationItems[1]);
+  auto* marker=dynamic_cast<CircleItem*>(decorationItems[2]);
 
   QPointF p=handle->pos();
   double l=fasthypot(p.x(), p.y());
@@ -339,7 +339,7 @@ void LauePlaneProjector::movedPrimaryBeamMarker() {
   if ((decorationItems.size()<3) && !isProjectionEnabled())
     return;
 
-  CircleItem* center=dynamic_cast<CircleItem*>(decorationItems[0]);
+  auto* center=dynamic_cast<CircleItem*>(decorationItems[0]);
   QPointF p=img2det.map(center->pos());
 
   bool b=false;
@@ -364,7 +364,7 @@ void LauePlaneProjector::updatePrimaryBeamPos() {
       q=scattered2det(Vec3D(-1,0,0), b);
     }
     if (b) {
-      CircleItem* center=dynamic_cast<CircleItem*>(decorationItems[0]);
+      auto* center=dynamic_cast<CircleItem*>(decorationItems[0]);
       q = det2img.map((q));
       center->setPosNoSig(q);
     }

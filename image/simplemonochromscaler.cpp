@@ -93,7 +93,7 @@ template <typename T> void SimpleMonochromScaler<T>::makeValueIndex() {
   valueCount.resize(indexSet.size());
   imagePosToPixelValue.resize(provider->pixelCount());
 
-  float minPixelValue = static_cast<float>(indexSet.begin()->key);
+  auto minPixelValue = static_cast<float>(indexSet.begin()->key);
   float pixelValueRange = static_cast<float>(indexSet.rbegin()->key) - minPixelValue;
   float logRange = log(pixelValueRange+0.5f)-log(0.5f);
 
@@ -143,7 +143,7 @@ template <typename T> void SimpleMonochromScaler<T>::updateContrastMapping() {
 template <typename T> auto SimpleMonochromScaler<T>::toolboxPages() -> QList<QWidget*> {
   QList<QWidget*> pages;
 
-  MonoScalerCfg* cfg = new MonoScalerCfg(histogramEqualisation, logarithmicMapping);
+  auto* cfg = new MonoScalerCfg(histogramEqualisation, logarithmicMapping);
   connect(cfg, SIGNAL(histogramEq(bool)), this, SLOT(setHistogramEqualisation(bool)));
   connect(cfg, SIGNAL(logMapping(bool)), this, SLOT(setLogarithmicMapping(bool)));
   pages << cfg;

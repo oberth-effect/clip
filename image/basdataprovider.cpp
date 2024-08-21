@@ -190,7 +190,7 @@ auto BasDataProvider::Factory::getProvider(QString filename, ImageDataStore* sto
   headerData.remove(Info_XPixelSize);
   headerData.remove(Info_YPixelSize);
 
-  BasDataProvider* provider = new BasDataProvider(_parent);
+  auto* provider = new BasDataProvider(_parent);
   provider->insertFileInformation(filename);
   provider->providerInformation.unite(headerData);
   provider->pixelData = pixelData;

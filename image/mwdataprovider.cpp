@@ -157,7 +157,7 @@ auto MWDataProvider::Factory::getProvider(QString filename, ImageDataStore *stor
   headerData.insert("Sample-Detector distance", QString("%1 mm").arg(10.0*dist, 0, 'f', 1));
   headerData.insert("Cell", QString("%1 %2 %3 %4 %5 %6").arg(aLat).arg(bLat).arg(cLat).arg(alpha).arg(beta).arg(gamma));
 
-  MWDataProvider* provider = new MWDataProvider(_parent);
+  auto* provider = new MWDataProvider(_parent);
   provider->insertFileInformation(filename);
   provider->providerInformation.unite(headerData);
   provider->pixelData = pixelData;

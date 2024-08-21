@@ -334,7 +334,7 @@ auto BrukerProvider::Factory::getProvider(QString filename, ImageDataStore *stor
 
   store->setData(ImageDataStore::PixelSize, QSizeF(rows, cols));
 
-  BrukerProvider* provider = new BrukerProvider(_parent);
+  auto* provider = new BrukerProvider(_parent);
   provider->insertFileInformation(filename);
   provider->providerInformation.unite(headerData);
   provider->pixelData = pixelData;

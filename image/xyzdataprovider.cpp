@@ -71,7 +71,7 @@ auto XYZDataProvider::Factory::getProvider(QString filename, ImageDataStore *sto
 
   store->setData(ImageDataStore::PixelSize, QSizeF(width, height));
 
-  XYZDataProvider* provider = new XYZDataProvider(_parent);
+  auto* provider = new XYZDataProvider(_parent);
   provider->pixelData = pixelData;
   provider->imgWidth = width;
   provider->imgHeight = height;

@@ -45,13 +45,13 @@ ClipConfig::ClipConfig(QWidget* _parent) :
 
   ConfigStore* config = ConfigStore::getInstance();
 
-  QFormLayout* leftLayout = new QFormLayout();
-  QFormLayout* rightLayout = new QFormLayout();
+  auto* leftLayout = new QFormLayout();
+  auto* rightLayout = new QFormLayout();
   static_cast<QGridLayout*>(ui->colorFrame->layout())->addLayout(leftLayout, 0, 0);
   static_cast<QGridLayout*>(ui->colorFrame->layout())->addLayout(rightLayout, 0, 1);
 
   for (int n=0; n<config->colorCount(); n++) {
-    ColorButton* button = new ColorButton(config->color(n), this);
+    auto* button = new ColorButton(config->color(n), this);
     ((2*n>=config->colorCount())?rightLayout:leftLayout)->addRow(config->colorName(n), button);
     config->ensureColor(n, button, SLOT(setColor(QColor)));
     connect(button, SIGNAL(clicked()), &colorButtonMapper, SLOT(map()));

@@ -115,7 +115,7 @@ auto ProjectionPlane::sizeHint() const -> QSize {
 
 void ProjectionPlane::setupToolbar() {
   // Handling for MouseDrags
-  QActionGroup* actionGroup = new QActionGroup(this);
+  auto* actionGroup = new QActionGroup(this);
   actionGroup->setExclusive(true);
   actionGroup->addAction(ui->zoomAction);
   actionGroup->addAction(ui->panAction);
@@ -540,7 +540,7 @@ void ProjectionPlane::saveToXML(QDomElement base) {
 
   plane.setAttribute(XML_ProjectionPlane_type, projector->projectorName());
 
-  if (QWidget* p = dynamic_cast<QWidget*>(parent())) {
+  if (auto* p = dynamic_cast<QWidget*>(parent())) {
     RectToTag(plane, XML_ProjectionPlane_Geometry, p->geometry());
   }
 
@@ -562,7 +562,7 @@ auto ProjectionPlane::loadFromXML(QDomElement base) -> bool {
   if (element.attribute(XML_ProjectionPlane_type) != projector->projectorName()) return false;
   for (QDomElement e=element.firstChildElement(); !e.isNull(); e=e.nextSiblingElement()) {
     if (e.tagName()==XML_ProjectionPlane_Geometry) {
-      if (QWidget* p = dynamic_cast<QWidget*>(parent())) {
+      if (auto* p = dynamic_cast<QWidget*>(parent())) {
         p->setGeometry(TagToRect(e, p->geometry()));
       }
     } else if (e.tagName()==XML_ProjectionPlane_ZoomSteps) {

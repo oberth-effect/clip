@@ -109,7 +109,7 @@ void ContrastCurves::changeToCurve(int n) {
 }
 
 void ContrastCurves::newMarker(const QPointF& p) {
-  ContrastCurves::BoundedEllipse* item = new ContrastCurves::BoundedEllipse();
+  auto* item = new ContrastCurves::BoundedEllipse();
   item->setPosNoSig(p);
   scene.addItem(item);
   item->setBBox(scene.sceneRect());

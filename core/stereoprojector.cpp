@@ -189,7 +189,7 @@ void StereoProjector::decorateScene() {
     } else {
      s = QString("%1 %2 %3").arg(c.x()).arg(c.y()).arg(c.z());
     }
-    QGraphicsTextItem* ti = new QGraphicsTextItem();
+    auto* ti = new QGraphicsTextItem();
     ti->setTransform(QTransform(1,0,0,-1,0,0));
     ti->setHtml(s);
 

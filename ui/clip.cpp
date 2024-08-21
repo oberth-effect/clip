@@ -99,7 +99,7 @@ void Clip::clearInstance() {
 
 
 void Clip::on_newCrystal_triggered() {
-  CrystalDisplay* crystalDisplay = new CrystalDisplay();
+  auto* crystalDisplay = new CrystalDisplay();
   addMdiWindow(crystalDisplay)->systemMenu()->addAction("Save as Default", crystalDisplay->getCrystal(), SLOT(saveParametersAsDefault()));
 }
 
@@ -120,7 +120,7 @@ void Clip::on_newDiffStereo_triggered()
 
 auto Clip::addProjector(Projector* p) -> ProjectionPlane* {
   if (!p) return 0;
-  ProjectionPlane* pp = new ProjectionPlane(connectToLastCrystal(p), this);
+  auto* pp = new ProjectionPlane(connectToLastCrystal(p), this);
   connect(pp, SIGNAL(rotationFromProjector(double)), this, SIGNAL(projectorRotation(double)));
   connect(pp, SIGNAL(mousePositionInfo(MousePositionInfo)), this, SIGNAL(mousePositionInfo(MousePositionInfo)));
   connect(this, SIGNAL(highlightMarker(Vec3D)), p, SLOT(setSpotHighlighting(Vec3D)));

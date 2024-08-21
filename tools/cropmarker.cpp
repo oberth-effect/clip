@@ -53,7 +53,7 @@ CropMarker::CropMarker(const QPointF& /*pCenter*/, double /*_dx*/, double /*_dy*
 
   QPen pen(Qt::NoPen);
   for (int i=0; i<9; i++) {
-    QGraphicsRectItem* handle = new QGraphicsRectItem(this);
+    auto* handle = new QGraphicsRectItem(this);
     handle->setPen(pen);
     handles << handle;
   }
