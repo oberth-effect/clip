@@ -23,36 +23,6 @@
 #include "defs.h"
 #include <Qt>
 
-#define STR(s) #s
-#define SSTR(s) STR(s)
-#define DEFINE_HG_VARIABLE(name) const char* HG_REPRO_ ## name = strcmp(SSTR(CLIP_HG_REPRO_ ## name), STR(CLIP_HG_REPRO_ ## name)) ? SSTR(CLIP_HG_REPRO_ ## name) : "n/a";
-
-
-//DEFINE_HG_VARIABLE(ID)
-//DEFINE_HG_VARIABLE(REV)
-//DEFINE_HG_VARIABLE(DATE)
-
-const char* HG_REPRO_ID =
-#ifdef CLIP_HG_REPRO_ID
-    CLIP_HG_REPRO_ID;
-#else
-    "n/a";
-#endif
-
-const char* HG_REPRO_REV =
-#ifdef CLIP_HG_REPRO_REV
-    CLIP_HG_REPRO_REV;
-#else
-"n/a";
-#endif
-
-const char* HG_REPRO_DATE =
-#ifdef CLIP_HG_REPRO_DATE
-    CLIP_HG_REPRO_DATE;
-#else
-"n/a";
-#endif
-
 #define HH(x) #x
 #define HHH(x) HH(x)
 const char* QT_BUILD_VERSION = QT_VERSION_STR;
