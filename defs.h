@@ -29,11 +29,20 @@ extern const char *QT_BUILD_VERSION;
 extern const char *QT_RUN_VERSION;
 extern const char *CXX_VERSION_STR;
 
-#define VER_FILEVERSION             4,2,1,0
-#define VER_FILEVERSION_STR         "4.2.1.0\0"
+#define VER_STR "4.2.1-beta"
+#define VER  4,2,1,99
 
-#define VER_PRODUCTVERSION          4,2,1,0
-#define VER_PRODUCTVERSION_STR      "4.2.1 beta\0"
+#define VER_FILEVERSION             VER
+#define VER_FILEVERSION_STR         VER_STR "\0"
+
+#ifdef CLIP_DEBUG
+#define VER_BUILD_TYPE "(Debug)"
+#else
+#define VER_BUILD_TYPE "(Release)"
+#endif
+
+#define VER_PRODUCTVERSION          VER
+#define VER_PRODUCTVERSION_STR       VER_STR " " VER_BUILD_TYPE "\0"
 
 #define VER_COMPANYNAME_STR         ""
 #define VER_FILEDESCRIPTION_STR     "Software for evaluation of Laue diffraction images"
