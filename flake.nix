@@ -21,13 +21,48 @@
             system = system;
           }
         );
+      clipDerivation =
+        {
+          mkDerivation,
+          lib,
+
+          # build
+          cmake,
+          wrapQtAppsHook,
+
+          # dependecy
+          eigen,
+          libtiff,
+          qtbase,
+          qtsvg,
+
+        }:
+
+        mkDerivation {
+          pname = "clip4";
+          version = "99.99.99-nightly";
+
+          src = ./.;
+
+          buildInputs = [
+            eigen
+            libtiff
+            qtbase
+            qtsvg
+          ];
+
+          nativeBuildInputs = [
+            cmake
+            wrapQtAppsHook
+          ];
+        };
     in
     {
       packages = forEachSupportedSystem (
         { pkgs, system }:
         rec {
           default = clip4;
-          clip4 = pkgs.libsForQt5.callPackage ./build.nix { };
+          clip4 = pkgs.libsForQt5.callPackage clipDerivation { };
         }
       );
 
