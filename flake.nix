@@ -35,6 +35,7 @@
           libtiff,
           qtbase,
           qtsvg,
+          qtwayland,
 
         }:
 
@@ -49,12 +50,17 @@
             libtiff
             qtbase
             qtsvg
+            qtwayland
           ];
 
           nativeBuildInputs = [
             cmake
             wrapQtAppsHook
           ];
+          installPhase = ''
+            mkdir -p $out/bin
+            cp clip4 $out/bin/
+          '';
         };
     in
     {
