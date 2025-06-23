@@ -60,6 +60,7 @@ public slots:
   void slotUpdateOrientationMatrix();
   void slotCellChanged();
   void slotRotationChanged();
+  void slotForceRotationChanged();
   void slotSpacegroupChanged(QString);
   void slotLoadCellFromCrystal();
   void slotStartIndexing();

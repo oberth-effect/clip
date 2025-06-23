@@ -44,7 +44,7 @@
 
 CrystalDisplay::CrystalDisplay(QWidget* _parent) :
     QMainWindow(_parent),
-    ui(new Ui::CrystalDisplay), crystal(new Crystal(this)), allowRotationUpdate(true)
+    ui(new Ui::CrystalDisplay), crystal(new Crystal(this)), allowRotationUpdate(false)
 {
   ui->setupUi(this);
 
@@ -105,11 +105,14 @@ void CrystalDisplay::slotUpdateOrientationMatrix() {
   }
   // let Crystal calc Euler angles and write to UI
   QList<double> euler = crystal->calcEulerAngles(true);
+  //save allowRotationUpdate state
+  bool oldAllowRotation = allowRotationUpdate;
   allowRotationUpdate = false;
   ui->rotationOmega->setValue(euler[0]);
   ui->rotationChi->setValue(euler[1]);
   ui->rotationPhi->setValue(euler[2]);
-  allowRotationUpdate = true;
+  //restore state
+  allowRotationUpdate = oldAllowRotation;
 }
 
 void CrystalDisplay::slotLoadCellFromCrystal() {
@@ -169,11 +172,15 @@ void CrystalDisplay::slotSpacegroupChanged(QString s) {
 
 void CrystalDisplay::slotRotationChanged() {
   if (allowRotationUpdate) {
+    slotForceRotationChanged();
+  }
+}
+
+void CrystalDisplay::slotForceRotationChanged() {
     double omega = M_PI/180.0*ui->rotationOmega->value();
     double chi = M_PI/180.0*ui->rotationChi->value();
     double phi = M_PI/180.0*ui->rotationPhi->value();
     crystal->setEulerAngles(omega, chi, phi);
-  }
 }
 
 void CrystalDisplay::slotSetSGConstrains() {

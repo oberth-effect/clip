@@ -638,6 +638,19 @@ p, li { white-space: pre-wrap; }
       </item>
      </layout>
     </item>
+    <item row="5" column="0" colspan="3">
+      <widget class="QPushButton" name="btnSetAngles">
+        <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+            </sizepolicy>
+        </property>
+        <property name="text">
+            <string>set angles</string>
+        </property>
+      </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QToolBar" name="toolBar">
@@ -754,6 +767,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>rotationOmega</tabstop>
   <tabstop>rotationChi</tabstop>
   <tabstop>rotationPhi</tabstop>
+  <tabstop>btnSetAngles</tabstop>
  </tabstops>
  <resources>
   <include location="../resources/resources.qrc"/>
@@ -806,6 +820,12 @@ p, li { white-space: pre-wrap; }
      <y>68</y>
     </hint>
    </hints>
+  </connection>
+  <connection>
+      <sender>btnSetAngles</sender>
+      <signal>clicked()</signal>
+      <receiver>CrystalDisplay</receiver>
+      <slot>slotForceRotationChanged()</slot>
   </connection>
   <connection>
    <sender>Spacegroup</sender>
@@ -939,6 +959,7 @@ p, li { white-space: pre-wrap; }
  <slots>
   <slot>slotCellChanged()</slot>
   <slot>slotRotationChanged()</slot>
+  <slot>slotForceRotationChanged()</slot>
   <slot>slotSpacegroupChanged(QString)</slot>
   <slot>slotStartIndexing()</slot>
  </slots>
