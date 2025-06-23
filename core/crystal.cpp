@@ -746,11 +746,11 @@ void Crystal::saveToXML(QDomElement base) {
   e.setAttribute(XML_Crystal_Cell_beta, beta);
   e.setAttribute(XML_Crystal_Cell_gamma, gamma);
 
-  QList<double> euler = calcEulerAngles(true);
+  QList<double> euler = calcEulerAngles(true);  //returns << omega << chi << phi;
   e = crystalElement.appendChild(doc.createElement(XML_Crystal_Orientation)).toElement();
   e.setAttribute(XML_Crystal_Orientation_omega, euler[0]);
-  e.setAttribute(XML_Crystal_Orientation_phi, euler[1]);
-  e.setAttribute(XML_Crystal_Orientation_chi, euler[2]);
+  e.setAttribute(XML_Crystal_Orientation_chi, euler[1]);
+  e.setAttribute(XML_Crystal_Orientation_phi, euler[2]);
 
   e = crystalElement.appendChild(doc.createElement(XML_Crystal_Rotation)).toElement();
   e.setAttribute(XML_Crystal_Rotation_x, rotationAxis.x());
