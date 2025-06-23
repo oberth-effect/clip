@@ -8,7 +8,10 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
+<<<<<<< HEAD
 #find_package(Qt5 COMPONENTS Core Concurrent Gui OpenGL PrintSupport WebKit WebKitWidgets Svg Widgets Xml REQUIRED)
+=======
+>>>>>>> 7cfc8587b87ef34661772df1a27763c48c236a57
 find_package(Qt5 COMPONENTS Core Concurrent Gui OpenGL PrintSupport Svg Widgets Xml REQUIRED)
 
 # QT CMake things
@@ -16,6 +19,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+<<<<<<< HEAD
 if(CMAKE_VERSION VERSION_LESS "3.7.0")
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
 endif()
@@ -32,6 +36,18 @@ else()
     message(STATUS "Eigen3 not found on system, fetching...")
     include(${PROJECT_SOURCE_DIR}/cmake/Eigen3.cmake)
 endif()
+=======
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+# Add dependencies
+find_package(Eigen3)
+if (${Eigen3_FOUND})
+    message(STATUS "Eigen3 found on system")
+else ()
+    message(STATUS "Eigen3 not found on system, fetching...")
+    include(${PROJECT_SOURCE_DIR}/cmake/Eigen3.cmake)
+endif ()
+>>>>>>> 7cfc8587b87ef34661772df1a27763c48c236a57
 
 find_package(TIFF)
 if (${TIFF_FOUND})
@@ -41,6 +57,7 @@ else ()
     message(STATUS "libtiff not found on system, fetching...")
     include(${PROJECT_SOURCE_DIR}/cmake/TIFF.cmake)
     set(TIFF_COMPONENT "tiff")
+<<<<<<< HEAD
 endif()
 
 set(RES_FILES "")
@@ -59,6 +76,9 @@ endif(MINGW)
 #file(GLOB_RECURSE RESOURCES ${PROJECT_SOURCE_DIR}/*.qrc)
 #
 #add_executable(Clip ${SOURCES} ${HEADERS} ${UI} ${RESOURCES})
+=======
+endif ()
+>>>>>>> 7cfc8587b87ef34661772df1a27763c48c236a57
 
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
@@ -129,7 +149,11 @@ add_executable(Clip WIN32
         tools/threadrunner.cpp tools/threadrunner.h
         tools/tools.cpp tools/tools.h
         tools/vec3D.cpp tools/vec3D.h
+<<<<<<< HEAD
 #        tools/webkittextobject.cpp tools/webkittextobject.h
+=======
+        #        tools/webkittextobject.cpp tools/webkittextobject.h
+>>>>>>> 7cfc8587b87ef34661772df1a27763c48c236a57
         tools/xmllistiterators.cpp tools/xmllistiterators.h
         tools/xmltools.cpp tools/xmltools.h
         tools/zipiterator.cpp tools/zipiterator.h
@@ -145,7 +169,11 @@ add_executable(Clip WIN32
         ui/laueplanecfg.cpp ui/laueplanecfg.h ui/laueplanecfg.ui
         ui/monoscalercfg.cpp ui/monoscalercfg.h ui/monoscalercfg.ui
         ui/mouseinfodisplay.cpp ui/mouseinfodisplay.h ui/mouseinfodisplay.ui
+<<<<<<< HEAD
 #        ui/printdialog.cpp ui/printdialog.h ui/printdialog.ui
+=======
+        #        ui/printdialog.cpp ui/printdialog.h ui/printdialog.ui
+>>>>>>> 7cfc8587b87ef34661772df1a27763c48c236a57
         ui/projectiongraphicsview.cpp ui/projectiongraphicsview.h
         ui/projectionplane.cpp ui/projectionplane.h ui/projectionplane.ui
         ui/reorient.cpp ui/reorient.h ui/reorient.ui
@@ -154,12 +182,17 @@ add_executable(Clip WIN32
         ui/sadeasteregg.cpp ui/sadeasteregg.h ui/sadeasteregg.ui
         ui/stereocfg.cpp ui/stereocfg.h ui/stereocfg.ui
         resources/resources.qrc
+<<<<<<< HEAD
         ${RES_FILES}
 )
 #target_include_directories(Clip PUBLIC
 #    ../eigen
 #    /usr/include/eigen3
 #)
+=======
+        resources/clip.rc
+)
+>>>>>>> 7cfc8587b87ef34661772df1a27763c48c236a57
 
 target_link_libraries(Clip PUBLIC
         Qt5::Concurrent
@@ -168,13 +201,17 @@ target_link_libraries(Clip PUBLIC
         Qt5::OpenGL
         Qt5::PrintSupport
         Qt5::Svg
+<<<<<<< HEAD
 #        Qt5::WebKitWidgets
+=======
+>>>>>>> 7cfc8587b87ef34661772df1a27763c48c236a57
         Qt5::Widgets
         Qt5::Xml
         Eigen3::Eigen
         TIFF::${TIFF_COMPONENT}
 )
 
+<<<<<<< HEAD
 ## Resources:
 #set(resources_resource_files
 #        "resources/AboutMessage.txt"
@@ -445,11 +482,21 @@ if (CMAKE_BUILD_TYPE STREQUAL Debug)
     target_compile_definitions(Clip PUBLIC
             CLIP_DEBUG
 #            CLIP_DEBUG_SOURCEDIR=${CMAKE_CURRENT_SOURCE_DIR}
+=======
+if (CMAKE_BUILD_TYPE STREQUAL Debug)
+    target_compile_definitions(Clip PUBLIC
+            CLIP_DEBUG
+            #            CLIP_DEBUG_SOURCEDIR=${CMAKE_CURRENT_SOURCE_DIR}
+>>>>>>> 7cfc8587b87ef34661772df1a27763c48c236a57
     )
 endif ()
 
 if (NOT DEFINED INSTALL_EXAMPLESDIR)
+<<<<<<< HEAD
     set(INSTALL_EXAMPLESDIR "bin")
+=======
+    set(INSTALL_EXAMPLESDIR "Clip/bin")
+>>>>>>> 7cfc8587b87ef34661772df1a27763c48c236a57
 endif ()
 
 set(INSTALL_EXAMPLEDIR "${INSTALL_EXAMPLESDIR}")

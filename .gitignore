@@ -1,7 +1,13 @@
 build
+<<<<<<< HEAD
 buildcmake/
+=======
+>>>>>>> 7cfc8587b87ef34661772df1a27763c48c236a57
 Clip4.pro.user
 Eigen/
 libtiff/
 /.idea/
+<<<<<<< HEAD
 buildqt6/
+=======
+>>>>>>> 7cfc8587b87ef34661772df1a27763c48c236a57
