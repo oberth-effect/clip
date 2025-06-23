@@ -77,8 +77,8 @@ public:
 
 };
 
-
-
+// change this to true to use ZXZ convention for Euler angles
+const bool UseZXZ = false;
 const char Crystal::Settings_Group[] = "Crystal";
 const char Crystal::Settings_Spacegroup[] = "Spacegroup";
 const char Crystal::Settings_CellA[] = "CellA";
@@ -643,23 +643,60 @@ void Crystal::synchronUpdate(bool value) {
   updateIsSynchron=value;
 }
 
-
+/**
+ * Return Euler angles (ω, χ, φ) for the Z-X-Y convention:
+ *     MRot = Rz(ω) · Rx(χ) · Ry(φ)
+ *
+ * χ ∈ ⟨-90°, +90°⟩ ;  when |χ| → 90° the system hits a gimbal-lock.
+ *
+ * @param inDegrees  If true, the result is converted to degrees.
+ * @return           QList<double> { ω, χ, φ } in radians or degrees.
+ */
 QList<double> Crystal::calcEulerAngles(bool inDegrees)
 {
     //  ZXZ  (ω along Z, χ along X, φ along Z)
     double omega, chi, phi;
     const double EPS = 1e-10;
 
-    // χ is angle between Z-axis and vector Z'  →  cos χ = M(2,2)
-    chi = acos( std::clamp(MRot(2,2), -1.0, 1.0) );   // fix instability
+    if (UseZXZ) {
+      // χ is angle between Z-axis and vector Z'  →  cos χ = M(2,2)
+      chi = acos( std::clamp(MRot(2,2), -1.0, 1.0) );   // fix instability
 
-    double sinChi = sin(chi);
-    if (fabs(sinChi) > EPS) {                         // usual case
-        omega = atan2(  MRot(0,2), -MRot(1,2) );      // R[0,2] / R[1,2]
-        phi   = atan2(  MRot(2,0),  MRot(2,1) );      // R[2,0] / R[2,1]
-    } else {                                          // χ ≈ 0 ° or 180 °  (gimbal-lock)
-        omega = 0.0;                                  // choose arbitrary
-        phi   = atan2( MRot(1,0), MRot(0,0) );
+      double sinChi = sin(chi);
+      if (fabs(sinChi) > EPS) {                         // usual case
+          omega = atan2(  MRot(0,2), -MRot(1,2) );      // R[0,2] / R[1,2]
+          phi   = atan2(  MRot(2,0),  MRot(2,1) );      // R[2,0] / R[2,1]
+      } else {                                          // χ ≈ 0 ° or 180 °  (gimbal-lock)
+          omega = 0.0;                                  // choose arbitrary
+          phi   = atan2( MRot(1,0), MRot(0,0) );
+      }
+    } else {
+      /* --- 1) Extract χ -----------------------------------------------------
+        In the Z-X-Y sequence  sin χ = M(2,1).  We clamp the value to the
+        range ⟨-1,1⟩ to keep acos / asin numerically stable.                */
+      chi = asin( std::clamp( MRot(2,1), -1.0, 1.0 ) );
+      double cosChi = cos(chi);
+      /* --- 2) Regular case: |cos χ| is not close to zero ------------------- */
+      if (std::fabs(cosChi) > EPS)
+      {
+          /* omega derives from the first column of the rotation about Z:
+              M(0,1) = -sin ω · cos χ
+              M(1,1) =  cos ω · cos χ                                    */
+          omega = atan2( -MRot(0,1),  MRot(1,1) );
+          /* phi derives from the last row of the rotation about Y:
+              M(2,0) = -sin φ · cos χ
+              M(2,2) =  cos φ · cos χ                                    */
+          phi   = atan2( -MRot(2,0),  MRot(2,2) );
+      }
+      // 3) Gimbal-lock: χ ≈ ±90°
+      else
+      {
+          /* When |χ| → 90°, axes Z and Y become aligned and φ + ω collapse
+            into a single rotation.  We choose φ = 0 and put the whole
+            residual rotation into ω.                                      */
+          omega = atan2(  MRot(1,0),  MRot(0,0) );
+          phi   = 0.0;
+      }
     }
 
     if (inDegrees) {
@@ -675,7 +712,11 @@ QList<double> Crystal::calcEulerAngles(bool inDegrees)
 void Crystal::setEulerAngles(double omega, double chi, double phi) {
   Mat3D M(Vec3D(0,0,1), omega);
   M*=Mat3D(Vec3D(1,0,0), chi);
-  M*=Mat3D(Vec3D(0,0,1), phi);
+  if (UseZXZ) {
+    M*=Mat3D(Vec3D(0,0,1), phi);
+  } else {
+    M*=Mat3D(Vec3D(0,1,0), phi);
+  }
   setRotation(M);
 }
 
