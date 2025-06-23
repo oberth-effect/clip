@@ -1,5 +1,7 @@
 build
+buildcmake/
 Clip4.pro.user
 Eigen/
 libtiff/
 /.idea/
+buildqt6/
