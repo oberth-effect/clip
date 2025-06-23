@@ -643,28 +643,39 @@ void Crystal::synchronUpdate(bool value) {
   updateIsSynchron=value;
 }
 
-QList<double> Crystal::calcEulerAngles(bool inDegrees) {
-  double omega, chi, phi;
-  omega=-atan2(MRot(0,1),MRot(1,1));
-  //chi=asin(MRot[2][1]);
-  double sinValue=sin(omega);
-  double cosValue=cos(omega);
-  if (fabs(cosValue)>fabs(sinValue)) {
-    chi=atan2(MRot(2,1), MRot(1,1)/cosValue);
-  } else {
-    chi=atan2(MRot(2,1), MRot(0,1)/sinValue);
-  }
-  Mat3D M(Mat3D(Vec3D(1,0,0), -chi)*Mat3D(Vec3D(0,0,1), -omega)*MRot);
-  phi=atan2(M(0,2),M(0,0));
-  QList<double> result = QList<double>() << omega << chi << phi;
-  if (inDegrees) for (int n=0; n<3; n++) result[n] *= 180.0*M_1_PI;
-  return result;
+
+QList<double> Crystal::calcEulerAngles(bool inDegrees)
+{
+    //  ZXZ  (ω along Z, χ along X, φ along Z)
+    double omega, chi, phi;
+    const double EPS = 1e-10;
+
+    // χ is angle between Z-axis and vector Z'  →  cos χ = M(2,2)
+    chi = acos( std::clamp(MRot(2,2), -1.0, 1.0) );   // fix instability
+
+    double sinChi = sin(chi);
+    if (fabs(sinChi) > EPS) {                         // usual case
+        omega = atan2(  MRot(0,2), -MRot(1,2) );      // R[0,2] / R[1,2]
+        phi   = atan2(  MRot(2,0),  MRot(2,1) );      // R[2,0] / R[2,1]
+    } else {                                          // χ ≈ 0 ° or 180 °  (gimbal-lock)
+        omega = 0.0;                                  // choose arbitrary
+        phi   = atan2( MRot(1,0), MRot(0,0) );
+    }
+
+    if (inDegrees) {
+        const double rad2deg = 180.0 / M_PI;
+        omega *= rad2deg;
+        chi   *= rad2deg;
+        phi   *= rad2deg;
+    }
+
+    return { omega, chi, phi };
 }
 
 void Crystal::setEulerAngles(double omega, double chi, double phi) {
   Mat3D M(Vec3D(0,0,1), omega);
   M*=Mat3D(Vec3D(1,0,0), chi);
-  M*=Mat3D(Vec3D(0,1,0), phi);
+  M*=Mat3D(Vec3D(0,0,1), phi);
   setRotation(M);
 }
 
